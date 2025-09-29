@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import { cva, VariantProps } from "class-variance-authority"
 
-const textVariants = cva("text-black-900 leading-normal font-manrope p-0", {
+const textVariants = cva(" leading-normal font-manrope p-0", {
   variants: {
     size: {
       xs: "text-xs",//12px

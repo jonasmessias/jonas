@@ -1,8 +1,8 @@
+import { config } from "@/utils/config";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { ThemeProvider } from "next-themes";
 import { Indie_Flower } from "next/font/google";
 import "./globals.css";
-import { config } from "@/utils/config";
 
 const indieFlower = Indie_Flower({
   variable: "--font-indie-flower",
@@ -21,11 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${indieFlower.variable} ${indieFlower.className} antialiased overflow-hidden bg-white`}
+        className={`${indieFlower.variable} ${indieFlower.className} antialiased overflow-hidden bg-background`}
       >
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

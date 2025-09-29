@@ -1,6 +1,7 @@
 
 import Magnetic from "@/components/globals/magnetic"
 import { Text } from "@/components/globals/text"
+import { ThemeToggleButton } from "@/components/theme/theme-toggle-button"
 import { config } from "@/utils/config"
 import Link from "next/link"
 
@@ -31,6 +32,11 @@ export const Header = () => {
               ))
             }
           </ul>
+          <div className="flex gap-4 items-center">
+            <Magnetic>
+              <ThemeToggleButton variant="circle" start="center" blur />
+            </Magnetic>
+          </div>
         </div>
       </nav>
     </header>

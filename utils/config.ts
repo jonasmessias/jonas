@@ -4,7 +4,7 @@ export const config = {
   links: {
     contact: "mailto:jonasmessias30@gmail.com",
     linkedin: "https://www.linkedin.com/in/jonasmessias/",
-    github: "https://github.com/reazew",
+    github: "https://github.com/jonasmessias",
   },
 }
 

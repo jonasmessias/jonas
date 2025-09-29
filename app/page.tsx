@@ -33,11 +33,11 @@ export default function Home() {
             duration: 0.8,
             ease: [0.25, 0.46, 0.45, 0.94]
           }}
-          className="min-h-screen w-full bg-black"
+          className="min-h-screen w-full bg-background"
         >
           <Header />
           <div className="flex flex-col gap-4">
-            <Line audioSrc="/sounds/3-oct-e.wav" />
+            <Line audioSrc="/sounds/3-oct-e.wav" volume={0} />
           </div>
         </motion.main>
       )}
