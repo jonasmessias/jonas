@@ -2,8 +2,8 @@ import AnimatedElement from "@/components/animations/animated-element"
 import { Text } from "@/components/globals/text"
 import { config } from "@/utils/config"
 import Link from "next/link"
-import { SiGithub, SiLinkedin } from "react-icons/si"
 import { HiDownload } from "react-icons/hi"
+import { SiGithub, SiLinkedin } from "react-icons/si"
 
 const Contact = () => {
   return (
