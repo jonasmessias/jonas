@@ -11,7 +11,7 @@ const indieFlower = Indie_Flower({
 });
 
 export const metadata: Metadata = {
-  title: 'jonas messias dev',
+  title: 'Jonas Messias | Frontend Developer',
   description: config.siteDescription,
 };
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${indieFlower.variable} ${indieFlower.className} antialiased overflow-hidden bg-background`}
+        className={`${indieFlower.variable} ${indieFlower.className} antialiased overflow-x-hidden bg-background`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
