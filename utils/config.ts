@@ -1,6 +1,6 @@
 export const config = {
-  siteName: "jonas messias",
-  siteDescription: "developer full stack | projects | contact",
+  siteName: "Jonas Messias",
+  siteDescription: "Frontend Developer | React | Next.js | TypeScript | Architecture, Microfrontends, TDD & Performance",
   links: {
     contact: "mailto:jonasmessias30@gmail.com",
     linkedin: "https://www.linkedin.com/in/jonasmessias/",

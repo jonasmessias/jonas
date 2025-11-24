@@ -12,12 +12,14 @@ export const Header = () => {
         <div className="px-4 flex justify-between items-center">
           <div className="flex gap-2">
             <Magnetic>
-              <Text size="lg">
-                Jonas Messias
-              </Text>
+              <Link href="/">
+                <Text size="lg" className="font-indie-flower">
+                  Jonas Messias
+                </Text>
+              </Link>
             </Magnetic>
           </div>
-          <ul className="flex gap-6">
+          <ul className="hidden md:flex gap-6">
             {
               Object.entries(config.links).map(([key, value]) => (
                 <li key={key}>
