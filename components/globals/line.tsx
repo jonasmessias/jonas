@@ -54,6 +54,19 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
   const playAudio = () => {
     // Audio desabilitado temporariamente
     return;
+    
+    // Código comentado temporariamente - descomentar para reativar o áudio
+    // if (audioRef.current && isAudioLoaded) {
+    //   // Só tenta tocar se o usuário já interagiu com a página
+    //   audioRef.current.currentTime = 0
+    //   const playPromise = audioRef.current.play()
+    //   
+    //   if (playPromise !== undefined) {
+    //     playPromise.catch(() => {
+    //       // Silenciosamente ignora o erro se o usuário não interagiu ainda
+    //     })
+    //   }
+    // }
   }
 
   const manageMouseEnter = () => {
