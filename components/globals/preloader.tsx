@@ -101,9 +101,9 @@ const CodeTerminal = ({ className = "" }: { className?: string }) => {
           Terminal - jonas-messias
         </text>
 
-        <circle cx="30" cy="33" r="5" fill="#ff0000" />
-        <circle cx="43" cy="33" r="5" fill="#ffff00" />
-        <circle cx="56" cy="33" r="5" fill="#00ff00" />
+        <circle cx="30" cy="33" r={5} fill="#ff0000" />
+        <circle cx="43" cy="33" r={5} fill="#ffff00" />
+        <circle cx="56" cy="33" r={5} fill="#00ff00" />
         
         <rect
           x="15"
@@ -330,27 +330,24 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             >
               <AnimatedText 
                 variant="typewriter"
+                text="Welcome to my website!"
                 className="text-3xl font-bold mb-6 text-black"
                 staggerDelay={0.03}
-              >
-                Welcome to my website!
-              </AnimatedText>
+              />
               
               <AnimatedElement variant="fadeInUp" delay={0.4}>
                 <AnimatedText 
                   variant="slideUp"
+                  text="Here you will find my projects, skills"
                   className="text-black  text-lg"
                   staggerDelay={0.02}
-                >
-                  Here you will find my projects, skills
-                </AnimatedText>
+                />
                 <AnimatedText 
                   variant="slideUp"
+                  text="and experiences as a developer."
                   className="text-black mb-8 text-lg"
                   staggerDelay={0.02}
-                >
-                and experiences as a developer.
-                </AnimatedText>
+                />
               </AnimatedElement>
               
               <AnimatedElement variant="fadeInUp" delay={0.5}>
