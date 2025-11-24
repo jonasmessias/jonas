@@ -52,12 +52,8 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
   const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a
 
   const playAudio = () => {
-    if (audioRef.current && isAudioLoaded) {
-      audioRef.current.currentTime = 0
-      audioRef.current.play().catch(error => {
-        console.error("Erro ao tocar áudio:", error)
-      })
-    }
+    // Audio desabilitado temporariamente
+    return;
   }
 
   const manageMouseEnter = () => {
@@ -156,7 +152,7 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
         }}
         className="relative z-10 h-10 w-full top-[-40px] cursor-pointer"
       ></div>
-      <svg className="absolute w-full h-[500px] top-[-250px]">
+      <svg className="absolute w-full h-[500px] top-[-250px] pointer-events-none">
         <path
           ref={path}
           className="stroke-current text-black dark:text-white stroke-[1px] fill-none"
