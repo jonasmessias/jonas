@@ -1,62 +1,65 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useInView } from "framer-motion"
+import { useRef } from "react"
 
-interface AnimatedTextProps {
-  children: string
+type AnimatedTextProps = {
+  text: string | string[]
+  variant?: "typewriter" | "fadeIn" | "slideUp" | "letter"
   className?: string
-  delay?: number
   staggerDelay?: number
-  variant?: "typewriter" | "fadeIn" | "slideUp"
+  once?: boolean
 }
 
-export default function AnimatedText({ 
-  children, 
-  className = "",
-  delay = 0,
+const AnimatedText = ({
+  text,
+  variant = "fadeIn",
+  className,
   staggerDelay = 0.05,
-  variant = "typewriter"
-}: AnimatedTextProps) {
-  const characters = children.split("")
+  once = true,
+}: AnimatedTextProps) => {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { amount: 0.5, once })
+
+  const textArray = Array.isArray(text) ? text : [text]
 
   const variants = {
-    typewriter: {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0 },
-      exit: { opacity: 0, y: -20 }
-    },
-    fadeIn: {
-      initial: { opacity: 0 },
-      animate: { opacity: 1 },
-      exit: { opacity: 0 }
-    },
-    slideUp: {
-      initial: { opacity: 0, y: 50 },
-      animate: { opacity: 1, y: 0 },
-      exit: { opacity: 0, y: -50 }
-    }
+    hidden: { opacity: 0, y: variant === "slideUp" ? 20 : 0 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * staggerDelay,
+      },
+    }),
   }
 
-  const selectedVariant = variants[variant]
+  const renderText = () => {
+    const textToRender = textArray.join(" ")
+    const splitBy = variant === "letter" ? "" : " "
 
-  return (
-    <div className={className}>
-      {characters.map((char, index) => (
-        <motion.span
-          key={index}
-          initial={selectedVariant.initial}
-          animate={selectedVariant.animate}
-          exit={selectedVariant.exit}
-          transition={{
-            duration: 0.3,
-            delay: delay + (index * staggerDelay),
-            ease: "easeOut" as const
-          }}
-          className="inline-block"
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </div>
-  )
-} 
+    return (
+      <motion.span
+        ref={ref}
+        initial="hidden"
+        animate={isInView ? "visible" : "hidden"}
+        className={className}
+      >
+        {textToRender.split(splitBy).map((char, i) => (
+          <motion.span
+            key={i}
+            variants={variants}
+            custom={i}
+            className={`inline-block ${splitBy === " " ? "mr-2" : ""}`}
+          >
+            {char === " " ? "\u00A0" : char}
+          </motion.span>
+        ))}
+      </motion.span>
+    )
+  }
+
+  return renderText()
+}
+
+export default AnimatedText
