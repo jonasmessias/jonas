@@ -13,20 +13,6 @@ interface InteractiveBoxProps {
   showLeft?: boolean
 }
 
-/**
- * InteractiveBox - Um componente que cria uma caixa com linhas interativas nos 4 lados
- *
- * Uso:
- * <InteractiveBox>
- *   <div>Seu conteúdo aqui</div>
- * </InteractiveBox>
- *
- * Props:
- * - showTop, showRight, showBottom, showLeft: controla quais linhas exibir (padrão: todas true)
- * - audioSrc: caminho para o arquivo de áudio
- * - volume: volume do áudio (0-1)
- * - className: classes adicionais para o container
- */
 export default function InteractiveBox({
   children,
   className = '',
@@ -39,7 +25,6 @@ export default function InteractiveBox({
 }: InteractiveBoxProps) {
   return (
     <div className={`relative ${className}`}>
-      {/* Top Line */}
       {showTop && (
         <div className="absolute top-0 left-0 w-full z-30">
           <Line
@@ -50,8 +35,6 @@ export default function InteractiveBox({
           />
         </div>
       )}
-
-      {/* Right Line */}
       {showRight && (
         <div className="absolute top-0 right-0 h-full z-30">
           <Line
@@ -62,8 +45,6 @@ export default function InteractiveBox({
           />
         </div>
       )}
-
-      {/* Bottom Line */}
       {showBottom && (
         <div className="absolute bottom-0 left-0 w-full z-30">
           <Line
@@ -74,8 +55,6 @@ export default function InteractiveBox({
           />
         </div>
       )}
-
-      {/* Left Line */}
       {showLeft && (
         <div className="absolute top-0 left-0 h-full z-30">
           <Line
@@ -86,8 +65,6 @@ export default function InteractiveBox({
           />
         </div>
       )}
-
-      {/* Content */}
       <div className="relative z-20 h-full">{children}</div>
     </div>
   )
