@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import Preloader from "@/components/globals/preloader"
-import { MarkdownFile } from "@/lib/markdown"
-import { AnimatePresence, motion } from "framer-motion"
-import { ReactNode, useEffect, useState } from "react"
+import Preloader from '@/components/globals/preloader'
+import { MarkdownFile } from '@/lib/markdown'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ReactNode, useEffect, useState } from 'react'
 
 interface ClientPageProps {
   children: ReactNode
@@ -17,7 +17,7 @@ export default function ClientPage({ children }: ClientPageProps) {
 
   useEffect(() => {
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader')
-    
+
     if (!hasSeenPreloader) {
       setLoading(true)
     } else {
@@ -39,16 +39,16 @@ export default function ClientPage({ children }: ClientPageProps) {
 
       {showContent && (
         <motion.main
-          initial={{ 
+          initial={{
             opacity: 0,
           }}
-          animate={{ 
+          animate={{
             opacity: 1,
           }}
-          transition={{ 
+          transition={{
             duration: 0.8,
             delay: 0.3,
-            ease: [0.25, 0.46, 0.45, 0.94]
+            ease: [0.25, 0.46, 0.45, 0.94],
           }}
           className="min-h-screen w-full bg-background relative z-10"
         >

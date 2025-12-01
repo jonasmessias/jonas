@@ -321,11 +321,14 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 delay: 0.8,
                 ease: [0.25, 0.46, 0.45, 0.94],
               },
+              opacity: { duration: 0.3, ease: 'easeOut' },
             }}
             className="absolute inset-0 flex items-center justify-center bg-black"
             onClick={handleModalClose}
           >
-            <AnimatedBackground />
+            <div className="absolute inset-0 z-0">
+              <AnimatedBackground />
+            </div>
 
             <motion.div
               initial={{
