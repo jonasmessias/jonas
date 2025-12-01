@@ -1,5 +1,7 @@
-"use client"
-import React, { useEffect, useRef, useState } from "react"
+'use client'
+import { cn } from '@/lib/utils'
+import gsap from 'gsap'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface CustomMouseEvent {
   movementY: number
@@ -9,10 +11,25 @@ interface CustomMouseEvent {
 interface LineProps {
   audioSrc?: string
   volume?: number
+  orientation?: 'horizontal' | 'vertical'
+  className?: string
+  /** Animação de entrada personalizada */
+  animation?: {
+    delay?: number
+    duration?: number
+    from?: 'left' | 'right' | 'top' | 'bottom' | 'center'
+  }
 }
 
-export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 0.5 }: LineProps) {
+export default function Line({
+  audioSrc = '/sounds/guitar-string.mp3',
+  volume = 0.5,
+  orientation = 'horizontal',
+  className = '',
+  animation = { delay: 0, duration: 1, from: 'left' },
+}: LineProps) {
   const path = useRef<SVGPathElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isAudioLoaded, setIsAudioLoaded] = useState(false)
 
@@ -23,44 +40,96 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
 
   useEffect(() => {
     setPath(progress)
-    
+
+    // Animação de entrada com GSAP
+    if (containerRef.current) {
+      const { delay = 0, duration = 1, from = 'left' } = animation
+
+      // Definir estado inicial baseado na direção
+      const initialState: gsap.TweenVars = {
+        opacity: 0,
+      }
+
+      if (orientation === 'horizontal') {
+        if (from === 'left') {
+          initialState.x = -100
+          initialState.scaleX = 0.3
+        } else if (from === 'right') {
+          initialState.x = 100
+          initialState.scaleX = 0.3
+        } else if (from === 'center') {
+          initialState.scaleX = 0
+        }
+      } else {
+        if (from === 'top') {
+          initialState.y = -100
+          initialState.scaleY = 0.3
+        } else if (from === 'bottom') {
+          initialState.y = 100
+          initialState.scaleY = 0.3
+        } else if (from === 'center') {
+          initialState.scaleY = 0
+        }
+      }
+
+      gsap.fromTo(containerRef.current, initialState, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scaleX: 1,
+        scaleY: 1,
+        duration,
+        delay,
+        ease: 'power3.out',
+      })
+    }
+
     if (audioSrc) {
       audioRef.current = new Audio(audioSrc)
       audioRef.current.volume = volume
-      audioRef.current.preload = "auto"
-      
-      audioRef.current.addEventListener("canplaythrough", () => {
+      audioRef.current.preload = 'auto'
+
+      audioRef.current.addEventListener('canplaythrough', () => {
         setIsAudioLoaded(true)
       })
-      
-      audioRef.current.addEventListener("ended", () => {
+
+      audioRef.current.addEventListener('ended', () => {
         // Audio ended
       })
     }
-  }, [audioSrc, volume])
+  }, [audioSrc, volume, animation, orientation])
 
   const setPath = (progress: number) => {
-    const width = window.innerWidth * 1
-
-    path.current?.setAttributeNS(
-      null,
-      "d",
-      `M0 250 Q${width * x} ${250 + progress}, ${width} 250`
-    )
+    if (orientation === 'horizontal') {
+      const width = window.innerWidth * 1
+      path.current?.setAttributeNS(
+        null,
+        'd',
+        `M0 250 Q${width * x} ${250 + progress}, ${width} 250`,
+      )
+    } else {
+      // Vertical orientation
+      const height = window.innerHeight * 1
+      path.current?.setAttributeNS(
+        null,
+        'd',
+        `M250 0 Q${250 + progress} ${height * x}, 250 ${height}`,
+      )
+    }
   }
 
   const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a
 
   const playAudio = () => {
     // Audio desabilitado temporariamente
-    return;
-    
+    return
+
     // Código comentado temporariamente - descomentar para reativar o áudio
     // if (audioRef.current && isAudioLoaded) {
     //   // Só tenta tocar se o usuário já interagiu com a página
     //   audioRef.current.currentTime = 0
     //   const playPromise = audioRef.current.play()
-    //   
+    //
     //   if (playPromise !== undefined) {
     //     playPromise.catch(() => {
     //       // Silenciosamente ignora o erro se o usuário não interagiu ainda
@@ -82,8 +151,16 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
     const pathBound = path.current?.getBoundingClientRect()
 
     if (pathBound) {
-      x = (clientX - pathBound.left) / pathBound.width
-      progress += movementY * 0.5
+      if (orientation === 'horizontal') {
+        x = (clientX - pathBound.left) / pathBound.width
+        progress += movementY * 0.5
+      } else {
+        // Vertical: usar clientY e movementX
+        const clientY = (e as any).clientY
+        const movementX = (e as any).movementX
+        x = (clientY - pathBound.top) / pathBound.height
+        progress += movementX * 0.5
+      }
       setPath(progress)
     }
   }
@@ -97,17 +174,23 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
 
   const manageClick = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const clickRatio = clickX / rect.width
-    
-    x = clickRatio
-    
+
+    if (orientation === 'horizontal') {
+      const clickX = e.clientX - rect.left
+      const clickRatio = clickX / rect.width
+      x = clickRatio
+    } else {
+      const clickY = e.clientY - rect.top
+      const clickRatio = clickY / rect.height
+      x = clickRatio
+    }
+
     progress = 50
-    
+
     setPath(progress)
-    
+
     playAudio()
-    
+
     animateBounce()
   }
 
@@ -149,7 +232,14 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
   }
 
   return (
-    <div className="relative w-full h-px mb-5">
+    <div
+      ref={containerRef}
+      className={cn(
+        orientation === 'horizontal' ? 'w-full' : 'h-full',
+        className,
+      )}
+    >
+      {/* Área interativa invisível */}
       <div
         onMouseEnter={() => {
           manageMouseEnter()
@@ -163,14 +253,26 @@ export default function Line({ audioSrc = "/sounds/guitar-string.mp3", volume = 
         onClick={(e) => {
           manageClick(e)
         }}
-        className="relative z-10 h-10 w-full top-[-40px] cursor-pointer"
-      ></div>
-      <svg className="absolute w-full h-[500px] top-[-250px] pointer-events-none">
-        <path
-          ref={path}
-          className="stroke-current text-black dark:text-white stroke-[1px] fill-none"
-        ></path>
-      </svg>
+        className={
+          orientation === 'horizontal'
+            ? 'relative z-10 h-12 w-full cursor-pointer'
+            : 'relative z-10 w-12 h-full cursor-pointer'
+        }
+      >
+        {/* SVG com a linha */}
+        <svg
+          className={
+            orientation === 'horizontal'
+              ? 'absolute w-full h-[500px] top-[-250px] left-0 pointer-events-none'
+              : 'absolute h-full w-[500px] left-[-250px] top-0 pointer-events-none'
+          }
+        >
+          <path
+            ref={path}
+            className="stroke-current text-black dark:text-white stroke-[1px] fill-none"
+          ></path>
+        </svg>
+      </div>
     </div>
   )
 }
