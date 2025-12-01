@@ -13,24 +13,21 @@ interface ClientPageProps {
 
 export default function ClientPage({ children }: ClientPageProps) {
   const [loading, setLoading] = useState(false)
+  const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    // Verifica se o preloader já foi exibido nesta sessão
     const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader')
     
     if (!hasSeenPreloader) {
       setLoading(true)
-      const timer = setTimeout(() => {
-        setLoading(false)
-        sessionStorage.setItem('hasSeenPreloader', 'true')
-      }, 10000)
-      
-      return () => clearTimeout(timer)
+    } else {
+      setShowContent(true)
     }
   }, [])
 
   const handlePreloaderComplete = () => {
     setLoading(false)
+    setShowContent(true)
     sessionStorage.setItem('hasSeenPreloader', 'true')
   }
 
@@ -40,22 +37,24 @@ export default function ClientPage({ children }: ClientPageProps) {
         {loading && <Preloader onComplete={handlePreloaderComplete} />}
       </AnimatePresence>
 
-      <motion.main
-        initial={{ 
-          opacity: 0,
-        }}
-        animate={{ 
-          opacity: 1,
-        }}
-        transition={{ 
-          duration: 0.8,
-          delay: loading ? 10.5 : 0.5, 
-          ease: [0.25, 0.46, 0.45, 0.94]
-        }}
-        className="min-h-screen w-full bg-background relative z-10"
-      >
-        {children}
-      </motion.main>
+      {showContent && (
+        <motion.main
+          initial={{ 
+            opacity: 0,
+          }}
+          animate={{ 
+            opacity: 1,
+          }}
+          transition={{ 
+            duration: 0.8,
+            delay: 0.3,
+            ease: [0.25, 0.46, 0.45, 0.94]
+          }}
+          className="min-h-screen w-full bg-background relative z-10"
+        >
+          {children}
+        </motion.main>
+      )}
     </>
   )
 }

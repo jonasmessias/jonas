@@ -263,7 +263,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50">
+    <div className="fixed inset-0 z-[9999] bg-black">
       <AnimatePresence mode="wait">
         {loading && (
           <motion.div
@@ -286,10 +286,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               scale: isDetaching ? 0.8 : 1,
             }}
             transition={{
-              scale: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }, // Reduzido de 0.6s
-              x: { duration: 0.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }, // Reduzido de 0.8s/0.6s
+              scale: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+              x: { duration: 0.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
             }}
-            className="bg-black flex items-center justify-center"
+            className="absolute inset-0 bg-black flex items-center justify-center"
           >
             <Magnetic>
               <CodeTerminal />
@@ -315,14 +315,14 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               scale: 1,
             }}
             transition={{
-              x: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }, // Reduzido de 1.2s
+              x: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
               scale: {
                 duration: 0.5,
                 delay: 0.8,
                 ease: [0.25, 0.46, 0.45, 0.94],
-              }, // Reduzido de 0.8s/1.2s
+              },
             }}
-            className="fixed inset-0 flex items-center justify-center bg-black"
+            className="absolute inset-0 flex items-center justify-center bg-black"
             onClick={handleModalClose}
           >
             <AnimatedBackground />
@@ -335,8 +335,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 scale: 1,
               }}
               transition={{
-                delay: 0.6, // Reduzido de 1s
-                duration: 0.4, // Reduzido de 0.5s
+                delay: 0.6,
+                duration: 0.4,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
               className="p-8 max-w-lg w-full text-center relative z-10 bg-white"
