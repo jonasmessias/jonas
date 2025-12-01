@@ -59,10 +59,16 @@ const ExperienceCard = ({
             >
               {experience.data.role}
             </Text>
-            <Text size="lg" className="text-muted-foreground text-sm sm:text-base md:text-lg">
+            <Text
+              size="lg"
+              className="text-muted-foreground text-sm sm:text-base md:text-lg"
+            >
               {experience.data.company}
             </Text>
-            <Text size="sm" className="text-muted-foreground text-xs sm:text-sm">
+            <Text
+              size="sm"
+              className="text-muted-foreground text-xs sm:text-sm"
+            >
               {experience.data.location}
             </Text>
           </div>

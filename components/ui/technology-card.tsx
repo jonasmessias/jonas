@@ -1,5 +1,5 @@
-import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { Text } from '@/components/globals/text'
+import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { IconType } from 'react-icons'
 
 interface TechnologyCardProps {

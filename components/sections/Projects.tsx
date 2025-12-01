@@ -63,7 +63,11 @@ const ProjectCard = ({ project }: { project: MarkdownFile }) => {
       className="block h-full"
     >
       <div className="group relative border border-border/50 overflow-hidden hover:border-primary transition-all h-full flex flex-col">
-        <DecorativeCorners size="md" variant="hover" className="z-10 border-2" />
+        <DecorativeCorners
+          size="md"
+          variant="hover"
+          className="z-10 border-2"
+        />
 
         <div className="relative h-40 sm:h-44 md:h-48 w-full overflow-hidden bg-muted flex-shrink-0">
           <Image
@@ -77,7 +81,11 @@ const ProjectCard = ({ project }: { project: MarkdownFile }) => {
 
         <div className="p-4 sm:p-5 md:p-6 bg-background relative flex flex-col flex-grow">
           <div className="absolute top-0 left-0 w-full h-px bg-primary" />
-          <Text size="xl" weight="bold" className="mb-2 text-base sm:text-lg md:text-xl">
+          <Text
+            size="xl"
+            weight="bold"
+            className="mb-2 text-base sm:text-lg md:text-xl"
+          >
             {project.data.title}
           </Text>
           <Text
@@ -104,4 +112,3 @@ const ProjectCard = ({ project }: { project: MarkdownFile }) => {
 }
 
 export default Projects
-

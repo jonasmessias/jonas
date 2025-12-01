@@ -166,7 +166,12 @@ const DownloadCVColumn = () => {
 
 const Copyright = () => {
   return (
-    <GSAPReveal from={{ opacity: 0 }} to={{ opacity: 1 }} delay={0.8} duration={1}>
+    <GSAPReveal
+      from={{ opacity: 0 }}
+      to={{ opacity: 1 }}
+      delay={0.8}
+      duration={1}
+    >
       <div className="mt-8 sm:mt-10 md:mt-12 pt-4 sm:pt-5 md:pt-6 border-t border-border/20 text-center">
         <Text size="xs" className="text-muted-foreground px-4 sm:px-0">
           © {new Date().getFullYear()} Jonas Messias. Built with Next.js &
