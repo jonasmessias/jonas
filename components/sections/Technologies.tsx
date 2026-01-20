@@ -38,6 +38,7 @@ const Technologies = () => {
             <GSAPSplitText stagger={0.03}>Tech Stack</GSAPSplitText>
           </Text>
           <Text
+            variant="body"
             className="text-muted-foreground max-w-2xl text-center px-4 sm:px-0"
             size="lg"
           >

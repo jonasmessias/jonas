@@ -13,10 +13,7 @@ export const Header = () => {
           <div className="flex gap-2">
             <Magnetic>
               <Link href="/">
-                <Text
-                  size="lg"
-                  className="font-indie-flower text-base sm:text-lg"
-                >
+                <Text size="lg" className="text-base sm:text-lg">
                   Jonas Messias
                 </Text>
               </Link>

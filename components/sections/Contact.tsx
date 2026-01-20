@@ -30,7 +30,11 @@ const ContactHeader = () => {
         <GSAPSplitText stagger={0.04}>Get in Touch</GSAPSplitText>
       </Text>
 
-      <Text size="lg" className="text-muted-foreground max-w-2xl px-4 sm:px-0">
+      <Text
+        size="lg"
+        variant="body"
+        className="text-muted-foreground max-w-2xl px-4 sm:px-0"
+      >
         Have a project in mind or just want to say hello? Feel free to reach
         out.
       </Text>
@@ -110,7 +114,11 @@ const AboutColumn = () => {
       <Text size="lg" weight="bold" className="mb-2 sm:mb-3">
         Jonas Messias
       </Text>
-      <Text size="sm" className="text-muted-foreground px-4 md:px-0">
+      <Text
+        size="sm"
+        variant="body"
+        className="text-muted-foreground px-4 md:px-0"
+      >
         Frontend developer specialized in React, Next.js, and modern web
         technologies.
       </Text>

@@ -1,5 +1,5 @@
 'use client'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import gsap from 'gsap'
 import React, { useEffect, useRef, useState } from 'react'
 

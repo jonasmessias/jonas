@@ -61,12 +61,14 @@ const ExperienceCard = ({
             </Text>
             <Text
               size="lg"
+              variant="body"
               className="text-muted-foreground text-sm sm:text-base md:text-lg"
             >
               {experience.data.company}
             </Text>
             <Text
               size="sm"
+              variant="body"
               className="text-muted-foreground text-xs sm:text-sm"
             >
               {experience.data.location}
@@ -74,6 +76,7 @@ const ExperienceCard = ({
           </div>
           <Text
             size="md"
+            variant="body"
             className="text-muted-foreground md:text-right whitespace-nowrap text-xs sm:text-sm md:text-base"
           >
             {experience.data.period}
@@ -88,6 +91,7 @@ const ExperienceCard = ({
               </span>
               <Text
                 size="md"
+                variant="body"
                 className="text-muted-foreground flex-1 text-xs sm:text-sm md:text-base"
               >
                 {item}

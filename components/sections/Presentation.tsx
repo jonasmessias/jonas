@@ -71,6 +71,7 @@ const TextContent = () => {
       >
         <Text
           size="lg"
+          variant="body"
           className="text-muted-foreground border-primary/30 text-sm sm:text-base md:text-lg max-w-xl mx-auto md:mx-0"
         >
           Dedicated to building scalable, high-performance, and well-architected

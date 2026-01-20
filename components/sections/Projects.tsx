@@ -30,6 +30,7 @@ const Projects = ({ projects }: ProjectsProps) => {
           </Text>
           <Text
             size="lg"
+            variant="body"
             className="text-muted-foreground text-center max-w-2xl px-4 sm:px-0"
           >
             A selection of projects showcasing frontend architecture,
@@ -90,6 +91,7 @@ const ProjectCard = ({ project }: { project: MarkdownFile }) => {
           </Text>
           <Text
             size="md"
+            variant="body"
             className="text-muted-foreground mb-3 sm:mb-4 flex-grow text-sm sm:text-base"
           >
             {project.data.description}
