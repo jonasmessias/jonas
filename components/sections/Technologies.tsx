@@ -1,9 +1,12 @@
+'use client'
+
 import {
   GSAPReveal,
   GSAPSplitText,
 } from '@/components/animations/gsap-animations'
 import { Text } from '@/components/globals/text'
 import { TechnologyCard } from '@/components/ui/technology-card'
+import { useTranslations } from 'next-intl'
 import {
   SiGit,
   SiJest,
@@ -27,23 +30,24 @@ const technologies = [
 ]
 
 const Technologies = () => {
+  const t = useTranslations('technologies')
+
   return (
     <section
-      id="technologies-section"
+      id="technologies"
       className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative"
     >
       <GSAPReveal from={{ opacity: 0, y: -50 }} duration={1}>
         <div className="flex flex-col items-center gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12">
           <Text size="huge-2" weight="bold">
-            <GSAPSplitText stagger={0.03}>Tech Stack</GSAPSplitText>
+            <GSAPSplitText stagger={0.03}>{t('title')}</GSAPSplitText>
           </Text>
           <Text
             variant="body"
             className="text-muted-foreground max-w-2xl text-center px-4 sm:px-0"
             size="lg"
           >
-            Modern technologies for building fast, reliable, and scalable web
-            applications.
+            {t('description')}
           </Text>
         </div>
       </GSAPReveal>

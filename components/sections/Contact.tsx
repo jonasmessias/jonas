@@ -1,3 +1,5 @@
+'use client'
+
 import {
   GSAPReveal,
   GSAPSplitText,
@@ -5,13 +7,17 @@ import {
 import { Text } from '@/components/globals/text'
 import { SocialLinkCard } from '@/components/ui/social-link-card'
 import { config } from '@/utils/config'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { HiDownload } from 'react-icons/hi'
 import { SiGithub, SiLinkedin } from 'react-icons/si'
 
 const Contact = () => {
   return (
-    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-4 relative">
+    <section
+      id="contact"
+      className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-4 relative"
+    >
       <ContactHeader />
       <SocialLinks />
       <Footer />
@@ -20,6 +26,8 @@ const Contact = () => {
 }
 
 const ContactHeader = () => {
+  const t = useTranslations('contact')
+
   return (
     <GSAPReveal
       from={{ opacity: 0, y: 50 }}
@@ -27,7 +35,7 @@ const ContactHeader = () => {
       className="flex flex-col items-center gap-4 sm:gap-6 text-center relative"
     >
       <Text size="huge-2" weight="bold">
-        <GSAPSplitText stagger={0.04}>Get in Touch</GSAPSplitText>
+        <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
       </Text>
 
       <Text
@@ -35,8 +43,7 @@ const ContactHeader = () => {
         variant="body"
         className="text-muted-foreground max-w-2xl px-4 sm:px-0"
       >
-        Have a project in mind or just want to say hello? Feel free to reach
-        out.
+        {t('description')}
       </Text>
 
       <div className="relative group mt-3 sm:mt-4 w-full sm:w-auto">
@@ -87,6 +94,8 @@ const SocialLinks = () => {
 }
 
 const Footer = () => {
+  const t = useTranslations('contact')
+
   return (
     <div className="mt-16 sm:mt-20 md:mt-24 pt-8 sm:pt-10 md:pt-12 border-t border-border/30">
       <GSAPReveal
@@ -109,34 +118,36 @@ const Footer = () => {
 }
 
 const AboutColumn = () => {
+  const t = useTranslations('contact')
+
   return (
     <div>
       <Text size="lg" weight="bold" className="mb-2 sm:mb-3">
-        Jonas Messias
+        {t('aboutTitle')}
       </Text>
       <Text
         size="sm"
         variant="body"
         className="text-muted-foreground px-4 md:px-0"
       >
-        Frontend developer specialized in React, Next.js, and modern web
-        technologies.
+        {t('aboutDescription')}
       </Text>
     </div>
   )
 }
 
 const QuickLinksColumn = () => {
+  const t = useTranslations('contact')
   const links = [
     { href: config.links.github, label: 'GitHub', external: true },
     { href: config.links.linkedin, label: 'LinkedIn', external: true },
-    { href: config.links.contact, label: 'Email', external: false },
+    { href: config.links.contact, label: t('email'), external: false },
   ]
 
   return (
     <div>
       <Text size="md" weight="bold" className="mb-2 sm:mb-3">
-        Quick Links
+        {t('quickLinks')}
       </Text>
       <div className="flex flex-col gap-1.5 sm:gap-2">
         {links.map((link) => (
@@ -156,6 +167,8 @@ const QuickLinksColumn = () => {
 }
 
 const DownloadCVColumn = () => {
+  const t = useTranslations('contact')
+
   return (
     <div className="flex flex-col items-center md:items-end justify-center">
       <a
@@ -165,7 +178,7 @@ const DownloadCVColumn = () => {
       >
         <HiDownload className="text-base sm:text-lg" />
         <Text size="sm" weight="semibold">
-          Download CV
+          {t('downloadCV')}
         </Text>
       </a>
     </div>
@@ -173,6 +186,8 @@ const DownloadCVColumn = () => {
 }
 
 const Copyright = () => {
+  const t = useTranslations('contact')
+
   return (
     <GSAPReveal
       from={{ opacity: 0 }}
@@ -182,8 +197,7 @@ const Copyright = () => {
     >
       <div className="mt-8 sm:mt-10 md:mt-12 pt-4 sm:pt-5 md:pt-6 border-t border-border/20 text-center">
         <Text size="xs" className="text-muted-foreground px-4 sm:px-0">
-          © {new Date().getFullYear()} Jonas Messias. Built with Next.js &
-          TypeScript.
+          © {new Date().getFullYear()} Jonas Messias. {t('copyright')}
         </Text>
       </div>
     </GSAPReveal>

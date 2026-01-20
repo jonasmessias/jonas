@@ -1,3 +1,5 @@
+'use client'
+
 import {
   GSAPReveal,
   GSAPSplitText,
@@ -5,17 +7,20 @@ import {
 import { Text } from '@/components/globals/text'
 import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { MarkdownFile } from '@/lib/markdown'
+import { useTranslations } from 'next-intl'
 
 interface ExperienceProps {
   experiences: MarkdownFile[]
 }
 
 const Experience = ({ experiences }: ExperienceProps) => {
+  const t = useTranslations('experience')
+
   return (
-    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <GSAPReveal from={{ opacity: 0, y: -30 }} duration={1}>
         <Text size="huge-2" weight="bold" className="mb-8 sm:mb-10 md:mb-12">
-          <GSAPSplitText stagger={0.04}>Experience</GSAPSplitText>
+          <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
         </Text>
       </GSAPReveal>
 
