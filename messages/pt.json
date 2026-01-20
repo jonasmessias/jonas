@@ -1,0 +1,38 @@
+{
+  "navigation": {
+    "name": "Jonas Messias",
+    "home": "Início",
+    "about": "Sobre",
+    "technologies": "Tecnologias",
+    "projects": "Projetos",
+    "experience": "Experiência",
+    "contact": "Contato"
+  },
+  "hero": {
+    "title": "Desenvolvedor",
+    "subtitle": "Front-end",
+    "description": "Dedicado a construir aplicações escaláveis, de alto desempenho e bem arquitetadas com React, Next.js e TypeScript.",
+    "downloadCV": "Baixar CV"
+  },
+  "technologies": {
+    "title": "Stack de Tecnologias",
+    "description": "Tecnologias modernas para construir aplicações web rápidas, confiáveis e escaláveis."
+  },
+  "projects": {
+    "title": "Projetos em Destaque",
+    "description": "Uma seleção de projetos demonstrando arquitetura frontend, otimização de performance e práticas modernas de desenvolvimento."
+  },
+  "experience": {
+    "title": "Experiência"
+  },
+  "contact": {
+    "title": "Entre em Contato",
+    "description": "Tem um projeto em mente ou quer apenas dizer olá? Sinta-se à vontade para entrar em contato.",
+    "email": "Email",
+    "aboutTitle": "Jonas Messias",
+    "aboutDescription": "Desenvolvedor frontend especializado em React, Next.js e tecnologias web modernas.",
+    "quickLinks": "Links Rápidos",
+    "downloadCV": "Baixar CV",
+    "copyright": "Construído com Next.js & TypeScript. Todos os direitos reservados."
+  }
+}

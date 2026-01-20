@@ -1,3 +1,5 @@
+'use client'
+
 import {
   GSAPReveal,
   GSAPSplitText,
@@ -5,6 +7,7 @@ import {
 import { Text } from '@/components/globals/text'
 import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { MarkdownFile } from '@/lib/markdown'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -13,6 +16,7 @@ interface ProjectsProps {
 }
 
 const Projects = ({ projects }: ProjectsProps) => {
+  const t = useTranslations('projects')
   const featuredProjects = projects.filter((p) => p.data.featured)
   const projectCount = featuredProjects.length
 
@@ -22,18 +26,21 @@ const Projects = ({ projects }: ProjectsProps) => {
       : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8'
 
   return (
-    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <section
+      id="projects"
+      className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative"
+    >
       <GSAPReveal from={{ opacity: 0, y: -50 }} duration={1}>
         <div className="flex flex-col items-center gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12">
           <Text size="huge-2" weight="bold">
-            <GSAPSplitText stagger={0.04}>Featured Projects</GSAPSplitText>
+            <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
           </Text>
           <Text
             size="lg"
+            variant="body"
             className="text-muted-foreground text-center max-w-2xl px-4 sm:px-0"
           >
-            A selection of projects showcasing frontend architecture,
-            performance optimization, and modern development practices.
+            {t('description')}
           </Text>
         </div>
       </GSAPReveal>
@@ -90,6 +97,7 @@ const ProjectCard = ({ project }: { project: MarkdownFile }) => {
           </Text>
           <Text
             size="md"
+            variant="body"
             className="text-muted-foreground mb-3 sm:mb-4 flex-grow text-sm sm:text-base"
           >
             {project.data.description}

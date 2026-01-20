@@ -1,3 +1,5 @@
+'use client'
+
 import {
   GSAPReveal,
   GSAPSplitText,
@@ -8,12 +10,16 @@ import ScrollIndicator from '@/components/globals/scroll-indicator'
 import { Text } from '@/components/globals/text'
 import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { ParallaxBackground } from '@/components/ui/parallax-background'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { HiDownload } from 'react-icons/hi'
 
 const Presentation = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-24 sm:pt-20 pb-8 sm:pb-0">
+    <section
+      id="home"
+      className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-24 sm:pt-20 pb-8 sm:pb-0"
+    >
       <ParallaxBackground />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative flex-1 flex items-center">
@@ -36,6 +42,8 @@ const Presentation = () => {
 }
 
 const TextContent = () => {
+  const t = useTranslations('hero')
+
   return (
     <div className="flex flex-col gap-4 md:gap-6 relative text-center md:text-left">
       <div className="absolute -left-8 top-0 h-full hidden md:block">
@@ -54,11 +62,11 @@ const TextContent = () => {
           className="leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
         >
           <GSAPSplitText delay={0.5} stagger={0.05} duration={0.8}>
-            Developer
+            {t('title')}
           </GSAPSplitText>
           <br />
           <GSAPSplitText delay={0.8} stagger={0.05} duration={0.8}>
-            Front-end
+            {t('subtitle')}
           </GSAPSplitText>
         </Text>
       </GSAPReveal>
@@ -71,10 +79,10 @@ const TextContent = () => {
       >
         <Text
           size="lg"
+          variant="body"
           className="text-muted-foreground border-primary/30 text-sm sm:text-base md:text-lg max-w-xl mx-auto md:mx-0"
         >
-          Dedicated to building scalable, high-performance, and well-architected
-          applications with React, Next.js, and TypeScript.
+          {t('description')}
         </Text>
       </GSAPReveal>
 
@@ -84,6 +92,8 @@ const TextContent = () => {
 }
 
 const DownloadCVButton = () => {
+  const t = useTranslations('hero')
+
   return (
     <GSAPReveal
       from={{ opacity: 0, scale: 0.8 }}
@@ -100,7 +110,7 @@ const DownloadCVButton = () => {
         <DecorativeCorners size="sm" variant="hover" />
         <HiDownload className="text-xl group-hover:scale-110 transition-transform" />
         <Text size="md" weight="bold">
-          Download CV
+          {t('downloadCV')}
         </Text>
       </a>
     </GSAPReveal>

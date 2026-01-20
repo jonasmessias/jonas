@@ -1,5 +1,5 @@
 'use client'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/cn'
 import gsap from 'gsap'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -22,7 +22,7 @@ interface LineProps {
 }
 
 export default function Line({
-  audioSrc = '/sounds/guitar-string.mp3',
+  audioSrc,
   volume = 0.5,
   orientation = 'horizontal',
   className = '',
@@ -84,6 +84,7 @@ export default function Line({
       })
     }
 
+    // Só carrega áudio se audioSrc for fornecido
     if (audioSrc) {
       audioRef.current = new Audio(audioSrc)
       audioRef.current.volume = volume
@@ -93,9 +94,23 @@ export default function Line({
         setIsAudioLoaded(true)
       })
 
+      audioRef.current.addEventListener('error', () => {
+        console.warn(`Failed to load audio: ${audioSrc}`)
+        setIsAudioLoaded(false)
+      })
+
       audioRef.current.addEventListener('ended', () => {
         // Audio ended
       })
+
+      // Cleanup
+      return () => {
+        if (audioRef.current) {
+          audioRef.current.pause()
+          audioRef.current.src = ''
+          audioRef.current = null
+        }
+      }
     }
   }, [audioSrc, volume, animation, orientation])
 

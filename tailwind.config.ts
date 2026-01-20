@@ -19,10 +19,12 @@ const config: Config = {
       },
       fontFamily: {
         'indie-flower': ['var(--font-indie-flower)'],
+        poppins: ['var(--font-poppins)'],
+        sans: ['var(--font-indie-flower)'],
       },
       maxWidth: {
         '600': '600px',
-      }
+      },
     },
   },
   plugins: [],

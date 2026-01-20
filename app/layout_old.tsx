@@ -1,6 +1,8 @@
 import { cn } from '@/utils/cn'
+import { config } from '@/utils/config'
+import type { Metadata } from 'next'
+import { ThemeProvider } from 'next-themes'
 import { Indie_Flower, Poppins } from 'next/font/google'
-import { ReactNode } from 'react'
 import './globals.css'
 
 const indieFlower = Indie_Flower({
@@ -15,9 +17,18 @@ const poppins = Poppins({
   weight: ['300', '400', '500', '600'],
 })
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+  title: 'Jonas Messias | Frontend Developer',
+  description: config.siteDescription,
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           indieFlower.className,
@@ -25,7 +36,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           'antialiased overflow-x-hidden bg-background',
         )}
       >
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

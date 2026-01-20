@@ -1,3 +1,5 @@
+'use client'
+
 import {
   GSAPReveal,
   GSAPSplitText,
@@ -5,17 +7,20 @@ import {
 import { Text } from '@/components/globals/text'
 import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { MarkdownFile } from '@/lib/markdown'
+import { useTranslations } from 'next-intl'
 
 interface ExperienceProps {
   experiences: MarkdownFile[]
 }
 
 const Experience = ({ experiences }: ExperienceProps) => {
+  const t = useTranslations('experience')
+
   return (
-    <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <GSAPReveal from={{ opacity: 0, y: -30 }} duration={1}>
         <Text size="huge-2" weight="bold" className="mb-8 sm:mb-10 md:mb-12">
-          <GSAPSplitText stagger={0.04}>Experience</GSAPSplitText>
+          <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
         </Text>
       </GSAPReveal>
 
@@ -61,12 +66,14 @@ const ExperienceCard = ({
             </Text>
             <Text
               size="lg"
+              variant="body"
               className="text-muted-foreground text-sm sm:text-base md:text-lg"
             >
               {experience.data.company}
             </Text>
             <Text
               size="sm"
+              variant="body"
               className="text-muted-foreground text-xs sm:text-sm"
             >
               {experience.data.location}
@@ -74,6 +81,7 @@ const ExperienceCard = ({
           </div>
           <Text
             size="md"
+            variant="body"
             className="text-muted-foreground md:text-right whitespace-nowrap text-xs sm:text-sm md:text-base"
           >
             {experience.data.period}
@@ -88,6 +96,7 @@ const ExperienceCard = ({
               </span>
               <Text
                 size="md"
+                variant="body"
                 className="text-muted-foreground flex-1 text-xs sm:text-sm md:text-base"
               >
                 {item}

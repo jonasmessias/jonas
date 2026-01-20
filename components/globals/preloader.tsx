@@ -1,10 +1,6 @@
 'use client'
 
-import AnimatedBackground from '@/components/animations/animated-background'
-import AnimatedElement from '@/components/animations/animated-element'
-import AnimatedText from '@/components/animations/animated-text'
 import Magnetic from '@/components/globals/magnetic'
-import Button from '@/components/ui/button'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
@@ -241,26 +237,17 @@ const CodeTerminal = ({ className = '' }: { className?: string }) => {
 
 export default function Preloader({ onComplete }: PreloaderProps) {
   const [loading, setLoading] = useState(true)
-  const [showModal, setShowModal] = useState(false)
-  const [isDetaching, setIsDetaching] = useState(false)
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsDetaching(true)
       setLoading(false)
-      setShowModal(true)
-    }, 4500) // Reduzido de 10000ms (10s) para 4500ms (4.5s)
+      setTimeout(() => {
+        onComplete()
+      }, 500) // Delay para animação de saída
+    }, 3000) // Reduzido para 3s - preloader mais rápido
 
     return () => clearTimeout(timer)
-  }, [])
-
-  const handleModalClose = () => {
-    setIsDetaching(true)
-    setShowModal(false)
-    setTimeout(() => {
-      onComplete()
-    }, 400) // Reduzido de 500ms para 400ms - saída mais rápida
-  }
+  }, [onComplete])
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black">
@@ -270,115 +257,20 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             key="terminal"
             initial={{
               opacity: 1,
-              width: '100%',
-              height: '100%',
-              x: 0,
-              y: 0,
-              scale: 1,
             }}
             exit={{
-              x: '-100%',
-              scale: 0.8,
-            }}
-            animate={{
-              x: isDetaching ? '-100%' : 0,
-              y: isDetaching ? 0 : 0,
-              scale: isDetaching ? 0.8 : 1,
+              opacity: 0,
+              scale: 0.95,
             }}
             transition={{
-              scale: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
-              x: { duration: 0.5, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+              duration: 0.5,
+              ease: [0.25, 0.46, 0.45, 0.94],
             }}
             className="absolute inset-0 bg-black flex items-center justify-center"
           >
             <Magnetic>
               <CodeTerminal />
             </Magnetic>
-          </motion.div>
-        )}
-
-        {showModal && (
-          <motion.div
-            key="modal"
-            initial={{
-              opacity: 1,
-              x: '100%',
-              scale: 0.8,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 1,
-            }}
-            transition={{
-              x: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
-              scale: {
-                duration: 0.5,
-                delay: 0.8,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              },
-              opacity: { duration: 0.3, ease: 'easeOut' },
-            }}
-            className="absolute inset-0 flex items-center justify-center bg-black"
-            onClick={handleModalClose}
-          >
-            <div className="absolute inset-0 z-0">
-              <AnimatedBackground />
-            </div>
-
-            <motion.div
-              initial={{
-                scale: 0,
-              }}
-              animate={{
-                scale: 1,
-              }}
-              transition={{
-                delay: 0.6,
-                duration: 0.4,
-                ease: [0.25, 0.46, 0.45, 0.94],
-              }}
-              className="p-8 max-w-lg w-full text-center relative z-10 bg-white"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <AnimatedText
-                variant="typewriter"
-                text="Welcome to my website!"
-                className="text-3xl font-bold mb-6 text-black"
-                staggerDelay={0.03}
-              />
-
-              <AnimatedElement variant="fadeInUp" delay={0.4}>
-                <AnimatedText
-                  variant="slideUp"
-                  text="Here you will find my projects, skills"
-                  className="text-black  text-lg"
-                  staggerDelay={0.02}
-                />
-                <AnimatedText
-                  variant="slideUp"
-                  text="and experiences as a developer."
-                  className="text-black mb-8 text-lg"
-                  staggerDelay={0.02}
-                />
-              </AnimatedElement>
-
-              <AnimatedElement variant="fadeInUp" delay={0.5}>
-                <Button
-                  onClick={handleModalClose}
-                  magnetic
-                  className="w-full border-2 border-black group"
-                >
-                  <span className="group-hover:animate-none animate-pulse">
-                    Tap to start
-                  </span>
-                </Button>
-              </AnimatedElement>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
