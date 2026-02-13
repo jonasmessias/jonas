@@ -1,7 +1,7 @@
 ---
 title: 'React Microfrontend Architecture'
 description: 'Microfrontend architecture showcase with Webpack Module Federation. Demonstrates runtime code sharing, independent deployments, EventBus communication, and shared state management across autonomous teams.'
-image: '/project2.svg'
+image: '/project2.png'
 tags:
   [
     'React',
