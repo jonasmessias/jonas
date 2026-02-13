@@ -1,7 +1,7 @@
 ---
 title: 'Next.js Dashboard Admin'
 description: 'Responsive admin interface built with Next.js 15 featuring JWT authentication integration and data visualization.'
-image: '/project1.png'
+image: '/project2.png'
 tags: ['Next.js', 'TypeScript', 'JWT', 'Authentication', 'Dashboard']
 link: 'https://github.com/jonasmessias/nextjs-dashboard-admin'
 order: 1
