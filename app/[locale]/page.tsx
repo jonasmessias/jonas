@@ -9,9 +9,11 @@ import Projects from '@/components/sections/Projects'
 import Technologies from '@/components/sections/Technologies'
 import { getExperiences, getProjects } from '@/lib/markdown'
 
-export default function Home() {
-  const projects = getProjects()
-  const experiences = getExperiences()
+export default function Home(props: any) {
+  const { params } = props
+  const locale = params?.locale
+  const projects = getProjects(locale)
+  const experiences = getExperiences(locale)
 
   return (
     <ClientPage projects={projects} experiences={experiences}>
