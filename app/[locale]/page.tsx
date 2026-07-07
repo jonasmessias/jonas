@@ -9,9 +9,12 @@ import Projects from '@/components/sections/Projects'
 import Technologies from '@/components/sections/Technologies'
 import { getExperiences, getProjects } from '@/lib/markdown'
 
-export default function Home(props: any) {
-  const { params } = props
-  const locale = params?.locale
+type Props = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function Home({ params }: Props) {
+  const { locale } = await params
   const projects = getProjects(locale)
   const experiences = getExperiences(locale)
 
