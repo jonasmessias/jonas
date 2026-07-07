@@ -3,35 +3,102 @@
     "name": "Jonas Messias",
     "home": "Início",
     "about": "Sobre",
-    "technologies": "Tecnologias",
+    "technologies": "Stack",
     "projects": "Projetos",
     "experience": "Experiência",
     "contact": "Contato"
   },
   "hero": {
-    "title": "Desenvolvedor",
-    "subtitle": "Front-end",
-    "description": "Dedicado a construir aplicações escaláveis, de alto desempenho e bem arquitetadas com React, Next.js e TypeScript.",
-    "downloadCV": "Baixar CV"
+    "kicker": "full-stack software engineer",
+    "title": "Jonas Messias",
+    "tagline": "Engenharia de software de ponta a ponta.",
+    "description": "Arquiteto e construo produtos completos — do front-end em React e Next.js a back-ends em Node.js, NestJS, Java (Spring) e Laravel, com microsserviços, filas, bancos de dados e infraestrutura em cloud.",
+    "ctaProjects": "Ver projetos",
+    "ctaCV": "Baixar CV",
+    "stats": [
+      { "value": "100+", "label": "projetos entregues" },
+      { "value": "4", "label": "apps em produção (OSM)" },
+      { "value": "691", "label": "testes automatizados" },
+      { "value": "Full-stack", "label": "front → infra" }
+    ]
+  },
+  "about": {
+    "sectionNo": "01",
+    "title": "Sobre",
+    "lead": "Sou engenheiro de software full-stack — não só front-end.",
+    "paragraphs": [
+      "Atuo em todas as camadas do produto: interfaces em React, Next.js e Angular; APIs e serviços em Node.js (Fastify, Express, NestJS), Java (Spring Boot) e PHP (Laravel); e a arquitetura que sustenta tudo isso — microfrontends com Module Federation, Clean Architecture e monólitos modulares.",
+      "Também cuido da infraestrutura: AWS, Docker, mensageria com Kafka e RabbitMQ, cache com Redis, CI/CD com GitHub Actions e bancos PostgreSQL, MySQL e MongoDB. Priorizo sistemas que escalam, com testes automatizados e observabilidade de verdade."
+    ]
   },
   "technologies": {
-    "title": "Stack de Tecnologias",
-    "description": "Tecnologias modernas para construir aplicações web rápidas, confiáveis e escaláveis."
+    "sectionNo": "02",
+    "title": "Stack técnica",
+    "description": "As ferramentas que uso para levar um produto do design à produção — em todas as camadas.",
+    "categories": {
+      "frontend": "Front-end",
+      "libraries": "Bibliotecas",
+      "backend": "Back-end",
+      "architecture": "Arquitetura",
+      "infra": "Infra & Cloud",
+      "data": "Dados"
+    }
   },
   "projects": {
-    "title": "Projetos em Destaque",
-    "description": "Uma seleção de projetos demonstrando arquitetura frontend, otimização de performance e práticas modernas de desenvolvimento."
+    "sectionNo": "03",
+    "title": "Projetos em destaque",
+    "description": "Um sistema real em produção como case principal, seguido de projetos que exploram arquitetura e produto.",
+    "osm": {
+      "badge": "Case study em destaque",
+      "title": "oSeuMáximo",
+      "tagline": "Ecossistema SaaS de educação em produção",
+      "overview": "Arquitetei e construí um sistema multi-app completo em produção: um back-end central servindo três front-ends, com SSO multi-tenant para várias marcas, billing, filas e cobertura de testes de ponta a ponta.",
+      "highlights": [
+        "SSO multi-tenant (4 marcas)",
+        "Billing Stripe + InfinityPay",
+        "Filas com BullMQ",
+        "Clean Architecture",
+        "691 testes automatizados",
+        "Deploy em produção (Railway)"
+      ],
+      "appsLabel": "Aplicações do ecossistema",
+      "roleLabel": "Papel",
+      "live": "Ver ao vivo",
+      "private": "Privado",
+      "apps": {
+        "platform": {
+          "role": "Back-end / API",
+          "desc": "Núcleo NestJS + Fastify com Clean Architecture: PostgreSQL + Redis, Prisma, autenticação JWT (jose) + Argon2, SSO multi-tenant, billing e filas (BullMQ). 56 suítes / 691 testes, logging estruturado, Sentry e Swagger."
+        },
+        "app": {
+          "role": "Front-end — plataforma de estudos",
+          "desc": "App de estudos em oseumaximo.com: React 19, Vite, Tailwind v4, shadcn/ui, TanStack Query, Zustand e checkout com Stripe.js."
+        },
+        "admin": {
+          "role": "Front-end — painel / CRM",
+          "desc": "Painel administrativo interno com controle de acesso por papel (ADMIN / SUPER_ADMIN): React 19, Vite 6, Tailwind v4, TanStack Query e Zustand."
+        },
+        "prof": {
+          "role": "Front-end — aulas ao vivo",
+          "desc": "Agendador de aulas em oseuprof.com: React 19, Vite, shadcn/ui, framer-motion, Zod + react-hook-form, Vitest + Cypress."
+        }
+      }
+    },
+    "secondaryLabel": "Outros projetos",
+    "viewProject": "Ver projeto"
   },
   "experience": {
+    "sectionNo": "04",
     "title": "Experiência"
   },
   "contact": {
-    "title": "Entre em Contato",
-    "description": "Tem um projeto em mente ou quer apenas dizer olá? Sinta-se à vontade para entrar em contato.",
+    "sectionNo": "05",
+    "title": "Vamos conversar",
+    "description": "Tem um produto para tirar do papel ou escalar? Do front-end à infraestrutura, posso ajudar a construir. Fico à disposição.",
     "email": "Email",
     "aboutTitle": "Jonas Messias",
-    "aboutDescription": "Desenvolvedor frontend especializado em React, Next.js e tecnologias web modernas.",
-    "quickLinks": "Links Rápidos",
+    "aboutDescription": "Engenheiro de software full-stack: front-end, back-end, arquitetura e infraestrutura em cloud.",
+    "quickLinks": "Links rápidos",
     "downloadCV": "Baixar CV",
     "copyright": "Construído com Next.js & TypeScript. Todos os direitos reservados."
   }

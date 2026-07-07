@@ -26,7 +26,7 @@ export const theme = {
   
   typography: {
     fontFamily: {
-      primary: "var(--font-indie-flower), sans-serif"
+      primary: "var(--font-ibm-plex-sans), sans-serif"
     },
     fontSize: {
       xs: "0.75rem",

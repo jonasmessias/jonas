@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Jonas Messias | Frontend Developer',
+  title: 'Jonas Messias | Full-Stack Software Engineer',
   description: config.siteDescription,
 }
 

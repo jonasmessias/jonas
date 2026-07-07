@@ -28,7 +28,7 @@ export function LanguageToggle() {
         aria-label="Change language"
       >
         <FlagIcon locale={locale} className="w-5 h-4" />
-        <span className="text-sm font-poppins uppercase">{locale}</span>
+        <span className="text-sm font-mono uppercase">{locale}</span>
         <svg
           className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
@@ -62,7 +62,7 @@ export function LanguageToggle() {
                 }`}
               >
                 <FlagIcon locale={loc} className="w-6 h-5" />
-                <span className="font-poppins text-sm">{localeNames[loc]}</span>
+                <span className="text-sm">{localeNames[loc]}</span>
               </button>
             ))}
           </motion.div>

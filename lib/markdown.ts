@@ -34,9 +34,14 @@ export function getMarkdownFiles(
   // Ignore template files and README
   const grouped: Record<string, string[]> = {}
   fileNames
-    .filter(
-      (f) => f.endsWith('.md') && !f.startsWith('_') && !f.startsWith('README'),
-    )
+    .filter((f) => {
+      if (!f.endsWith('.md')) return false
+      if (f.startsWith('_')) return false // template files (_TEMPLATE.*)
+      const base = f.replace(/\.md$/, '').replace(/\.[a-z]{2}$/, '')
+      // Skip documentation files (README, CHANGELOG, QUICK_REFERENCE, ...)
+      if (/^[A-Z0-9_]+$/.test(base)) return false
+      return true
+    })
     .forEach((fileName) => {
       const nameWithoutExt = fileName.replace(/\.md$/, '') // e.g. 'agio.en' or 'agio'
       const base = nameWithoutExt.replace(/\.[a-z]{2}$/, '') // remove locale suffix if present

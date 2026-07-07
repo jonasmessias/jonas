@@ -1,279 +1,91 @@
 'use client'
 
-import Magnetic from '@/components/globals/magnetic'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { ibmPlexSans, jetbrainsMono } from '@/app/fonts'
+import { motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
 interface PreloaderProps {
   onComplete: () => void
 }
 
-const CodeTerminal = ({ className = '' }: { className?: string }) => {
-  const [currentCommand, setCurrentCommand] = useState(0)
-  const [typingText, setTypingText] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
-  const [showTypedCommand, setShowTypedCommand] = useState(false)
-
-  const commands = [
-    'npm run dev',
-    '> jonas@0.1.0 dev',
-    '> next dev',
-    '▲ Next.js 15.4.5',
-    '- Local:        http://localhost:3000',
-    '- Network:      http://00.00.00.000:3000',
-    '✓ Starting...',
-    '✓ Ready in 7s',
-  ]
-
-  useEffect(() => {
-    const typeCommand = (command: string) => {
-      setIsTyping(true)
-      setTypingText('')
-
-      let index = 0
-      const typeInterval = setInterval(() => {
-        if (index < command.length) {
-          setTypingText(command.substring(0, index + 1))
-          index++
-        } else {
-          clearInterval(typeInterval)
-          setIsTyping(false)
-          setShowTypedCommand(true)
-
-          setTimeout(() => {
-            setCurrentCommand((prev) => prev + 1)
-          }, 100) // Reduzido de 200ms para 100ms
-        }
-      }, 30) // Reduzido de 50ms para 30ms - digitação mais rápida
-    }
-
-    if (currentCommand < commands.length) {
-      typeCommand(commands[currentCommand])
-    }
-  }, [currentCommand])
-
-  return (
-    <div className={`${className}`}>
-      <svg
-        width="600"
-        height="500"
-        viewBox="0 0 600 500"
-        className="w-full h-auto"
-      >
-        <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="1" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <rect
-          x="10"
-          y="10"
-          width="580"
-          height="480"
-          fill="#000000"
-          stroke="#1a1a1a"
-          strokeWidth="2"
-          filter="url(#glow)"
-        />
-
-        <rect
-          x="15"
-          y="15"
-          width="570"
-          height="35"
-          fill="#1a1a1a"
-          stroke="#333333"
-          strokeWidth="1"
-        />
-
-        <text x="70" y="37" fill="#ffffff" fontSize="16" fontFamily="monospace">
-          Terminal - jonas-messias
-        </text>
-
-        <circle cx="30" cy="33" r={5} fill="#ff0000" />
-        <circle cx="43" cy="33" r={5} fill="#ffff00" />
-        <circle cx="56" cy="33" r={5} fill="#00ff00" />
-
-        <rect
-          x="15"
-          y="55"
-          width="570"
-          height="430"
-          fill="#000000"
-          stroke="#333333"
-          strokeWidth="1"
-        />
-
-        <text x="25" y="85" fill="#00ff00" fontSize="14" fontFamily="monospace">
-          ❯
-        </text>
-
-        {!showTypedCommand ? (
-          <text
-            x="40"
-            y="85"
-            fill="#ffffff"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            {typingText}
-            {isTyping && (
-              <motion.rect
-                x={40 + typingText.length * 8.5}
-                y="105"
-                width="3"
-                height="18"
-                fill="#ffffff"
-                initial={{ opacity: 1 }}
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-              />
-            )}
-          </text>
-        ) : (
-          <text
-            x="40"
-            y="85"
-            fill="#ffffff"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            npm run dev
-          </text>
-        )}
-
-        {currentCommand >= 1 && (
-          <text
-            x="25"
-            y="115"
-            fill="#ffffff"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            &gt; jonas@0.1.0 dev
-          </text>
-        )}
-
-        {currentCommand >= 2 && (
-          <text
-            x="25"
-            y="145"
-            fill="#ffffff"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            &gt; next dev
-          </text>
-        )}
-
-        {currentCommand >= 3 && (
-          <text
-            x="25"
-            y="175"
-            fill="#8b5cf6"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            ▲ Next.js 15.4.5
-          </text>
-        )}
-
-        {currentCommand >= 4 && (
-          <text
-            x="25"
-            y="205"
-            fill="#ffffff"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            - Local: http://localhost:3000
-          </text>
-        )}
-
-        {currentCommand >= 5 && (
-          <text
-            x="25"
-            y="235"
-            fill="#ffffff"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            - Network: http://00.00.00.000:3000
-          </text>
-        )}
-
-        {currentCommand >= 6 && (
-          <text
-            x="25"
-            y="265"
-            fill="#00ff00"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            ✓ Starting...
-          </text>
-        )}
-
-        {currentCommand >= 7 && (
-          <text
-            x="25"
-            y="295"
-            fill="#00ff00"
-            fontSize="14"
-            fontFamily="monospace"
-          >
-            ✓ Ready in 7s
-          </text>
-        )}
-      </svg>
-    </div>
-  )
-}
-
+/**
+ * Minimal, fast, on-brand preloader.
+ * Driven by the progress animation (~1s) instead of a fixed timeout, with a
+ * safety fallback. Fully skipped for users who prefer reduced motion.
+ */
 export default function Preloader({ onComplete }: PreloaderProps) {
-  const [loading, setLoading] = useState(true)
+  const prefersReducedMotion = useReducedMotion()
+  const finished = useRef(false)
 
+  const finish = () => {
+    if (finished.current) return
+    finished.current = true
+    onComplete()
+  }
+
+  // Safety net so the intro can never hang.
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false)
-      setTimeout(() => {
-        onComplete()
-      }, 500) // Delay para animação de saída
-    }, 3000) // Reduzido para 3s - preloader mais rápido
-
+    const timer = setTimeout(finish, prefersReducedMotion ? 200 : 1500)
     return () => clearTimeout(timer)
-  }, [onComplete])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefersReducedMotion])
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black">
-      <AnimatePresence mode="wait">
-        {loading && (
+    <motion.div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0A0E14]"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
+      role="status"
+      aria-label="Loading"
+    >
+      {/* Soft ambient glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute h-64 w-64 rounded-full bg-[#8B5CF6]/10 blur-[90px]"
+      />
+
+      <div className="relative flex flex-col items-center gap-5 px-8 py-7">
+        {/* Corner brackets echoing the site motif */}
+        <span aria-hidden className="pointer-events-none absolute inset-0">
+          <span className="absolute left-0 top-0 h-4 w-4 border-l border-t border-[#8B5CF6]/60" />
+          <span className="absolute right-0 top-0 h-4 w-4 border-r border-t border-[#8B5CF6]/60" />
+          <span className="absolute bottom-0 left-0 h-4 w-4 border-b border-l border-[#8B5CF6]/60" />
+          <span className="absolute bottom-0 right-0 h-4 w-4 border-b border-r border-[#8B5CF6]/60" />
+        </span>
+
+        <motion.span
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className={`${ibmPlexSans.className} text-2xl font-semibold tracking-tight text-[#E5E7EB] sm:text-3xl`}
+        >
+          Jonas Messias
+        </motion.span>
+
+        <div
+          className={`${jetbrainsMono.className} flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] text-[#64748B]`}
+        >
+          <span>full-stack engineer</span>
+          <motion.span
+            aria-hidden
+            className="inline-block h-3 w-[7px] bg-[#8B5CF6]"
+            animate={prefersReducedMotion ? {} : { opacity: [1, 0.15, 1] }}
+            transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+          />
+        </div>
+
+        {/* Progress hairline */}
+        <div className="mt-1 h-px w-40 overflow-hidden bg-[#1F2937] sm:w-48">
           <motion.div
-            key="terminal"
-            initial={{
-              opacity: 1,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.95,
-            }}
-            transition={{
-              duration: 0.5,
-              ease: [0.25, 0.46, 0.45, 0.94],
-            }}
-            className="absolute inset-0 bg-black flex items-center justify-center"
-          >
-            <Magnetic>
-              <CodeTerminal />
-            </Magnetic>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            className="h-full w-full origin-left bg-[#8B5CF6]"
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.9, ease: [0.65, 0, 0.35, 1] }}
+            onAnimationComplete={() => setTimeout(finish, 150)}
+          />
+        </div>
+      </div>
+    </motion.div>
   )
 }

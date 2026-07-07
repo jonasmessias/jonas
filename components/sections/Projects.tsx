@@ -1,15 +1,14 @@
 'use client'
 
-import {
-  GSAPReveal,
-  GSAPSplitText,
-} from '@/components/animations/gsap-animations'
+import { GSAPReveal } from '@/components/animations/gsap-animations'
+import { SectionHeading } from '@/components/globals/section-heading'
 import { Text } from '@/components/globals/text'
-import { DecorativeCorners } from '@/components/ui/decorative-corners'
+import { OSMCaseStudy } from '@/components/sections/osm-case-study'
 import { MarkdownFile } from '@/lib/markdown'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
+import { HiArrowUpRight } from 'react-icons/hi2'
 
 interface ProjectsProps {
   projects: MarkdownFile[]
@@ -18,102 +17,110 @@ interface ProjectsProps {
 const Projects = ({ projects }: ProjectsProps) => {
   const t = useTranslations('projects')
   const featuredProjects = projects.filter((p) => p.data.featured)
-  const projectCount = featuredProjects.length
-
-  const gridClasses =
-    projectCount === 2
-      ? 'grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto'
-      : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8'
 
   return (
     <section
       id="projects"
       className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative"
     >
-      <GSAPReveal from={{ opacity: 0, y: -50 }} duration={1}>
-        <div className="flex flex-col items-center gap-3 sm:gap-4 mb-8 sm:mb-10 md:mb-12">
-          <Text size="huge-2" weight="bold">
-            <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
-          </Text>
-          <Text
-            size="lg"
-            variant="body"
-            className="text-muted-foreground text-center max-w-2xl px-4 sm:px-0"
-          >
-            {t('description')}
-          </Text>
-        </div>
+      <GSAPReveal from={{ opacity: 0, y: 32 }} duration={0.9}>
+        <SectionHeading
+          no={t('sectionNo')}
+          title={t('title')}
+          description={t('description')}
+        />
       </GSAPReveal>
 
-      <GSAPReveal
-        from={{ opacity: 0, y: 100 }}
-        to={{ opacity: 1, y: 0 }}
-        stagger={0.2}
-        duration={1}
-      >
-        <div className={gridClasses}>
-          {featuredProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
+      <div className="mt-8 sm:mt-10">
+        <OSMCaseStudy />
+      </div>
+
+      {featuredProjects.length > 0 && (
+        <div className="mt-10 sm:mt-12">
+          <Text
+            variant="mono"
+            size="sm"
+            weight="semibold"
+            className="text-muted-foreground uppercase tracking-[0.15em] text-xs"
+          >
+            {t('secondaryLabel')}
+          </Text>
+
+          <GSAPReveal
+            from={{ opacity: 0, y: 32 }}
+            delay={0.1}
+            duration={0.9}
+            className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
+          >
+            {featuredProjects.map((project) => (
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                cta={t('viewProject')}
+              />
+            ))}
+          </GSAPReveal>
         </div>
-      </GSAPReveal>
+      )}
     </section>
   )
 }
 
-const ProjectCard = ({ project }: { project: MarkdownFile }) => {
+const ProjectCard = ({
+  project,
+  cta,
+}: {
+  project: MarkdownFile
+  cta: string
+}) => {
   return (
     <Link
       href={project.data.link || '#'}
       target="_blank"
       rel="noopener noreferrer"
-      className="block h-full"
+      className="group block h-full rounded-lg border border-border overflow-hidden bg-card/40 transition-colors hover:border-primary/60"
+      aria-label={`${cta}: ${project.data.title}`}
     >
-      <div className="group relative border border-border/50 overflow-hidden hover:border-primary transition-all h-full flex flex-col">
-        <DecorativeCorners
-          size="md"
-          variant="hover"
-          className="z-10 border-2"
+      <div className="relative h-40 sm:h-44 md:h-48 w-full overflow-hidden bg-muted">
+        <Image
+          src={project.data.image}
+          alt={project.data.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
+      </div>
 
-        <div className="relative h-40 sm:h-44 md:h-48 w-full overflow-hidden bg-muted flex-shrink-0">
-          <Image
-            src={project.data.image}
-            alt={project.data.title}
-            fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-        </div>
-
-        <div className="p-4 sm:p-5 md:p-6 bg-background relative flex flex-col flex-grow">
-          <div className="absolute top-0 left-0 w-full h-px bg-primary" />
+      <div className="flex flex-col p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-3">
           <Text
-            size="xl"
+            tag="h4"
             weight="bold"
-            className="mb-2 text-base sm:text-lg md:text-xl"
+            className="text-base sm:text-lg md:text-xl tracking-tight"
           >
             {project.data.title}
           </Text>
-          <Text
-            size="md"
-            variant="body"
-            className="text-muted-foreground mb-3 sm:mb-4 flex-grow text-sm sm:text-base"
-          >
-            {project.data.description}
-          </Text>
-
-          <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-auto">
-            {project.data.tags?.map((tag: string, i: number) => (
-              <span
-                key={i}
-                className="text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 border border-primary/30 text-primary"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          <HiArrowUpRight className="mt-1 shrink-0 text-muted-foreground transition-colors group-hover:text-primary" />
         </div>
+
+        <Text
+          variant="body"
+          className="mt-2 text-muted-foreground text-sm sm:text-base leading-relaxed"
+        >
+          {project.data.description}
+        </Text>
+
+        <ul className="mt-4 flex flex-wrap gap-1.5">
+          {project.data.tags?.slice(0, 6).map((tag: string, i: number) => (
+            <li
+              key={i}
+              className="rounded border border-border/60 px-2 py-0.5 font-mono text-[10px] sm:text-xs text-muted-foreground"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
       </div>
     </Link>
   )

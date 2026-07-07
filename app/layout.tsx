@@ -1,28 +1,17 @@
 import { cn } from '@/utils/cn'
-import { Indie_Flower, Poppins } from 'next/font/google'
 import { ReactNode } from 'react'
+import { ibmPlexSans, jetbrainsMono } from './fonts'
 import './globals.css'
-
-const indieFlower = Indie_Flower({
-  variable: '--font-indie-flower',
-  subsets: ['latin'],
-  weight: '400',
-})
-
-const poppins = Poppins({
-  variable: '--font-poppins',
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-})
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html suppressHydrationWarning>
       <body
         className={cn(
-          indieFlower.className,
-          poppins.variable,
-          'antialiased overflow-x-hidden bg-background',
+          ibmPlexSans.variable,
+          jetbrainsMono.variable,
+          ibmPlexSans.className,
+          'antialiased overflow-x-hidden bg-background text-foreground',
         )}
       >
         {children}

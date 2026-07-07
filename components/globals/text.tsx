@@ -21,7 +21,8 @@ const textVariants = cva('leading-normal p-0', {
     },
     variant: {
       default: '',
-      body: 'font-poppins',
+      body: '',
+      mono: 'font-mono',
     },
   },
   defaultVariants: {
@@ -35,7 +36,7 @@ interface TextProps extends VariantProps<typeof textVariants> {
   tag?: React.ElementType
   children?: React.ReactNode
   className?: string
-  variant?: 'default' | 'body'
+  variant?: 'default' | 'body' | 'mono'
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'huge' | 'huge-2' | 'huge-3'
   weight?: 'regular' | 'semibold' | 'bold'
 }

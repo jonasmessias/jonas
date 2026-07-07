@@ -1,9 +1,7 @@
 'use client'
 
-import {
-  GSAPReveal,
-  GSAPSplitText,
-} from '@/components/animations/gsap-animations'
+import { GSAPReveal } from '@/components/animations/gsap-animations'
+import { SectionHeading } from '@/components/globals/section-heading'
 import { Text } from '@/components/globals/text'
 import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { MarkdownFile } from '@/lib/markdown'
@@ -18,13 +16,11 @@ const Experience = ({ experiences }: ExperienceProps) => {
 
   return (
     <section id="experience" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <GSAPReveal from={{ opacity: 0, y: -30 }} duration={1}>
-        <Text size="huge-2" weight="bold" className="mb-8 sm:mb-10 md:mb-12">
-          <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
-        </Text>
+      <GSAPReveal from={{ opacity: 0, y: 32 }} duration={0.9}>
+        <SectionHeading no={t('sectionNo')} title={t('title')} />
       </GSAPReveal>
 
-      <div className="space-y-6 sm:space-y-8">
+      <div className="mt-8 sm:mt-10 space-y-4 sm:space-y-6">
         {experiences.map((exp, index) => (
           <ExperienceCard key={exp.slug} experience={exp} index={index} />
         ))}
@@ -52,7 +48,7 @@ const ExperienceCard = ({
       delay={0.3 + index * 0.2}
       duration={1}
     >
-      <div className="group relative p-4 sm:p-5 md:p-6 border border-border hover:border-primary/50 transition-colors">
+      <div className="group relative p-5 sm:p-6 rounded-lg border border-border bg-card/40 hover:border-primary/50 transition-colors">
         <DecorativeCorners size="md" variant="hover" className="border-2" />
 
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3 sm:mb-4">

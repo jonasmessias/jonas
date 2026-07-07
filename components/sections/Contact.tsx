@@ -1,9 +1,7 @@
 'use client'
 
-import {
-  GSAPReveal,
-  GSAPSplitText,
-} from '@/components/animations/gsap-animations'
+import { GSAPReveal } from '@/components/animations/gsap-animations'
+import { SectionHeading } from '@/components/globals/section-heading'
 import { Text } from '@/components/globals/text'
 import { SocialLinkCard } from '@/components/ui/social-link-card'
 import { config } from '@/utils/config'
@@ -30,21 +28,16 @@ const ContactHeader = () => {
 
   return (
     <GSAPReveal
-      from={{ opacity: 0, y: 50 }}
-      duration={1}
-      className="flex flex-col items-center gap-4 sm:gap-6 text-center relative"
+      from={{ opacity: 0, y: 40 }}
+      duration={0.9}
+      className="flex flex-col items-center gap-5 sm:gap-6 text-center relative"
     >
-      <Text size="huge-2" weight="bold">
-        <GSAPSplitText stagger={0.04}>{t('title')}</GSAPSplitText>
-      </Text>
-
-      <Text
-        size="lg"
-        variant="body"
-        className="text-muted-foreground max-w-2xl px-4 sm:px-0"
-      >
-        {t('description')}
-      </Text>
+      <SectionHeading
+        no={t('sectionNo')}
+        title={t('title')}
+        description={t('description')}
+        align="center"
+      />
 
       <div className="relative group mt-3 sm:mt-4 w-full sm:w-auto">
         <div className="absolute -top-2 -left-2 w-4 h-4 sm:w-6 sm:h-6 border-t-2 border-l-2 border-primary opacity-0 group-hover:opacity-100 transition-opacity" />

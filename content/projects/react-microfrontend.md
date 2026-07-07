@@ -13,7 +13,7 @@ tags:
     'Tailwind CSS',
   ]
 link: 'https://github.com/jonasmessias/react-microfrontend'
-order: 2
+order: 1
 featured: true
 ---
 

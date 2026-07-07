@@ -1,41 +1,30 @@
 'use client'
 
-import {
-  GSAPReveal,
-  GSAPSplitText,
-} from '@/components/animations/gsap-animations'
-import ScrollFade from '@/components/animations/scroll-fade'
-import Line from '@/components/globals/line'
-import ScrollIndicator from '@/components/globals/scroll-indicator'
+import { GSAPReveal } from '@/components/animations/gsap-animations'
 import { Text } from '@/components/globals/text'
-import { DecorativeCorners } from '@/components/ui/decorative-corners'
 import { ParallaxBackground } from '@/components/ui/parallax-background'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { HiDownload } from 'react-icons/hi'
+import { HiArrowRight, HiDownload } from 'react-icons/hi'
+
+interface Stat {
+  value: string
+  label: string
+}
 
 const Presentation = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex flex-col justify-center relative overflow-hidden pt-24 sm:pt-20 pb-8 sm:pb-0"
+      className="min-h-svh flex flex-col justify-center relative overflow-hidden pt-28 sm:pt-24 pb-12 sm:pb-16"
     >
       <ParallaxBackground />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative flex-1 flex items-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center relative z-10 w-full">
+      <div className="max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative flex-1 flex items-center">
+        <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-10 md:gap-12 lg:gap-16 items-center relative z-10 w-full">
           <TextContent />
           <ImageContent />
         </div>
-
-        <ScrollFade
-          className="absolute bottom-0 left-0 right-0"
-          fadeOutOnScroll
-          start="top top"
-          end="200px top"
-        >
-          <ScrollIndicator />
-        </ScrollFade>
       </div>
     </section>
   )
@@ -43,87 +32,102 @@ const Presentation = () => {
 
 const TextContent = () => {
   const t = useTranslations('hero')
+  const stats = t.raw('stats') as Stat[]
 
   return (
-    <div className="flex flex-col gap-4 md:gap-6 relative text-center md:text-left">
-      <div className="absolute -left-8 top-0 h-full hidden md:block">
-        <Line
-          orientation="vertical"
-          audioSrc="/sounds/3-oct-e.wav"
-          volume={0.2}
-          animation={{ delay: 0.3, duration: 1.2, from: 'top' }}
-        />
-      </div>
-
-      <GSAPReveal from={{ opacity: 0, y: 100 }} duration={1.2}>
+    <div className="flex flex-col gap-5 md:gap-6 relative text-center md:text-left">
+      <GSAPReveal from={{ opacity: 0, y: 24 }} duration={0.8}>
         <Text
-          size="huge-3"
-          weight="bold"
-          className="leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+          variant="mono"
+          size="sm"
+          weight="semibold"
+          className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm inline-flex items-center gap-2 justify-center md:justify-start"
         >
-          <GSAPSplitText delay={0.5} stagger={0.05} duration={0.8}>
-            {t('title')}
-          </GSAPSplitText>
-          <br />
-          <GSAPSplitText delay={0.8} stagger={0.05} duration={0.8}>
-            {t('subtitle')}
-          </GSAPSplitText>
+          <span aria-hidden>{'//'}</span>
+          {t('kicker')}
         </Text>
       </GSAPReveal>
 
-      <GSAPReveal
-        from={{ opacity: 0, x: -50 }}
-        to={{ opacity: 1, x: 0 }}
-        delay={1.5}
-        duration={1}
-      >
+      <GSAPReveal from={{ opacity: 0, y: 32 }} delay={0.1} duration={0.9}>
         <Text
-          size="lg"
+          tag="h1"
+          weight="bold"
+          className="leading-[1.05] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+        >
+          {t('title')}
+        </Text>
+        <Text
+          tag="p"
+          weight="semibold"
+          className="mt-3 text-primary text-lg sm:text-xl md:text-2xl"
+        >
+          {t('tagline')}
+        </Text>
+      </GSAPReveal>
+
+      <GSAPReveal from={{ opacity: 0, y: 20 }} delay={0.25} duration={0.9}>
+        <Text
           variant="body"
-          className="text-muted-foreground border-primary/30 text-sm sm:text-base md:text-lg max-w-xl mx-auto md:mx-0"
+          className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed"
         >
           {t('description')}
         </Text>
       </GSAPReveal>
 
-      <DownloadCVButton />
-    </div>
-  )
-}
-
-const DownloadCVButton = () => {
-  const t = useTranslations('hero')
-
-  return (
-    <GSAPReveal
-      from={{ opacity: 0, scale: 0.8 }}
-      to={{ opacity: 1, scale: 1 }}
-      delay={1.8}
-      duration={0.8}
-      className="mx-auto md:mx-0"
-    >
-      <a
-        href="/cv.pdf"
-        download="Jonas_Messias_CV.pdf"
-        className="group relative inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 sm:py-3 border-2 border-primary text-primary hover:bg-primary hover:text-black transition-all w-fit text-sm sm:text-base"
+      <GSAPReveal
+        from={{ opacity: 0, y: 16 }}
+        delay={0.4}
+        duration={0.8}
+        className="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start"
       >
-        <DecorativeCorners size="sm" variant="hover" />
-        <HiDownload className="text-xl group-hover:scale-110 transition-transform" />
-        <Text size="md" weight="bold">
-          {t('downloadCV')}
-        </Text>
-      </a>
-    </GSAPReveal>
+        <a
+          href="#projects"
+          className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm sm:text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          {t('ctaProjects')}
+          <HiArrowRight className="text-lg transition-transform group-hover:translate-x-0.5" />
+        </a>
+        <a
+          href="/cv.pdf"
+          download="Jonas_Messias_CV.pdf"
+          className="group inline-flex items-center gap-2 rounded-md border border-border px-5 py-3 text-sm sm:text-base font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+        >
+          <HiDownload className="text-lg" />
+          {t('ctaCV')}
+        </a>
+      </GSAPReveal>
+
+      <GSAPReveal
+        from={{ opacity: 0, y: 16 }}
+        delay={0.55}
+        duration={0.8}
+        className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-5 border-t border-border/60 pt-6"
+      >
+        {stats.map((stat) => (
+          <div
+            key={stat.label}
+            className="flex flex-col gap-1 text-center md:text-left"
+          >
+            <span className="font-mono text-lg sm:text-xl font-bold text-foreground tabular-nums leading-none">
+              {stat.value}
+            </span>
+            <span className="text-[11px] sm:text-xs text-muted-foreground leading-snug">
+              {stat.label}
+            </span>
+          </div>
+        ))}
+      </GSAPReveal>
+    </div>
   )
 }
 
 const ImageContent = () => {
   return (
     <GSAPReveal
-      from={{ opacity: 0, scale: 0.8, rotate: -5 }}
-      to={{ opacity: 1, scale: 1, rotate: 0 }}
-      delay={0.5}
-      duration={1.2}
+      from={{ opacity: 0, scale: 0.92 }}
+      to={{ opacity: 1, scale: 1 }}
+      delay={0.2}
+      duration={1}
       className="flex justify-center md:justify-end relative order-first md:order-last"
     >
       <div className="relative group">
@@ -132,7 +136,7 @@ const ImageContent = () => {
         <div className="absolute -bottom-2 -left-2 w-6 h-6 sm:w-8 sm:h-8 border-b-2 border-l-2 border-primary" />
         <div className="absolute -bottom-2 -right-2 w-6 h-6 sm:w-8 sm:h-8 border-b-2 border-r-2 border-primary" />
 
-        <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 relative overflow-hidden">
+        <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 relative overflow-hidden rounded-sm">
           <Image
             src="/me.jpeg"
             alt="Jonas Messias"
@@ -141,7 +145,7 @@ const ImageContent = () => {
             priority
             className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent group-hover:opacity-0 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-background/40 to-transparent group-hover:opacity-0 transition-opacity duration-500" />
         </div>
       </div>
     </GSAPReveal>

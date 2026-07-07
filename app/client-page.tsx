@@ -2,7 +2,7 @@
 
 import Preloader from '@/components/globals/preloader'
 import { MarkdownFile } from '@/lib/markdown'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { ReactNode, useEffect, useState } from 'react'
 
 interface ClientPageProps {
@@ -12,49 +12,29 @@ interface ClientPageProps {
 }
 
 export default function ClientPage({ children }: ClientPageProps) {
-  const [loading, setLoading] = useState(false)
-  const [showContent, setShowContent] = useState(false)
+  const [showPreloader, setShowPreloader] = useState(false)
 
   useEffect(() => {
-    const hasSeenPreloader = sessionStorage.getItem('hasSeenPreloader')
-
-    if (!hasSeenPreloader) {
-      setLoading(true)
-    } else {
-      setShowContent(true)
+    if (!sessionStorage.getItem('hasSeenPreloader')) {
+      setShowPreloader(true)
     }
   }, [])
 
   const handlePreloaderComplete = () => {
-    setLoading(false)
-    setShowContent(true)
+    setShowPreloader(false)
     sessionStorage.setItem('hasSeenPreloader', 'true')
   }
 
   return (
     <>
       <AnimatePresence mode="wait">
-        {loading && <Preloader onComplete={handlePreloaderComplete} />}
+        {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
       </AnimatePresence>
 
-      {showContent && (
-        <motion.main
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.8,
-            delay: 0.3,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-          className="min-h-screen w-full bg-background relative z-10"
-        >
-          {children}
-        </motion.main>
-      )}
+      {/* Content is always server-rendered; the preloader overlays it on first visit. */}
+      <main className="min-h-screen w-full bg-background relative z-10">
+        {children}
+      </main>
     </>
   )
 }
