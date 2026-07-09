@@ -5,6 +5,33 @@ import { SectionHeading } from '@/components/globals/section-heading'
 import { Text } from '@/components/globals/text'
 import { useTranslations } from 'next-intl'
 
+const practices: { key: string; items: string[] }[] = [
+  {
+    key: 'testing',
+    items: ['Jest', 'Vitest', 'React Testing Library', 'Cypress'],
+  },
+  {
+    key: 'performance',
+    items: ['Code splitting', 'Lazy loading', 'Memoization', 'Core Web Vitals'],
+  },
+  {
+    key: 'accessibility',
+    items: ['WCAG AA', 'Keyboard nav', 'ARIA', 'Reduced motion'],
+  },
+  {
+    key: 'observability',
+    items: ['Sentry', 'Structured logs (Pino)'],
+  },
+  {
+    key: 'security',
+    items: ['JWT', 'OAuth2', 'Argon2', 'SSO multi-tenant'],
+  },
+  {
+    key: 'delivery',
+    items: ['CI/CD (GitHub Actions)', 'Docker', 'AWS'],
+  },
+]
+
 const About = () => {
   const t = useTranslations('about')
   const paragraphs = t.raw('paragraphs') as string[]
@@ -43,6 +70,39 @@ const About = () => {
           ))}
         </GSAPReveal>
       </div>
+
+      <GSAPReveal
+        from={{ opacity: 0, y: 24 }}
+        delay={0.25}
+        duration={0.9}
+        className="mt-10 sm:mt-12"
+      >
+        <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+          {t('practicesTitle')}
+        </span>
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {practices.map((group) => (
+            <div
+              key={group.key}
+              className="rounded-lg border border-border bg-card/40 p-4 sm:p-5"
+            >
+              <span className="font-mono text-xs font-medium uppercase tracking-[0.12em] text-primary">
+                {t(`practices.${group.key}`)}
+              </span>
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {group.items.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded border border-border/60 px-2 py-0.5 font-mono text-[10px] sm:text-[11px] text-muted-foreground"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </GSAPReveal>
     </section>
   )
 }

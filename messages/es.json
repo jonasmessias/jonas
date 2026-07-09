@@ -11,7 +11,7 @@
   "hero": {
     "kicker": "ingeniero de software full-stack",
     "title": "Jonas Messias",
-    "tagline": "Ingeniería de software de principio a fin.",
+    "tagline": "Ingeniería de software de principio a fin",
     "description": "Diseño y construyo productos completos — desde front-ends en React y Next.js hasta back-ends en Node.js, NestJS, Java (Spring) y Laravel, con microservicios, colas, bases de datos e infraestructura en la nube.",
     "ctaProjects": "Ver proyectos",
     "ctaCV": "Descargar CV",
@@ -29,7 +29,16 @@
     "paragraphs": [
       "Trabajo en todas las capas del producto: interfaces en React, Next.js y Angular; APIs y servicios en Node.js (Fastify, Express, NestJS), Java (Spring Boot) y PHP (Laravel); y la arquitectura que lo sostiene — microfrontends con Module Federation, Clean Architecture y monolitos modulares.",
       "También me encargo de la infraestructura: AWS, Docker, mensajería con Kafka y RabbitMQ, caché con Redis, CI/CD con GitHub Actions y bases de datos PostgreSQL, MySQL y MongoDB. Priorizo sistemas que escalan, con pruebas automatizadas y observabilidad de verdad."
-    ]
+    ],
+    "practicesTitle": "Prácticas de ingeniería",
+    "practices": {
+      "testing": "Pruebas",
+      "performance": "Rendimiento",
+      "accessibility": "Accesibilidad",
+      "observability": "Observabilidad",
+      "security": "Seguridad & Auth",
+      "delivery": "Entrega"
+    }
   },
   "technologies": {
     "sectionNo": "02",
@@ -54,12 +63,13 @@
       "tagline": "Un ecosistema SaaS de educación, en producción",
       "overview": "Diseñé y construí un sistema multi-app completo en producción: un back-end central que sirve a tres front-ends, con SSO multi-tenant para varias marcas, billing, colas y cobertura de pruebas de principio a fin.",
       "highlights": [
-        "SSO multi-tenant (4 marcas)",
+        "SSO / OAuth2 multi-tenant (4 marcas)",
         "Billing con Stripe + InfinityPay",
         "Colas con BullMQ",
         "Clean Architecture",
         "691 pruebas automatizadas",
-        "Desplegado en producción (Railway)"
+        "Observabilidad (Sentry + Pino)",
+        "CI/CD · Docker · Railway"
       ],
       "appsLabel": "Aplicaciones del ecosistema",
       "roleLabel": "Rol",

@@ -11,7 +11,7 @@
   "hero": {
     "kicker": "full-stack software engineer",
     "title": "Jonas Messias",
-    "tagline": "Engenharia de software de ponta a ponta.",
+    "tagline": "Engenharia de software de ponta a ponta",
     "description": "Arquiteto e construo produtos completos — do front-end em React e Next.js a back-ends em Node.js, NestJS, Java (Spring) e Laravel, com microsserviços, filas, bancos de dados e infraestrutura em cloud.",
     "ctaProjects": "Ver projetos",
     "ctaCV": "Baixar CV",
@@ -29,7 +29,16 @@
     "paragraphs": [
       "Atuo em todas as camadas do produto: interfaces em React, Next.js e Angular; APIs e serviços em Node.js (Fastify, Express, NestJS), Java (Spring Boot) e PHP (Laravel); e a arquitetura que sustenta tudo isso — microfrontends com Module Federation, Clean Architecture e monólitos modulares.",
       "Também cuido da infraestrutura: AWS, Docker, mensageria com Kafka e RabbitMQ, cache com Redis, CI/CD com GitHub Actions e bancos PostgreSQL, MySQL e MongoDB. Priorizo sistemas que escalam, com testes automatizados e observabilidade de verdade."
-    ]
+    ],
+    "practicesTitle": "Práticas de engenharia",
+    "practices": {
+      "testing": "Testes",
+      "performance": "Performance",
+      "accessibility": "Acessibilidade",
+      "observability": "Observabilidade",
+      "security": "Segurança & Auth",
+      "delivery": "Entrega"
+    }
   },
   "technologies": {
     "sectionNo": "02",
@@ -54,12 +63,13 @@
       "tagline": "Ecossistema SaaS de educação em produção",
       "overview": "Arquitetei e construí um sistema multi-app completo em produção: um back-end central servindo três front-ends, com SSO multi-tenant para várias marcas, billing, filas e cobertura de testes de ponta a ponta.",
       "highlights": [
-        "SSO multi-tenant (4 marcas)",
+        "SSO / OAuth2 multi-tenant (4 marcas)",
         "Billing Stripe + InfinityPay",
         "Filas com BullMQ",
         "Clean Architecture",
         "691 testes automatizados",
-        "Deploy em produção (Railway)"
+        "Observabilidade (Sentry + Pino)",
+        "CI/CD · Docker · Railway"
       ],
       "appsLabel": "Aplicações do ecossistema",
       "roleLabel": "Papel",

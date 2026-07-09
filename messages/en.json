@@ -11,7 +11,7 @@
   "hero": {
     "kicker": "full-stack software engineer",
     "title": "Jonas Messias",
-    "tagline": "End-to-end software engineering.",
+    "tagline": "End-to-end software engineering",
     "description": "I architect and build complete products — from front-ends in React and Next.js to back-ends in Node.js, NestJS, Java (Spring) and Laravel, with microservices, queues, databases and cloud infrastructure.",
     "ctaProjects": "View projects",
     "ctaCV": "Download CV",
@@ -29,7 +29,16 @@
     "paragraphs": [
       "I work across every layer of the product: interfaces in React, Next.js and Angular; APIs and services in Node.js (Fastify, Express, NestJS), Java (Spring Boot) and PHP (Laravel); and the architecture that holds it together — microfrontends with Module Federation, Clean Architecture and modular monoliths.",
       "I also own the infrastructure: AWS, Docker, messaging with Kafka and RabbitMQ, caching with Redis, CI/CD with GitHub Actions, and PostgreSQL, MySQL and MongoDB databases. I care about systems that scale, with real automated testing and observability."
-    ]
+    ],
+    "practicesTitle": "Engineering practices",
+    "practices": {
+      "testing": "Testing",
+      "performance": "Performance",
+      "accessibility": "Accessibility",
+      "observability": "Observability",
+      "security": "Security & Auth",
+      "delivery": "Delivery"
+    }
   },
   "technologies": {
     "sectionNo": "02",
@@ -54,12 +63,13 @@
       "tagline": "An education SaaS ecosystem, in production",
       "overview": "I architected and built a complete multi-app system in production: a central back-end serving three front-ends, with multi-tenant SSO across several brands, billing, queues and end-to-end test coverage.",
       "highlights": [
-        "Multi-tenant SSO (4 brands)",
+        "Multi-tenant SSO / OAuth2 (4 brands)",
         "Billing with Stripe + InfinityPay",
         "Queues with BullMQ",
         "Clean Architecture",
         "691 automated tests",
-        "Deployed to production (Railway)"
+        "Observability (Sentry + Pino)",
+        "CI/CD · Docker · Railway"
       ],
       "appsLabel": "Ecosystem applications",
       "roleLabel": "Role",
