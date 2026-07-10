@@ -4,17 +4,18 @@
     "home": "Início",
     "about": "Sobre",
     "technologies": "Stack",
+    "services": "Especialidades",
     "projects": "Projetos",
     "experience": "Experiência",
     "contact": "Contato"
   },
   "hero": {
+    "name": "Jonas Messias",
     "kicker": "full-stack software engineer",
-    "title": "Jonas Messias",
-    "tagline": "Engenharia de software de ponta a ponta",
-    "description": "Arquiteto e construo produtos completos — do front-end em React e Next.js a back-ends em Node.js, NestJS, Java (Spring) e Laravel, com microsserviços, filas, bancos de dados e infraestrutura em cloud.",
-    "ctaProjects": "Ver projetos",
-    "ctaCV": "Baixar CV",
+    "title": "Engenharia de software de ponta a ponta para produtos que precisam escalar.",
+    "subtitle": "Arquiteto e construo aplicações web completas — da fundação no back-end e infraestrutura até interfaces de alta performance no front-end.",
+    "ctaStart": "Iniciar um Projeto",
+    "ctaCases": "Explorar Cases de Sucesso",
     "stats": [
       { "value": "100+", "label": "projetos entregues" },
       { "value": "4", "label": "apps em produção (OSM)" },
@@ -25,10 +26,10 @@
   "about": {
     "sectionNo": "01",
     "title": "Sobre",
-    "lead": "Sou engenheiro de software full-stack — não só front-end.",
+    "lead": "Sou um Engenheiro de Software Full-stack focado em transformar problemas de negócio em sistemas robustos.",
     "paragraphs": [
-      "Atuo em todas as camadas do produto: interfaces em React, Next.js e Angular; APIs e serviços em Node.js (Fastify, Express, NestJS), Java (Spring Boot) e PHP (Laravel); e a arquitetura que sustenta tudo isso — microfrontends com Module Federation, Clean Architecture e monólitos modulares.",
-      "Também cuido da infraestrutura: AWS, Docker, mensageria com Kafka e RabbitMQ, cache com Redis, CI/CD com GitHub Actions e bancos PostgreSQL, MySQL e MongoDB. Priorizo sistemas que escalam, com testes automatizados e observabilidade de verdade."
+      "Minha abordagem vai além de empilhar frameworks: atuo desde o design da arquitetura de software e provisionamento da infraestrutura em cloud, até a entrega de interfaces fluidas e acessíveis.",
+      "Com meu Bacharelado em Ciência da Computação recém-concluído em março de 2026, possuo uma base sólida em design de sistemas, algoritmos e boas práticas. Trabalho com ecossistemas modernos (React, Next.js, Node.js, Spring Boot) e gestão de conteúdo avançada (Hygraph, WordPress), priorizando sempre o que realmente importa em produção: segurança, escalabilidade, testes automatizados e observabilidade de verdade."
     ],
     "practicesTitle": "Práticas de engenharia",
     "practices": {
@@ -50,8 +51,28 @@
       "backend": "Back-end",
       "architecture": "Arquitetura",
       "infra": "Infra & Cloud",
-      "data": "Dados"
+      "data": "Dados",
+      "cms": "CMS"
     }
+  },
+  "services": {
+    "sectionNo": "02",
+    "title": "Especialidades",
+    "description": "Da arquitetura de sistemas à interface final — as frentes onde atuo de ponta a ponta.",
+    "cards": [
+      {
+        "title": "SaaS e Ecossistemas Completos",
+        "desc": "Construção de plataformas multi-tenant do zero, integrando gateways de pagamento (Stripe), controle de acesso (RBAC) e arquiteturas baseadas em CMS (WordPress, Hygraph) para gestão de conteúdo dinâmico."
+      },
+      {
+        "title": "Arquitetura e Back-end",
+        "desc": "Desenvolvimento de APIs resilientes (REST/GraphQL), microsserviços, implementação de mensageria (Kafka/RabbitMQ) e modelagem de bancos de dados."
+      },
+      {
+        "title": "Front-end e Experiências Imersivas",
+        "desc": "Criação de interfaces ricas, pixel-perfect e acessíveis usando React e Next.js. Implementação de animações avançadas e 3D com Three.js, GSAP e Motion, com foco estrito em Core Web Vitals."
+      }
+    ]
   },
   "projects": {
     "sectionNo": "03",

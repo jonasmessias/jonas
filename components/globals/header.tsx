@@ -12,7 +12,7 @@ export const Header = () => {
 
   const navLinks = [
     { key: 'about', href: '#about' },
-    { key: 'technologies', href: '#technologies' },
+    { key: 'services', href: '#services' },
     { key: 'projects', href: '#projects' },
     { key: 'experience', href: '#experience' },
     { key: 'contact', href: '#contact' },

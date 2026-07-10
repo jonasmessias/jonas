@@ -4,17 +4,18 @@
     "home": "Home",
     "about": "About",
     "technologies": "Stack",
+    "services": "Specialties",
     "projects": "Projects",
     "experience": "Experience",
     "contact": "Contact"
   },
   "hero": {
+    "name": "Jonas Messias",
     "kicker": "full-stack software engineer",
-    "title": "Jonas Messias",
-    "tagline": "End-to-end software engineering",
-    "description": "I architect and build complete products — from front-ends in React and Next.js to back-ends in Node.js, NestJS, Java (Spring) and Laravel, with microservices, queues, databases and cloud infrastructure.",
-    "ctaProjects": "View projects",
-    "ctaCV": "Download CV",
+    "title": "End-to-end software engineering for products that need to scale.",
+    "subtitle": "I architect and build complete web applications — from the back-end and infrastructure foundation to high-performance front-end interfaces.",
+    "ctaStart": "Start a Project",
+    "ctaCases": "Explore Case Studies",
     "stats": [
       { "value": "100+", "label": "projects delivered" },
       { "value": "4", "label": "apps in production (OSM)" },
@@ -25,10 +26,10 @@
   "about": {
     "sectionNo": "01",
     "title": "About",
-    "lead": "I'm a full-stack software engineer — not just a front-end dev.",
+    "lead": "I'm a full-stack software engineer focused on turning business problems into robust systems.",
     "paragraphs": [
-      "I work across every layer of the product: interfaces in React, Next.js and Angular; APIs and services in Node.js (Fastify, Express, NestJS), Java (Spring Boot) and PHP (Laravel); and the architecture that holds it together — microfrontends with Module Federation, Clean Architecture and modular monoliths.",
-      "I also own the infrastructure: AWS, Docker, messaging with Kafka and RabbitMQ, caching with Redis, CI/CD with GitHub Actions, and PostgreSQL, MySQL and MongoDB databases. I care about systems that scale, with real automated testing and observability."
+      "My approach goes beyond stacking frameworks: I work from software architecture design and cloud infrastructure provisioning all the way to delivering fluid, accessible interfaces.",
+      "With my Bachelor's in Computer Science, completed in March 2026, I have a solid foundation in systems design, algorithms and best practices. I work with modern ecosystems (React, Next.js, Node.js, Spring Boot) and advanced content management (Hygraph, WordPress), always prioritizing what really matters in production: security, scalability, automated testing and real observability."
     ],
     "practicesTitle": "Engineering practices",
     "practices": {
@@ -50,8 +51,28 @@
       "backend": "Back-end",
       "architecture": "Architecture",
       "infra": "Infra & Cloud",
-      "data": "Data"
+      "data": "Data",
+      "cms": "CMS"
     }
+  },
+  "services": {
+    "sectionNo": "02",
+    "title": "Specialties",
+    "description": "From systems architecture to the final interface — where I work end to end.",
+    "cards": [
+      {
+        "title": "SaaS & Complete Ecosystems",
+        "desc": "Building multi-tenant platforms from scratch, integrating payment gateways (Stripe), access control (RBAC) and CMS-based architectures (WordPress, Hygraph) for dynamic content management."
+      },
+      {
+        "title": "Architecture & Back-end",
+        "desc": "Building resilient APIs (REST/GraphQL), microservices, messaging (Kafka/RabbitMQ) and database modeling."
+      },
+      {
+        "title": "Front-end & Immersive Experiences",
+        "desc": "Crafting rich, pixel-perfect and accessible interfaces with React and Next.js. Advanced animations and 3D with Three.js, GSAP and Motion, with a strict focus on Core Web Vitals."
+      }
+    ]
   },
   "projects": {
     "sectionNo": "03",

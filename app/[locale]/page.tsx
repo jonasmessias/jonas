@@ -6,7 +6,7 @@ import Contact from '@/components/sections/Contact'
 import Experience from '@/components/sections/Experience'
 import Presentation from '@/components/sections/Presentation'
 import Projects from '@/components/sections/Projects'
-import Technologies from '@/components/sections/Technologies'
+import Services from '@/components/sections/Services'
 import { getExperiences, getProjects } from '@/lib/markdown'
 
 type Props = {
@@ -28,7 +28,7 @@ export default async function Home({ params }: Props) {
       </div>
 
       <div className="py-20 sm:py-24 border-t border-border/50">
-        <Technologies />
+        <Services />
       </div>
 
       <div className="py-20 sm:py-24 border-t border-border/50">

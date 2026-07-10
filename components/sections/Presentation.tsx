@@ -5,7 +5,7 @@ import { Text } from '@/components/globals/text'
 import { ParallaxBackground } from '@/components/ui/parallax-background'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { HiArrowRight, HiDownload } from 'react-icons/hi'
+import { HiArrowRight } from 'react-icons/hi'
 
 interface Stat {
   value: string
@@ -41,10 +41,13 @@ const TextContent = () => {
           variant="mono"
           size="sm"
           weight="semibold"
-          className="text-primary uppercase tracking-[0.25em] text-xs sm:text-sm inline-flex items-center gap-2 justify-center md:justify-start"
+          className="uppercase tracking-[0.2em] text-xs sm:text-sm inline-flex flex-wrap items-center gap-x-2 gap-y-1 justify-center md:justify-start"
         >
-          <span aria-hidden>{'//'}</span>
-          {t('kicker')}
+          <span className="text-foreground">{t('name')}</span>
+          <span aria-hidden className="text-muted-foreground">
+            {'//'}
+          </span>
+          <span className="text-primary">{t('kicker')}</span>
         </Text>
       </GSAPReveal>
 
@@ -52,25 +55,18 @@ const TextContent = () => {
         <Text
           tag="h1"
           weight="bold"
-          className="leading-[1.05] tracking-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
+          className="leading-[1.08] tracking-tight text-balance text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
         >
           {t('title')}
-        </Text>
-        <Text
-          tag="p"
-          weight="semibold"
-          className="mt-3 text-primary text-lg sm:text-xl md:text-2xl"
-        >
-          {t('tagline')}
         </Text>
       </GSAPReveal>
 
       <GSAPReveal from={{ opacity: 0, y: 20 }} delay={0.25} duration={0.9}>
         <Text
           variant="body"
-          className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed"
+          className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed"
         >
-          {t('description')}
+          {t('subtitle')}
         </Text>
       </GSAPReveal>
 
@@ -81,19 +77,17 @@ const TextContent = () => {
         className="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start"
       >
         <a
-          href="#projects"
+          href="#contact"
           className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm sm:text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
         >
-          {t('ctaProjects')}
+          {t('ctaStart')}
           <HiArrowRight className="text-lg transition-transform group-hover:translate-x-0.5" />
         </a>
         <a
-          href="/cv.pdf"
-          download="Jonas_Messias_CV.pdf"
-          className="group inline-flex items-center gap-2 rounded-md border border-border px-5 py-3 text-sm sm:text-base font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+          href="#projects"
+          className="inline-flex items-center gap-2 rounded-md border border-border px-5 py-3 text-sm sm:text-base font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
         >
-          <HiDownload className="text-lg" />
-          {t('ctaCV')}
+          {t('ctaCases')}
         </a>
       </GSAPReveal>
 

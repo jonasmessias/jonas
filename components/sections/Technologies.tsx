@@ -1,7 +1,6 @@
 'use client'
 
 import { GSAPReveal } from '@/components/animations/gsap-animations'
-import { SectionHeading } from '@/components/globals/section-heading'
 import { useTranslations } from 'next-intl'
 import { IconType } from 'react-icons'
 import {
@@ -14,6 +13,7 @@ import {
   SiFastify,
   SiFramer,
   SiGithubactions,
+  SiGraphql,
   SiLaravel,
   SiMongodb,
   SiMysql,
@@ -32,6 +32,7 @@ import {
   SiTypescript,
   SiVite,
   SiWebpack,
+  SiWordpress,
   SiZod,
 } from 'react-icons/si'
 
@@ -42,6 +43,7 @@ type CategoryKey =
   | 'architecture'
   | 'infra'
   | 'data'
+  | 'cms'
 
 interface TechItem {
   name: string
@@ -79,6 +81,7 @@ const stack: { key: CategoryKey; items: TechItem[] }[] = [
       { name: 'NestJS', icon: SiNestjs },
       { name: 'Fastify', icon: SiFastify },
       { name: 'Express', icon: SiExpress },
+      { name: 'GraphQL', icon: SiGraphql },
       { name: 'Java · Spring', icon: SiSpring },
       { name: 'PHP · Laravel', icon: SiLaravel },
     ],
@@ -111,30 +114,29 @@ const stack: { key: CategoryKey; items: TechItem[] }[] = [
       { name: 'MongoDB', icon: SiMongodb },
     ],
   },
+  {
+    key: 'cms',
+    items: [
+      { name: 'WordPress', icon: SiWordpress },
+      { name: 'Hygraph' },
+    ],
+  },
 ]
 
+/**
+ * Categorized tech stack. Rendered as a sub-block inside the Services section
+ * (no own section heading) — it shares the "Specialties" umbrella.
+ */
 const Technologies = () => {
   const t = useTranslations('technologies')
 
   return (
-    <section
-      id="technologies"
-      className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative"
-    >
-      <GSAPReveal from={{ opacity: 0, y: 32 }} duration={0.9}>
-        <SectionHeading
-          no={t('sectionNo')}
-          title={t('title')}
-          description={t('description')}
-        />
-      </GSAPReveal>
+    <GSAPReveal from={{ opacity: 0, y: 24 }} duration={0.9}>
+      <span className="font-mono text-xs uppercase tracking-[0.15em] text-muted-foreground">
+        {t('title')}
+      </span>
 
-      <GSAPReveal
-        from={{ opacity: 0, y: 32 }}
-        delay={0.1}
-        duration={0.9}
-        className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5"
-      >
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
         {stack.map((category) => (
           <CategoryBlock
             key={category.key}
@@ -142,8 +144,8 @@ const Technologies = () => {
             items={category.items}
           />
         ))}
-      </GSAPReveal>
-    </section>
+      </div>
+    </GSAPReveal>
   )
 }
 
