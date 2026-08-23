@@ -1,12 +1,16 @@
+import { Cursor } from '@/components/motion/cursor'
 import { MotionProvider } from '@/components/motion/motion-provider'
 import { cn } from '@/utils/cn'
-import { getLocale } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { ReactNode } from 'react'
 import { archivo, martianMono } from './fonts'
 import './globals.css'
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const locale = await getLocale()
+  // O rótulo do cursor de detalhe (F6a) atravessa como prop: o layout é
+  // servidor e lê messages/; o componente de cliente nunca as lê sozinho.
+  const t = await getTranslations({ locale, namespace: 'site' })
 
   // {children} continua sendo RSC — passar children de servidor para um
   // componente de cliente NÃO os transforma em cliente. É o padrão que
@@ -27,7 +31,13 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('js')",
           }}
         />
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          {children}
+          {/* O cursor de detalhe (F6a): irmão dos children, dentro do
+              provider — só existe no DOM quando o motor pousa em ponteiro
+              fino; em toque, reduced motion ou motor no ar, nada. */}
+          <Cursor rotuloAbrir={t('abrir')} />
+        </MotionProvider>
       </body>
     </html>
   )

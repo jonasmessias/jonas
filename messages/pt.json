@@ -4,6 +4,7 @@
     "cv": "Baixar CV",
     "role": "Rolar",
     "trabalho": "Trabalho selecionado",
-    "colofao": "Site em Next.js, GSAP e three.js. Tipografia em Archivo e Martian Mono."
+    "colofao": "Site em Next.js, GSAP e three.js. Tipografia em Archivo e Martian Mono.",
+    "abrir": "ABRIR"
   }
 }

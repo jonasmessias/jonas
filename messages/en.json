@@ -4,6 +4,7 @@
     "cv": "Download CV",
     "role": "Scroll",
     "trabalho": "Selected work",
-    "colofao": "Built with Next.js, GSAP and three.js. Type set in Archivo and Martian Mono."
+    "colofao": "Built with Next.js, GSAP and three.js. Type set in Archivo and Martian Mono.",
+    "abrir": "OPEN"
   }
 }

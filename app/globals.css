@@ -1063,3 +1063,75 @@ html.js [data-fecho] [data-canal]:focus-visible {
     font-variation-settings: 'wdth' 125, 'wght' 700;
   }
 }
+
+/* ==========================================================================
+ * F6a — O CURSOR DE DETALHE
+ *
+ * A marca de detalhe do leitor: o anel fino que, num desenho de corte,
+ * circunda o trecho que merece ampliação. Anel, nunca disco — fio de 1px
+ * como todo fio do projeto. O elemento nasce do JavaScript (cursor.tsx),
+ * nunca do HTML do servidor: sem motor, nada disto existe no DOM.
+ *
+ * Enfeite não custa acesso: o cursor NATIVO só some sob os DOIS gates —
+ * html.motion-ready E (pointer: fine). Motor que não pousa, toque ou
+ * reduced motion (que nunca recebe motion-ready) deixam o cursor do
+ * sistema intacto. Nunca cursor: none na raiz sem os dois gates.
+ * ========================================================================== */
+
+/* O gate duplo: cursor: none também nos interativos, porque o `pointer`
+ * da UA (a { cursor: pointer }) venceria a herança do body. */
+@media (pointer: fine) {
+  html.motion-ready body,
+  html.motion-ready a,
+  html.motion-ready button {
+    cursor: none;
+  }
+}
+
+/* O ponto do instrumento: fixo em 0,0 — o GSAP dirige x/y (transform),
+ * nunca left/top, que são layout e refluem a cada frame. z-index 90:
+ * abaixo do skip-link (100). pointer-events: none: decoração nunca
+ * intercepta clique; aria-hidden (no .tsx) a esconde do leitor de tela. */
+[data-cursor] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+/* O anel, centrado no ponto pela propriedade `translate` — independente
+ * do transform que o GSAP escreve no pai. A largura/altura é do gsap
+ * (12 → 40px); o fio é sempre 1px, por isso o tamanho anima em box, não
+ * em scale — scale afinaria o fio. */
+[data-cursor-anel] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  translate: -50% -50%;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+/* O identificador ao lado da marca — fora do anel, à direita e abaixo,
+ * nunca dentro. Tipografia no .tsx (font-mono text-micro uppercase
+ * text-ink-2); aqui só a posição. s-4 (24px) na diagonal fica além do
+ * raio máximo do anel (20px). */
+[data-cursor-rotulo] {
+  position: absolute;
+  top: var(--spacing-s-4);
+  left: var(--spacing-s-4);
+  white-space: nowrap;
+}
+
+/* O ímã escreve --ima-x/--ima-y por tween; o CSS aplica pela propriedade
+ * `translate`, que COMPÕE com o transform que o fecho anima em
+ * [data-canal] em vez de sobrescrevê-lo — os dois nunca brigam pelo
+ * mesmo campo. Sem ímã (toque, reduced, motor no ar) o fallback é 0 e a
+ * regra é inerte. */
+a[data-link],
+button {
+  translate: var(--ima-x, 0) var(--ima-y, 0);
+}
