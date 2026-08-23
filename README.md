@@ -1,80 +1,24 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# jonas — site pessoal
 
-## 🌍 Multi-language Portfolio
+Site de página única em dois idiomas (`/pt` e `/en`): um dossiê renderizado no servidor,
+composto por nove seções em `components/dossie/`.
 
-This portfolio supports 3 languages:
+Stack: Next.js (App Router) · TypeScript · Tailwind CSS · next-intl · Markdown com gray-matter.
 
-- 🇺🇸 English (`/en`)
-- 🇧🇷 Portuguese (`/pt`)
-- 🇪🇸 Spanish (`/es`)
-
-## Getting Started
-
-First, run the development server:
+## Rodar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build && npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Conteúdo
 
-## 📝 Content Management
+Todo o conteúdo mora em `content/dossie/`, em Markdown com frontmatter, um arquivo por
+idioma (`*.pt.md` e `*.en.md`). As seções o consomem via `lib/markdown.ts`; strings de
+interface (rótulos, navegação) ficam em `messages/`.
 
-### Adding Professional Experiences
-
-Use the helper script to create a new experience:
-
-```powershell
-.\scripts\new-experience.ps1 -Name "company-name"
-```
-
-This will create 3 files (one for each language) in `content/experiences/`:
-
-- `company-name.en.md`
-- `company-name.pt.md`
-- `company-name.es.md`
-
-For detailed instructions, see:
-
-- **Quick Start**: `content/experiences/QUICK_REFERENCE.md`
-- **Full Guide**: `content/experiences/README.md`
-
-### List Existing Experiences
-
-```powershell
-.\scripts\list-experiences.ps1
-```
-
-### Projects
-
-Add projects in `content/projects/` following the same pattern.
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Animations**: GSAP, Framer Motion
-- **Internationalization**: next-intl
-- **Content**: Markdown with gray-matter
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Os fatos derivam de um polo fora deste repositório.** Nenhum fato — texto de perfil,
+experiência, projeto, métrica — é editado à mão aqui: ele nasce no polo e é derivado para
+`content/dossie/`. Este repo carrega apenas a apresentação.

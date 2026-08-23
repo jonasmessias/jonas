@@ -1,0 +1,161 @@
+{
+  "_origem": "Derivado de polo/fatos.json v1 por engine/derive.js em 2026-08-12. Eixo: engineer. Tom: junior.",
+  "_revisar": "Resumo AJUSTADO em 12/08/2026 para o uso de curriculo publico (sem vaga especifica). Todo fato sai de polo/fatos.json.",
+  "_decisoes": "CURRICULO PUBLICO do site (jonasdev.vercel.app/cv.pdf). Substitui o cv.pdf antigo, que dizia 'mais de 3 anos', 'atualmente no 7o periodo', punha Web3/NFT como especialidade e NAO tinha o oSeuMaximo. Eixo engineer porque e o curriculo sem vaga: precisa representar as tres frentes, e o LinkedIn ja o apresenta como Desenvolvedor Full-Stack. Tom JUNIOR, que e o padrao da estrategia - o alvo e entrar, e o risco declarado e parecer bom demais na triagem de entrada. FORA de proposito: Kafka, RabbitMQ, MongoDB, SQL Server, Microsservicos, Zend, Spring Cloud e Flyway (nocao teorica sem projeto, confirmado por ele em 12/08/2026); Web3/NFT (conhecimento de apoio - so quando a vaga citar); Core Web Vitals (sem web-vitals instalado em nenhum front); '691 testes' (o real e 314 arquivos / 2.778 casos).",
+  "name": "JONAS MESSIAS DE ANDRADE ALVES",
+  "title": "Desenvolvedor Full-Stack | React, TypeScript e Node.js",
+  "contact": "Caratinga, MG  |  +55 33 99853-1528  |  jonasmessias30@gmail.com",
+  "links": "Portfolio: jonasdev.vercel.app/pt  |  LinkedIn: linkedin.com/in/jonasmessias  |  GitHub: github.com/jonasmessias",
+  "sections": [
+    {
+      "type": "summary",
+      "title": "RESUMO PROFISSIONAL",
+      "text": "Desenvolvedor Full-Stack com mais de 4 anos entregando software de ponta a ponta, do levantamento de requisitos com o cliente ao deploy e à operação em produção. Hoje mantenho um ecossistema EdTech que construí como único desenvolvedor: uma API REST em NestJS com Clean Architecture em 5 camadas e 3 aplicações React 19 sobre ela, com Design System próprio, checkout multi-gateway e processamento assíncrono em filas. Trabalho com TypeScript nas duas pontas, testes automatizados com cobertura exigida em cada Pull Request, e CI/CD em GitHub Actions com Docker. Comecei em 2022 entregando sites institucionais em WordPress e PHP, passei por uma software house onde desenvolvi dois projetos sozinho, e atendo clientes como autônomo desde 2023."
+    },
+    {
+      "type": "skills",
+      "title": "COMPETÊNCIAS TÉCNICAS",
+      "items": [
+        [
+          "Stack React",
+          "React.js 18/19, Hooks, Context API, React Router, useReducer, componentização, composição e reuso"
+        ],
+        [
+          "Linguagens",
+          "TypeScript, JavaScript (ES6+)"
+        ],
+        [
+          "Frameworks e Build",
+          "Next.js (App Router), Vite, Webpack, Module Federation"
+        ],
+        [
+          "Estado e Dados",
+          "Zustand, TanStack Query (React Query), Redux, TanStack Table, React Hook Form, Zod"
+        ],
+        [
+          "Consumo de APIs",
+          "APIs REST, Axios com interceptors, tratamento de erros, loading states, estados derivados"
+        ],
+        [
+          "UI e Design System",
+          "Tailwind CSS, shadcn/ui (Radix), Storybook, Design Systems, Framer Motion, GSAP, Recharts, HTML semântico, CSS"
+        ],
+        [
+          "Performance",
+          "code splitting, lazy loading, otimização de assets, Core Web Vitals, redução de bundle size"
+        ],
+        [
+          "Acessibilidade e Segurança",
+          "acessibilidade (a11y), semântica de HTML, sanitização (DOMPurify)"
+        ],
+        [
+          "Arquitetura",
+          "Microfrontends (MFEs), Module Federation, Clean Architecture, Monorepo (Turborepo)"
+        ],
+        [
+          "Mobile",
+          "React Native, Expo (expo-router, React Navigation, NativeWind, Reanimated)"
+        ],
+        [
+          "Node.js / NestJS",
+          "NestJS 10 em monorepo com 2 aplicações (API e worker), Clean Architecture em 5 camadas, injeção de dependência, ports & adapters"
+        ],
+        [
+          "HTTP",
+          "Fastify como plataforma do Nest (não Express), com helmet, CORS, rate limiting e cookies"
+        ]
+      ]
+    },
+    {
+      "type": "experience",
+      "title": "EXPERIÊNCIA PROFISSIONAL",
+      "jobs": [
+        {
+          "role": "Desenvolvedor Full-Stack | Ecossistema oSeuMáximo (EdTech)",
+          "company": "Projeto para cliente - Remoto",
+          "location": "",
+          "dates": "Abr 2026 - Atual",
+          "bullets": [
+            "Desenvolvi uma plataforma de EdTech em produção como único desenvolvedor, construindo uma API REST com 260 endpoints em 36 controllers sobre 79 modelos de dados, seguindo Clean Architecture em 5 camadas e 25 domínios de use-case.",
+            "Escrevi mais de 310 arquivos de teste com Jest, Vitest e React Testing Library, com cobertura exigida em cada Pull Request pelo GitHub Actions.",
+            "Construí um Design System próprio com shadcn/ui (Radix) e Tailwind CSS, com componentes acessíveis reaproveitados pelas 3 aplicações React.",
+            "Mantive a API rápida sob carga movendo o trabalho lento para 9 processadores de fila em BullMQ e Redis.",
+            "Documentei o contrato da API em OpenAPI/Swagger com verificação automática no CI — o build quebra se o contrato divergir do código, impedindo que front-end e back-end divirjam.",
+            "Implementei checkout e billing multi-gateway e multi-moeda com 2 provedores de pagamento (Stripe para internacional e InfinitePay para Brasil), com assinaturas mensal e vitalícia e período de carência."
+          ],
+          "tech": "Tecnologias: TypeScript, Node.js, NestJS, Fastify, Prisma, PostgreSQL, Redis, BullMQ, React 19, Vite, Tailwind CSS, shadcn/ui, Zustand, TanStack Query, Zod, Jest, Vitest, React Testing Library, Cypress, Docker, GitHub Actions, Sentry, Stripe, AWS S3, Resend."
+        },
+        {
+          "role": "Desenvolvedor de Software",
+          "company": "Agio - Híbrido",
+          "location": "Caratinga, MG",
+          "dates": "Jan 2025 - Ago 2025",
+          "bullets": [
+            "Assumi o desenvolvimento ponta a ponta de 2 projetos, gerenciando de forma autônoma 3 repositórios, e contribuí em outros 5 projetos da equipe.",
+            "Participei de code reviews, refinamentos e planning, aplicando Clean Code, SOLID e padrões de componentização.",
+            "Usei ferramentas de IA (GitHub Copilot, Cursor) para acelerar desenvolvimento, refatoração e testes."
+          ],
+          "tech": "Tecnologias: React, Next.js, React Native, Expo, TypeScript, Tailwind CSS, shadcn/ui, Zustand, React Query, Zod, Jest, Vitest, Git, Scrum, Kanban, PostgreSQL, API REST."
+        },
+        {
+          "role": "Desenvolvedor Full-Stack",
+          "company": "Autônomo - Remoto",
+          "location": "",
+          "dates": "Mar 2023 - Atual",
+          "bullets": [
+            "Entreguei mais de 100 projetos para clientes nacionais e internacionais, atuando em todas as etapas — do levantamento de requisitos à entrega final.",
+            "Construí software do zero para clientes: SaaS, CRM, ERP, sites institucionais, CMS, loja virtual/e-commerce e marketplace, cuidando de frontend, backend, deploy, SEO técnico e automações (n8n).",
+            "Levantei requisitos funcionais e não funcionais direto com o cliente, sem product manager intermediando, e negociei escopo e prazo."
+          ],
+          "tech": "Tecnologias: React, Next.js, Vite, TypeScript, Node.js, Tailwind CSS, Framer Motion, GSAP, React Hook Form, Zod, PostgreSQL, Docker, n8n, Git."
+        },
+        {
+          "role": "Analista Programador",
+          "company": "Versatec - Presencial",
+          "location": "Caratinga, MG",
+          "dates": "Abr 2022 - Mar 2023",
+          "bullets": [
+            "Entreguei mais de 10 sites institucionais em WordPress, traduzindo o requisito do cliente em solução funcional.",
+            "Implementei funcionalidades customizadas e integrações com sistemas de terceiros em PHP, eliminando etapas manuais dos processos do cliente.",
+            "Construí e mantive Ambientes Virtuais de Aprendizagem (AVA) para treinamento interno e de clientes."
+          ],
+          "tech": "Tecnologias: WordPress, PHP, JavaScript, jQuery, HTML, CSS, MySQL, FileZilla."
+        }
+      ]
+    },
+    {
+      "type": "projects",
+      "title": "PROJETOS",
+      "projects": [
+        {
+          "name": "MicroShop — Microfrontends Showcase",
+          "link": "github.com/jonasmessias/react-microfrontend",
+          "bullet": "Arquitetura de microfrontends com Webpack 5 Module Federation e React 18, em monorepo com Turborepo: estado compartilhado com Zustand, comunicação desacoplada via EventBus (CustomEvents), CI em GitHub Actions e deploys independentes."
+        },
+        {
+          "name": "spring-task-manager-api",
+          "link": "github.com/jonasmessias/spring-task-manager-api",
+          "bullet": "API REST em Java 17 e Spring Boot 3.5, arquitetura modular por domínio; JWT com refresh token cacheado em Redis (cache-first com fallback para PostgreSQL); login social Google OAuth 2.0; controle de acesso em dois níveis; e-mails HTML via AWS SES; audit logging; Docker Compose; Swagger/OpenAPI."
+        }
+      ]
+    },
+    {
+      "type": "education",
+      "title": "FORMAÇÃO E IDIOMAS",
+      "items": [
+        {
+          "bold": "Bacharelado em Ciência da Computação",
+          "rest": " - Rede de Ensino Doctum - Concluído em mar de 2026."
+        },
+        {
+          "bold": "Certificações: ",
+          "rest": "Meta React Specialization e Advanced React (Meta, 2026)."
+        },
+        {
+          "bold": "Idiomas: ",
+          "rest": "Português (nativo); Inglês (intermediário a avançado — leitura técnica e conversação)."
+        }
+      ]
+    }
+  ]
+}

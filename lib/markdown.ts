@@ -5,9 +5,9 @@ import path from 'path'
 const contentDirectory = path.join(process.cwd(), 'content')
 
 export interface MarkdownFile {
-  slug: string // Base slug without locale suffix (e.g., 'agio' instead of 'agio.en')
+  slug: string // Base slug without locale suffix (e.g., 'perfil' instead of 'perfil.en')
   content: string
-  locale?: string // The locale of this file (e.g., 'en', 'pt', 'es')
+  locale?: string // The locale of this file (e.g., 'en', 'pt')
   data: {
     [key: string]: any
   }
@@ -15,7 +15,7 @@ export interface MarkdownFile {
 
 /**
  * Get all markdown files from a specific folder
- * @param folder - The folder name inside /content (e.g., 'projects', 'experiences', 'posts')
+ * @param folder - The folder name inside /content (e.g., 'dossie', 'dossie/projetos')
  */
 export function getMarkdownFiles(
   folder: string,
@@ -139,25 +139,4 @@ export function getMarkdownFile(
   }
 
   return null
-}
-
-/**
- * Get all projects
- */
-export function getProjects(locale?: string) {
-  return getMarkdownFiles('projects', locale)
-}
-
-/**
- * Get all experiences
- */
-export function getExperiences(locale?: string) {
-  return getMarkdownFiles('experiences', locale)
-}
-
-/**
- * Get all blog posts
- */
-export function getPosts(locale?: string) {
-  return getMarkdownFiles('posts', locale)
 }
