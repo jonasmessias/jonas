@@ -30,21 +30,24 @@ import { useEffect, useRef, type ReactNode } from 'react'
  * -(esteira - janela), SEMPRE por função: invalidateOnRefresh reavalia no
  * resize; largura nunca é hard-code nem vw calculado em JS.
  *
- * A profundidade é diferencial — é ela que impede o "carrossel". Três
- * taxas sobre o MESMO p, nenhum tween com relógio próprio:
+ * A profundidade é diferencial — é ela que impede o "carrossel". Mas ela
+ * vale para CENÁRIO, nunca para RÓTULO. Duas camadas sobre o MESMO p:
  *
  *   esteira (as peças)   1,00×   a taxa de referência
- *   ordinal ao fundo     0,55×   fica para trás, parece mais longe
  *   fio de base          1,35×   corre na frente, parece mais perto
  *
- * O ordinal vive DENTRO da peça (é o que mantém a lista sem JS íntegra),
- * então a taxa 0,55× vira compensação de +0,45× sobre a esteira, ancorada
- * na posição da própria peça: ordinal k cruza o zero exatamente quando a
- * peça k alcança o início da janela — antes disso ele vem atrasado, depois
- * segue adiantado. Velocidade de mundo constante em 0,55× para todos. O
- * fio é filho da janela e leva a taxa 1,35× inteira; o comprimento dele
- * (janela + 1,35× a distância) é escrito em style inline no medir(), para
- * a ponta nunca descobrir a janela.
+ * O ORDINAL NÃO É CAMADA DE PROFUNDIDADE, e não pode voltar a ser.
+ * Decisão do Jonas em 23/08/2026, olhando a tela. Três rodadas tentaram
+ * calibrá-lo — 0,55× de velocidade de mundo (F4b) passeava ±900px em
+ * torno de uma peça de 922px; reancorar na janela (F4c) prendeu o da
+ * última peça em zero; 0,12× com recuo de 26% (F4d) devolveu a excursão.
+ * Todas as três falharam pelo mesmo motivo, e não era a taxa: o número
+ * NOMEIA a peça, e rótulo que desliza não lê como distância — lê como
+ * defeito. No mesmo quadro um número aparecia no meio de um título e no
+ * início de outro, e a conclusão do olho é dessincronia.
+ *
+ * O ordinal fica travado na peça, em left: 0 pelo CSS, sem tween nenhum.
+ * A profundidade continua no fio de base, que não nomeia nada.
  *
  * Nada nasce escondido: em p=0 a peça 02 está na janela e as outras estão
  * fora por GEOMETRIA, não por opacidade — nenhum data-reveal, nenhum
@@ -62,9 +65,15 @@ import { useEffect, useRef, type ReactNode } from 'react'
  * pista e a largura do fio — apagados à mão.
  */
 
-/* As taxas de profundidade sobre o mesmo p — coreografia, não fato. */
-const TAXA_ORDINAL = 0.55
+/* A taxa de profundidade sobre o mesmo p — coreografia, não fato. É a
+ * única que sobrou, e a única que pode existir: ela corre num fio de
+ * cenário, não num rótulo. Ver o docblock. */
 const TAXA_FIO = 1.35
+
+/* A fração da própria largura que a peça percorre, depois de alcançar a
+ * borda direita da janela, para --entrada ir de 0 a 1 — o desenho fecha
+ * com a peça 45% dentro do quadro, antes de qualquer linha ser legível. */
+const ENTRADA_FRACAO = 0.45
 
 /** O gatilho vivo, para o handler de foco ler start/end/progress — tipo
  *  por import type inline, apagado na compilação (padrão do provider). */
@@ -91,9 +100,6 @@ export function TrabalhoTrilhoPalco({ tituloId, children }: Props) {
     const esteira = palco.querySelector<HTMLElement>('[data-trilho-esteira]')
     const fio = palco.querySelector<HTMLElement>('[data-trilho-fio]')
     const pecas = Array.from(palco.querySelectorAll<HTMLElement>('[data-peca]'))
-    const ordinais = Array.from(
-      palco.querySelectorAll<HTMLElement>('[data-peca-ordinal]'),
-    )
     if (!janela || !esteira || !fio || pecas.length === 0) return
 
     const { gsap, ScrollTrigger, lenis } = motor
@@ -106,7 +112,7 @@ export function TrabalhoTrilhoPalco({ tituloId, children }: Props) {
       Math.max(esteira.offsetWidth - janela.clientWidth, 0)
 
     /* A posição de layout da peça dentro da esteira, relativa à primeira —
-     * é a âncora da compensação do ordinal e do pouso do foco. */
+     * é a âncora do pouso do foco. */
     const posicao = (peca: HTMLElement) =>
       peca.offsetLeft - primeira.offsetLeft
 
@@ -145,20 +151,27 @@ export function TrabalhoTrilhoPalco({ tituloId, children }: Props) {
        * errado. */
       tl.fromTo(esteira, { x: 0 }, { x: () => -distancia(), duration: 1 }, 0)
 
-      /* Os ordinais — 0,55× de velocidade de mundo. Compensação de +0,45×
-       * dentro da peça, ancorada na posição dela: x = 0,45 × (d·p − pos),
-       * linear no mesmo p, cruzando o alinhamento quando a peça chega ao
-       * início da janela. */
-      ordinais.forEach((ordinal) => {
-        const peca = ordinal.closest<HTMLElement>('[data-peca]')
-        if (!peca) return
+      /* Os ordinais não têm tween — ver o docblock. O CSS os põe em
+       * left: 0 e nada aqui os move: o número fica travado na peça, na
+       * mesma relação com o título nas três, em qualquer p. */
+
+      /* O canal da entrada — um tween de --entrada por peça, na MESMA
+       * timeline. O valor vai CRU (negativo antes da janela, >1 depois):
+       * quem recorta sub-faixa e clampa é o CSS do bloco F4b, consumidor
+       * a consumidor — por isso não há modifier aqui. from/to por função:
+       * o invalidateOnRefresh reavalia no resize, como nos outros tweens.
+       * É o que faz a peça se desenhar ao entrar em quadro (datum →
+       * ordinal/nome → descrição → stack → links); o contrato completo
+       * está no docblock e no comentário "O CANAL DA ENTRADA" do CSS. */
+      pecas.forEach((peca) => {
+        const entrada = (p: number) =>
+          (janela.clientWidth -
+            (esteira.offsetLeft + peca.offsetLeft - distancia() * p)) /
+          (ENTRADA_FRACAO * peca.offsetWidth)
         tl.fromTo(
-          ordinal,
-          { x: () => -(1 - TAXA_ORDINAL) * posicao(peca) },
-          {
-            x: () => (1 - TAXA_ORDINAL) * (distancia() - posicao(peca)),
-            duration: 1,
-          },
+          peca,
+          { '--entrada': () => entrada(0) },
+          { '--entrada': () => entrada(1), duration: 1 },
           0,
         )
       })

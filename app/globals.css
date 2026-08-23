@@ -580,6 +580,12 @@ html.js [data-trabalho] [data-trabalho-prova]:focus-within {
  * [data-trilho-janela] é a janela; [data-trilho-esteira] é a fileira que
  * translada em X sob o scrub único.
  *
+ * Desde a F4d cada peça é uma PRANCHA QUE SE MONTA: o título pende de um
+ * datum visível (fio de 1px), a stack é cota com tique de extremidade, e
+ * a peça se desenha ao entrar em quadro pelo canal --entrada — escrito
+ * pelo palco no mesmo scrub, consumido aqui por clamp() de sub-faixa.
+ * Procure "O CANAL DA ENTRADA" neste bloco para o contrato completo.
+ *
  * Sem html.js (JavaScript desligado, reduced motion, motor que não pousou)
  * não existe trilho: as peças são lista vertical no fluxo normal —
  * ordinal, nome, descrição, stack e links visíveis, links clicáveis. É o
@@ -590,6 +596,37 @@ html.js [data-trabalho] [data-trabalho-prova]:focus-within {
 
 [data-trilho] {
   position: relative;
+}
+
+/* F4d-bis — o nome da peça tem tamanho PRÓPRIO, menor que --text-display.
+ *
+ * O defeito, achado pelo Jonas na tela e conferido na conta: o nome mais
+ * longo do conteúdo é `spring-task-manager-api` — 23 caracteres, ~10,2em
+ * de avanço em Archivo com o tracking do display. Em --text-display o
+ * tamanho satura em 6rem (96px), e a peça satura em 1000px: 10,2 × 96 =
+ * ~980px numa caixa de 1000px. Passa raspando, e qualquer folga interna o
+ * empurra para a segunda linha — por isso quebrava só nas telas largas,
+ * nunca a 1280.
+ *
+ * Aqui o teto é 5rem (80px): 10,2 × 80 = ~816px na mesma caixa de 1000px,
+ * ~18% de folga. A folga é de propósito e é o ponto: ela absorve erro de
+ * métrica de fonte E um nome de repositório um pouco maior, sem que
+ * ninguém precise medir de novo. O conteúdo manda no layout; encurtar
+ * nome para caber seria escrever fato à mão (inviolável nº 2).
+ *
+ * O ordinal acompanha o MESMO tamanho: se só o nome encolhesse, o número
+ * passaria a ser o maior elemento da peça e a hierarquia se inverteria —
+ * a marcação gritaria mais que o marcado. */
+[data-trilho] [data-peca] {
+  --peca-display: clamp(1.75rem, 5.4vw, 5rem);
+}
+
+/* Vence o utilitário .text-display do RSC por especificidade (0,2,0 contra
+ * 0,1,0) — só o font-size; line-height, tracking e peso continuam do
+ * token, e escalam junto porque são relativos. */
+[data-trilho] [data-peca-nome],
+[data-trilho] [data-peca-ordinal] {
+  font-size: var(--peca-display);
 }
 
 /* O estado base: lista vertical, uma peça embaixo da outra. position:
@@ -611,16 +648,33 @@ html.js [data-trabalho] [data-trabalho-prova]:focus-within {
   max-width: 46ch;
 }
 
-/* A stack separada por fio vertical de 1px — a variante em pé do
- * [data-rule], nunca caixa. O fio fica à DIREITA de cada item menos o
- * último (não à esquerda de li + li): quando a lista quebra de linha, a
- * linha nova abre pelo texto e o fio que sobra fecha a linha anterior —
- * que é onde separador pendurado não incomoda (§2-bis da F5a; visível na
- * peça 03, cuja segunda linha abria com fio órfão antes de SWAGGER/OPENAPI). */
-[data-trilho] [data-peca-stack] li:not(:last-child) {
-  border-inline-end: 1px solid var(--color-rule);
-  margin-inline-end: var(--spacing-s-3);
-  padding-inline-end: var(--spacing-s-3);
+/* A stack como COTA (F4d) — numa prancha, uma sequência de termos
+ * técnicos é medida, não prosa: cada termo carrega o próprio vão de
+ * cota, um segmento de fio por cima com tique de extremidade descendo
+ * nas duas pontas. Substitui o separador vertical do §2-bis, e mata de
+ * vez o defeito da quebra: como cada termo leva o próprio segmento, a
+ * linha nova abre com um vão completo — nunca com fio órfão (era o
+ * SWAGGER/OPENAPI sozinho na segunda linha). Vale também na lista sem
+ * JS: é fio de 1px, o vocabulário de sempre, legível em fluxo. */
+[data-trilho] [data-peca-stack] {
+  column-gap: var(--spacing-s-4);
+}
+
+[data-trilho] [data-peca-stack] li {
+  position: relative;
+  padding-top: var(--spacing-s-2);
+}
+
+[data-trilho] [data-peca-stack] li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-top: 1px solid var(--color-rule);
+  border-left: 1px solid var(--color-rule);
+  border-right: 1px solid var(--color-rule);
 }
 
 /* O fio de base só existe como peça do movimento — sem motor não há
@@ -660,9 +714,16 @@ html.js [data-trilho-janela] {
   overflow-x: clip;
 }
 
+/* stretch, não center (F4c/I-1): com center, a peça mais alta tinha topo
+ * mais alto, e o ordinal — absoluto, ancorado no topo da PRÓPRIA peça —
+ * pousava em três alturas (12px de degrau medidos a 1280×720). Com
+ * stretch as três peças medem a altura da mais alta, os topos coincidem e
+ * o top: -0.6em do ordinal cai no mesmo y de tela nas três, por
+ * construção. O conteúdo nasce no TOPO da caixa — o datum; ver
+ * [data-peca] abaixo. */
 html.js [data-trilho-esteira] {
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   column-gap: var(--spacing-s-7);
   row-gap: 0;
   width: max-content;
@@ -671,25 +732,160 @@ html.js [data-trilho-esteira] {
 
 /* A peça não ocupa a janela inteira: o vizinho aparecendo pela borda é o
  * que faz o mecanismo se explicar sozinho — peça em tela cheia viraria
- * slide, e slide é o que a direção recusa. */
+ * slide, e slide é o que a direção recusa. flex-start, não center
+ * (F4d/I-3): prancha técnica alinha por DATUM comum, então os três
+ * títulos nascem no topo da caixa esticada — a primeira linha do nome no
+ * mesmo y nas três peças, com título de 1 ou de 2 linhas, e o vão
+ * ordinal→título idêntico por construção. O center da F4c fazia o
+ * conteúdo de título curto descer dentro da caixa enquanto o ordinal
+ * ficava preso ao topo: três vãos diferentes (40/0/55px medidos). O
+ * ordinal é absoluto e não participa do fluxo. */
 html.js [data-peca] {
   width: min(72vw, 1000px);
   flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 /* O ordinal desce para trás do conteúdo (z menor): marca de prancha, não
- * número de slide. No fluxo (base) ele é estático, encabeçando a peça. */
+ * número de slide. No fluxo (base) ele é estático, encabeçando a peça.
+ * O -0.6em é deliberado: o terço de baixo do número passa POR TRÁS da
+ * zona de capitular do título — oclusão é a pista de profundidade que a
+ * paralaxe sozinha não dá. O clip-path é o canal da entrada (ver o
+ * comentário do canal, abaixo): recorte de pintura, nunca de layout —
+ * I-1 e I-2 medem caixa, e caixa não se move aqui. A transição de cor é
+ * a reação à aproximação: a marcação esquenta com a peça sob o ponteiro
+ * (regra :hover mais abaixo) — cor não é movimento. */
 html.js [data-peca-ordinal] {
   position: absolute;
-  top: -0.6em;
+  /* -1.2em, não -0.6em (F4d-bis): com -0.6em a caixa do ordinal (altura
+   * 0,94em, o line-height do display) descia até +0,34em DENTRO do
+   * conteúdo e cobria a zona capitular do nome. O Jonas pediu ar entre o
+   * número e o título, na tela, olhando: a -1.2em a borda de baixo do
+   * ordinal para 0,26em ACIMA do datum — sobra sem encostar, e a relação
+   * é idêntica nas três peças porque o topo da caixa é comum (stretch) e
+   * o valor é em em do próprio ordinal. I-1 e I-3 seguem por construção. */
+  top: -1.2em;
   left: 0;
   z-index: 0;
   pointer-events: none;
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.05) / 0.55), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+  transition: color 200ms;
 }
 
 html.js [data-peca-conteudo] {
   position: relative;
   z-index: 1;
+}
+
+/* O DATUM VISÍVEL (F4d): o fio de 1px do qual o título pende e sobre o
+ * qual o ordinal desliza. A correção geométrica da I-3 virou elemento de
+ * desenho — prancha alinha por linha comum, e aqui a linha se mostra.
+ * Pseudo-elemento: decoração pura, nada no RSC, nada na lista sem JS.
+ * Desenha da ponta esquerda no primeiro trecho da entrada (scaleX pelo
+ * canal --entrada); transform fora da lista de transition, para o scrub
+ * nunca ser amortecido. */
+html.js [data-peca-conteudo]::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--spacing-s-2));
+  left: 0;
+  width: 100%;
+  border-top: 1px solid var(--color-rule);
+  transform: scaleX(clamp(0, calc(var(--entrada, 1) / 0.45), 1));
+  transform-origin: left;
+  transition: border-color 200ms;
+}
+
+/* O tique de origem do datum — a marca de registro da peça, cruzando o
+ * fio na ponta esquerda. Em repouso é mobiliário do instrumento (ink-2);
+ * sob aproximação vira sinal (accent) e desce em direção ao título — a
+ * peça inteira reage ao leitor, não só o link (do link cuida o ímã do
+ * cursor de detalhe da F6a). */
+html.js [data-peca-conteudo]::after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--spacing-s-2) - var(--spacing-s-1));
+  left: 0;
+  width: 1px;
+  height: var(--spacing-s-2);
+  background: var(--color-ink-2);
+  transform: scaleY(clamp(0, calc((var(--entrada, 1) - 0.1) / 0.3), 1));
+  transform-origin: top;
+  transition: background-color 200ms, height 200ms;
+}
+
+html.js [data-peca]:hover [data-peca-conteudo]::before {
+  border-color: color-mix(in srgb, var(--color-ink-2) 35%, var(--color-rule));
+}
+
+html.js [data-peca]:hover [data-peca-conteudo]::after {
+  background: var(--color-accent);
+  height: var(--spacing-s-3);
+}
+
+html.js [data-peca]:hover [data-peca-ordinal] {
+  color: color-mix(in srgb, var(--color-ink-2) 45%, var(--color-rule));
+}
+
+/* O CANAL DA ENTRADA (F4d): --entrada é escrito pelo palco no MESMO
+ * scrub — afim em p, CRU (pode ser negativo ou maior que 1); quem
+ * recorta a própria sub-faixa e clampa é cada consumidor AQUI, via
+ * clamp(). 0 = a borda esquerda da peça alcançou a borda direita da
+ * janela; 1 = a peça entrou 45% da própria largura. A peça se DESENHA ao
+ * entrar em quadro: o datum puxa na frente, o ordinal e o nome imprimem
+ * em seguida, descrição, stack e links fecham — sempre da esquerda, a
+ * direção de todo fio que se desenha neste site. clip-path é recorte de
+ * pintura: nenhuma invariante geométrica (I-1..I-3) o enxerga. As
+ * margens de -8px no inset são o respiro do anel de foco âmbar
+ * (:focus-visible, 2px a 3px da caixa): recorte nenhum pode comê-lo — e
+ * quando o pouso de foco rola a peça para dentro do quadro, --entrada
+ * já passou de 1 por construção (caber no quadro exige ter entrado a
+ * largura inteira, e o desenho fecha em 45%). O fallback 1 é a lei do
+ * repouso: sem motor (no-JS, reduced motion, motor que não pousou) nada
+ * disto recorta um pixel — o estado legível e parado é o HTML do
+ * servidor. E fora da janela, o que ainda não se desenhou já está atrás
+ * da borda de corte: nada visível nasce escondido. */
+html.js [data-peca-nome] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.25) / 0.5), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+html.js [data-peca-descricao] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.4) / 0.45), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+html.js [data-peca-stack] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.5) / 0.45), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+html.js [data-peca-links] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.6) / 0.4), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
 }
 
 /* O fio de base no palco: absoluto na janela (para a borda de corte da
@@ -737,6 +933,23 @@ html.js [data-trilho-fio] {
   html.js [data-peca-ordinal] {
     position: static;
     pointer-events: auto;
+    clip-path: none;
+  }
+
+  /* O instrumento inteiro em repouso: datum e tique fora (são mobiliário
+   * do mecanismo, e sem mecanismo seriam enfeite), e nenhum consumidor
+   * do canal --entrada recorta nada — o fallback 1 já garante, o none é
+   * o cinto. A lista fica idêntica à sem JS. */
+  html.js [data-peca-conteudo]::before,
+  html.js [data-peca-conteudo]::after {
+    content: none;
+  }
+
+  html.js [data-peca-nome],
+  html.js [data-peca-descricao],
+  html.js [data-peca-stack],
+  html.js [data-peca-links] {
+    clip-path: none;
   }
 
   html.js [data-trilho-fio] {

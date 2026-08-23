@@ -12,6 +12,15 @@ import { TrabalhoTrilhoPalco } from './trabalho-trilho-palco'
  * lista vertical no fluxo — ordinal, nome, descrição, stack e links
  * visíveis, links clicáveis.
  *
+ * Desde a F4d cada peça é uma prancha que se monta: os títulos nascem num
+ * DATUM comum (a linha de 1px de onde o nome pende — e o vão
+ * ordinal→título é idêntico nas três peças por construção, com título de
+ * 1 ou de 2 linhas), a stack é cota com tique de extremidade, e a peça se
+ * desenha ao entrar em quadro. NADA disso mora aqui: datum e cota são
+ * pseudo-elementos do bloco F4b do globals.css, e o desenho de entrada é
+ * o canal --entrada escrito pelo palco — este arquivo segue sendo só a
+ * marcação e os fatos.
+ *
  * Fatos de content/dossie/projetos/*.<locale>.md, e de lá somente: nome,
  * descricao, stack.itens, repo e demo. Campo obrigatório ausente derruba o
  * build — inviolável nº 2: fato não registrado não se escreve à mão em
@@ -36,7 +45,8 @@ import { TrabalhoTrilhoPalco } from './trabalho-trilho-palco'
  * F4a): [data-peca] com data-ordem, [data-peca-nome], [data-peca-descricao],
  * [data-peca-stack], [data-peca-ordinal] e [data-peca-link] existem para a
  * suíte de provas comparar a tela com o conteúdo — não são estilo nem
- * conteúdo.
+ * conteúdo. [data-peca-links] (o <ul> dos links, F4d) é gancho de ESTILO:
+ * alvo do canal --entrada no CSS, porque a lista de links não tinha nome.
  */
 
 type Peca = {
@@ -170,7 +180,8 @@ export async function TrabalhoTrilho({ locale }: { locale: string }) {
               >
                 {/* Marca de prancha, não número de slide: atrás do conteúdo,
                     na cor do fio, decorativa. É o plano de fundo do paralaxe
-                    (0,55×) no palco. */}
+                    no palco (a taxa e a fórmula vivem no
+                    TrabalhoTrilhoPalco). */}
                 <p
                   data-peca-ordinal
                   aria-hidden="true"
@@ -201,7 +212,10 @@ export async function TrabalhoTrilho({ locale }: { locale: string }) {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                  <ul className="mt-s-4 flex flex-wrap gap-x-s-4 gap-y-s-2">
+                  <ul
+                    data-peca-links
+                    className="mt-s-4 flex flex-wrap gap-x-s-4 gap-y-s-2"
+                  >
                     <li>
                       <a
                         data-peca-link
