@@ -1,113 +1,493 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+/* ==========================================================================
+ * CORTE — tokens
+ *
+ * Desenho de corte de engenharia: a página inteira acontece sobre grafite
+ * quente, o âmbar é sinal (aresta acesa, link, estado), o display é a
+ * Archivo com eixo de largura variável e a microtipografia é mono.
+ *
+ * Regras que não cabem em token (valem no uso):
+ * - Toda cor sai destes 6 tokens. Sem gradiente, sombra, glass ou canto
+ *   arredondado — separação é fio de 1px (`rule`), nunca caixa.
+ * - Estado inicial escondido de animação NASCE em gsap.set() dentro do
+ *   efeito de animação, nunca neste arquivo: sem JavaScript, nada fica
+ *   invisível. ÚNICA exceção, deliberada e com rede de segurança:
+ *   `html.js [data-reveal]` no bloco do gate A-8, mais abaixo.
+ * - Nunca mascarar estouro horizontal por overflow no CSS — estourou,
+ *   conserta-se a causa (a máscara invalida a medição).
+ * ========================================================================== */
 
+@theme static {
+  /* COR — identidade escura única. Sem variante clara, sem alternador,
+     sem media query de esquema de cor. É compromisso deliberado. */
+  --color-ground: #0e0d0c; /* grafite quente — a página inteira acontece sobre ele */
+  --color-ink: #f2efe9; /* display, título — 16,9:1 sobre ground */
+  --color-ink-2: #8a847b; /* microtipografia, rótulo, legenda — 5,2:1 */
+  --color-rule: #262320; /* fio de desenho técnico */
+  --color-accent: #ff8a1e; /* âmbar de sinal: aresta acesa, link, estado — 8,2:1 */
+  --color-hot: #ffd08a; /* ponto de calor da aresta, hover */
+
+  /* TEXTO — fluido de propósito. A escala é cinematográfica: o topo é
+     monumental e o rodapé da escala é microtipografia técnica. */
+  --text-mega: clamp(3.25rem, 15vw, 14rem); /* o nome. E só ele. */
+  --text-mega--line-height: 0.86;
+  --text-mega--letter-spacing: -0.035em;
+  --text-mega--font-weight: 700;
+
+  --text-display: clamp(2.25rem, 6.5vw, 6rem); /* título de seção, ordinal */
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 600;
+
+  --text-lead: clamp(1.375rem, 2.6vw, 2.25rem); /* manifesto, disponibilidade */
+  --text-lead--line-height: 1.22;
+  --text-lead--letter-spacing: -0.015em;
+  --text-lead--font-weight: 400;
+
+  --text-body: clamp(1rem, 1.1vw, 1.125rem);
+  --text-body--line-height: 1.55;
+  --text-body--font-weight: 400;
+
+  --text-label: 0.75rem; /* mono, maiúscula, tracked */
+  --text-label--line-height: 1.35;
+  --text-label--letter-spacing: 0.16em;
+  --text-label--font-weight: 500;
+
+  --text-micro: 0.6875rem; /* mono, o piso — nunca menor */
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.1em;
+  --text-micro--font-weight: 400;
+
+  /* ESPAÇO */
+  --spacing-stage: clamp(20px, 4vw, 64px); /* o respiro lateral do palco — fonte única, consumido por .stage e pelo alvo da marca */
+  --spacing-s-1: 4px;
+  --spacing-s-2: 8px;
+  --spacing-s-3: 16px;
+  --spacing-s-4: 24px;
+  --spacing-s-5: 40px;
+  --spacing-s-6: clamp(48px, 6vw, 88px);
+  --spacing-s-7: clamp(80px, 10vw, 160px);
+}
+
+/* FONTE: alias em @theme INLINE, nunca static.
+   Isto é conhecimento caro deste repo, não preferência: o next/font só declara
+   --font-archivo e --font-martian nas classes .variable do <body>. Em `static`
+   a referência resolveria VAZIA em :root e o vazio seria herdado pela árvore
+   inteira. Com `inline` o valor é embutido no utilitário e resolve no elemento
+   que consome. CSS estrutural fora de utilitário consome --font-* direto. */
 @theme inline {
-  --font-sans: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, 'SFMono-Regular', monospace;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --radius: var(--radius);
+  --font-display: var(--font-archivo);
+  --font-mono: var(--font-martian);
 }
 
-/*
- * Terminal / Engineer palette (dark-first).
- * Green (#22C55E) is the single signal accent; slate neutrals carry surfaces.
- * Foreground/background pairs verified for WCAG AA+.
- */
-:root {
-  --radius: 0.5rem;
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --card: #f8fafc;
-  --card-foreground: #0f172a;
-  --popover: #ffffff;
-  --popover-foreground: #0f172a;
-  --primary: #6d28d9; /* violet-700, readable on white */
-  --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #475569; /* ~7:1 on white */
-  --accent: #2563eb; /* secondary link/tech accent */
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #6d28d9;
-}
+/* ==========================================================================
+ * BASE DO DOCUMENTO
+ * ========================================================================== */
 
-.dark {
-  --background: #0a0e14; /* deep slate-black */
-  --foreground: #e5e7eb;
-  --card: #121821;
-  --card-foreground: #e5e7eb;
-  --popover: #121821;
-  --popover-foreground: #e5e7eb;
-  --primary: #8b5cf6; /* violet-500 signal accent */
-  --primary-foreground: #140a24;
-  --secondary: #1a2230;
-  --secondary-foreground: #e5e7eb;
-  --muted: #1a2230;
-  --muted-foreground: #94a3b8; /* slate-400 on deep slate */
-  --accent: #38bdf8; /* sky-400 secondary accent */
-  --accent-foreground: #140a24;
-  --destructive: #f87171;
-  --border: #253040;
-  --input: #253040;
-  --ring: #8b5cf6;
-}
-
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
+/* color-scheme: dark pinta scrollbar e controles nativos na base certa.
+ * O background também no <html>, para o overscroll não mostrar branco. */
 html {
-  scroll-behavior: smooth;
+  color-scheme: dark;
+  background: var(--color-ground);
 }
 
+/* Consome --font-archivo DIRETO, não o alias --font-display — a substituição
+ * de custom property acontece onde ela é declarada, e o alias só resolve
+ * embutido em utilitário (ver o @theme inline acima). font-synthesis: none:
+ * peso ou itálico que a fonte não desenha não é sintetizado pelo navegador. */
 body {
-  color-scheme: light dark;
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  color: var(--color-ink);
+  background: var(--color-ground);
+  font-synthesis: none;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--primary) 30%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  color: var(--color-ink);
 }
 
-/* Consistent, visible keyboard focus */
+/* Foco: âmbar, instantâneo, sem transição. Nunca `outline: none` em lugar
+ * nenhum do projeto. */
 :focus-visible {
-  outline: 2px solid var(--ring);
-  outline-offset: 2px;
-  border-radius: 2px;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 0;
+  transition: none;
 }
 
-/* Tabular figures for stats/metrics to avoid layout shift */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
+/* Link herda cor por padrão — a âncora de interface se veste pelo contexto.
+ * O link de CONTEÚDO se declara com data-link: âmbar + sublinhado, hover no
+ * ponto de calor. */
+a {
+  color: inherit;
+}
+
+a[data-link] {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+a[data-link]:hover,
+a[data-link]:active {
+  color: var(--color-hot);
+}
+
+/* Separação é fio: rule, 1px. */
+hr,
+[data-rule] {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+}
+
+/* Skip-link: fora do fluxo em repouso, visível ao receber foco. Nunca
+ * display: none — ele precisa permanecer na ordem de foco. O nome da classe
+ * é contrato com app/[locale]/layout.tsx. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+  border-radius: 0;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* O palco: full-bleed de propósito — sem max-width, o conteúdo é que se
+ * contém. Só o respiro lateral é do container. */
+.stage {
+  width: 100%;
+  padding-inline: var(--spacing-stage);
+}
+
+/* ==========================================================================
+ * F3 — A CAPA COMO PISTA DE SCROLL
+ *
+ * A seção [data-hero] é a pista (~400vh); [data-hero-stage] é o palco,
+ * preso por position: sticky — nunca pelo pin do ScrollTrigger: sticky não
+ * cria pin-spacer, não briga com o Lenis e é robusto no iOS. O ScrollTrigger
+ * entra só com scrub, lendo o progresso do range da seção.
+ *
+ * A pista só existe sob html.js — a classe chega por script inline
+ * pré-paint (app/layout.tsx) e NUNCA chega para quem pediu menos movimento;
+ * o CapaPalco a remove se o motor não pousar (timeout de segurança). Sem a
+ * classe, a capa é um bloco estático de uma tela: com JavaScript desligado
+ * ou com reduced motion, nada de pista morta de 300vh.
+ * ========================================================================== */
+
+[data-hero] {
+  position: relative;
+}
+
+html.js [data-hero] {
+  height: 400vh;
+}
+
+[data-hero-stage] {
+  position: sticky;
+  top: 0;
+  min-height: 100dvh;
+}
+
+html.js [data-hero-stage] {
+  height: 100dvh;
+}
+
+/* A preferência vale mais que a classe: mesmo que html.js sobreviva na
+ * árvore, quem pediu menos movimento não recebe a pista. Mesma
+ * especificidade, declarado depois — a ordem decide. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-hero] {
+    height: auto;
+  }
+}
+
+/* As linhas do nome e o sanduíche de profundidade. O estado BASE é o nome
+ * INTEIRO na frente da arte (z-20 > canvas z-10): é o que o repouso, o
+ * reduced motion e o no-JS mostram — a entrelinha de 0.86 encosta as duas
+ * palavras na massa do monólito, e com o JONAS atrás desde o início a
+ * palavra nascia 98,8% ocluída (medido). O sanduíche só engata quando o
+ * MOTOR cria o eco e marca [data-eco] no palco, no mesmo frame síncrono:
+ * o JONAS desce para z-0 já coberto pelo dublê idêntico em z-20, e é a
+ * dissolução do eco no scrub que entrega a palavra ao objeto. O h1 leva
+ * position: relative SEM z-index — containing block do eco, nunca
+ * contexto de empilhamento: quem se posiciona são os spans, no mesmo
+ * contexto do canvas. */
+[data-name-mark] {
+  position: relative;
+}
+
+[data-name-linha] {
+  position: relative;
+  z-index: 20;
+  display: block;
+}
+
+html.js [data-hero-stage][data-eco] [data-name-linha][data-atras] {
+  z-index: 0;
+}
+
+/* O eco: dublê do JONAS criado pelo motor, pintado por cima do original
+ * (z-20) até o scrub dissolvê-lo. Não interage: é pintura, não conteúdo. */
+[data-name-eco] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* A mesma correia dos outros gates: com menos movimento, sem sanduíche
+ * e sem eco — a arte parada não esconde linha nenhuma do nome. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-hero-stage][data-eco] [data-name-linha][data-atras] {
+    z-index: 20;
+  }
+
+  [data-name-eco] {
+    display: none;
+  }
+}
+
+/* O alvo da marca: o ponto do canto superior esquerdo onde o nome pousa
+ * comprimido (F3) e de onde a F3b pendura o resto. Vazio e sem pintura —
+ * só geometria endereçável: o CSS é o dono da posição e do tamanho final
+ * (font-size resolvida), o JS apenas mede aqui. Top alinhado à linha da
+ * nav (s-4); left é o próprio respiro do palco. */
+[data-marca-alvo] {
+  position: absolute;
+  top: var(--spacing-s-4);
+  left: var(--spacing-stage);
+  font-size: var(--text-lead);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+ * O GATE DO ESTADO ESCONDIDO (A-8) — a ÚNICA exceção de opacity: 0 em CSS
+ * do projeto, e só sob html.js.
+ *
+ * O conflito que ela resolve: o que a F3b revela (rótulos, manifesto) não
+ * pode aparecer no repouso, não pode sumir com JavaScript desligado, e o
+ * motor só chega depois do paint — esconder por gsap.set() piscaria.
+ *
+ * O contrato inteiro:
+ *   1. script inline pré-paint põe html.js (só sem reduced motion);
+ *   2. esta regra esconde [data-reveal] antes do primeiro paint;
+ *   3. o motor pousa e o gsap assume por estilo inline, que vence a classe;
+ *   4. rede de segurança: motor que não pousa em ~2,5s, ou reduced ligado
+ *      ao vivo → o CapaPalco REMOVE html.js e nada fica invisível.
+ * Em qualquer outro lugar, opacity: 0 em CSS continua proibido.
+ * ========================================================================== */
+
+html.js [data-reveal] {
+  opacity: 0;
+}
+
+/* A mesma correia da pista: reduced motion desfaz o esconderijo por media
+ * query, sem depender do JavaScript que remove a classe. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+ * F3b — O DOCUMENTO SOBRE O PALCO
+ *
+ * [data-hud] tem DOIS layouts, e a classe html.js decide qual vale:
+ *
+ * ESTÁTICO (base — no-JS, reduced, ou WebGL que nunca montou via
+ * [data-sem-cena]): um bloco no fluxo entre o nome e o pé — o manifesto
+ * por extenso e as cinco camadas em lista. A experiência é menor; a
+ * informação é íntegra. z-20 pelo mesmo motivo do nome e do pé: o frame
+ * estático (z-10) é arte opaca e não pode cobrir texto.
+ *
+ * PALCO (html.js): overlay absoluto na largura de CONTEÚDO do palco
+ * (left/right = respiro), por cima do canvas (z-20). Cada rótulo e cada
+ * fio é posicionado por JS no Y que a CENA devolve (getEdgeScreenY) — o
+ * CSS é dono da geometria fina (o texto senta s-1 acima da linha), o JS
+ * só translada. O manifesto ancora no centro vertical, onde a travessia
+ * abre os vãos.
+ *
+ * overflow: clip AQUI não é a máscara proibida do topo deste arquivo:
+ * os callouts seguem geometria 3D que legitimamente sai do palco durante
+ * a travessia, e sem o clip esse trajeto viraria scroll fantasma na
+ * página. Nada de layout se esconde atrás dele — nenhum filho se move em
+ * X além do deslize de entrada. A regra do topo continua valendo para o
+ * documento em fluxo.
+ * ========================================================================== */
+
+[data-hud] {
+  position: relative;
+  z-index: 20;
+  margin-block: var(--spacing-s-5);
+}
+
+[data-manifesto] {
+  max-width: 38ch;
+  margin-bottom: var(--spacing-s-5);
+}
+
+[data-camadas] {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--spacing-s-4);
+  row-gap: var(--spacing-s-2);
+}
+
+/* O fio só existe como peça do handoff — sem motor não há handoff, e a
+ * arte parada não precisa de grade por cima. display, não opacity: é
+ * decoração (aria-hidden), nunca conteúdo. A camada [data-fios] fica em
+ * z-0, ANTES do nome no DOM: o fio assume no mesmo plano da aresta que
+ * ele substitui — atrás do nome e atrás do canvas, exatamente como a
+ * aresta desenhada era. */
+[data-fio] {
+  display: none;
+}
+
+html.js [data-fios] {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--spacing-stage);
+  right: var(--spacing-stage);
+  z-index: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+html.js [data-hud] {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--spacing-stage);
+  right: var(--spacing-stage);
+  margin-block: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+html.js [data-camadas] {
+  display: block;
+}
+
+/* O rótulo: âncora de altura zero transladada por JS até o Y da aresta;
+ * o texto senta s-1 ACIMA da linha, encostado à direita — longe do nome,
+ * que pousa à esquerda. */
+html.js [data-camada] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 0;
+}
+
+html.js [data-camada-texto] {
+  position: absolute;
+  bottom: var(--spacing-s-1);
+  right: 0;
+  white-space: nowrap;
+}
+
+html.js [data-manifesto] {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+}
+
+html.js [data-fio] {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* A rede de segurança da cena (F3b): motor vivo mas WebGL que nunca
+ * montou → o CapaDocumento marca [data-sem-cena] e o documento volta ao
+ * layout estático de lista. Espelha, seletor a seletor, a correia de
+ * reduced motion logo abaixo — mudou um, muda o outro. */
+html.js [data-hud][data-sem-cena] {
+  position: relative;
+  inset: auto;
+  margin-block: var(--spacing-s-5);
+  overflow: visible;
+  pointer-events: auto;
+}
+
+html.js [data-hud][data-sem-cena] [data-camadas] {
+  display: flex;
+}
+
+html.js [data-hud][data-sem-cena] [data-camada] {
+  position: static;
+  height: auto;
+}
+
+html.js [data-hud][data-sem-cena] [data-camada-texto] {
+  position: static;
+  white-space: normal;
+}
+
+html.js [data-hud][data-sem-cena] [data-manifesto] {
+  position: static;
+  transform: none;
+  margin-bottom: var(--spacing-s-5);
+}
+
+/* A mesma correia dos outros gates: quem pediu menos movimento recebe o
+ * documento em fluxo, sem depender do JavaScript que remove a classe. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-hud] {
+    position: relative;
+    inset: auto;
+    margin-block: var(--spacing-s-5);
+    overflow: visible;
+    pointer-events: auto;
+  }
+
+  html.js [data-camadas] {
+    display: flex;
+  }
+
+  html.js [data-camada] {
+    position: static;
+    height: auto;
+  }
+
+  html.js [data-camada-texto] {
+    position: static;
+    white-space: normal;
+  }
+
+  html.js [data-manifesto] {
+    position: static;
+    transform: none;
+    margin-bottom: var(--spacing-s-5);
+  }
+
+  html.js [data-fio] {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+
   *,
   *::before,
   *::after {
@@ -115,4 +495,856 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ==========================================================================
+ * F4a — TRABALHO SELECIONADO · SEÇÃO 01 (OSEUMÁXIMO)
+ *
+ * A primeira peça de "Selected work": o bloco de legenda da prancha — os
+ * números estruturais cercados por fios, as duas provas no ar embaixo.
+ * Mesma mecânica da capa: [data-trabalho] é a pista (250vh) e o palco
+ * ([data-trabalho-palco]) é preso por position: sticky — nunca pelo pin do
+ * ScrollTrigger; o scrub único vive no TrabalhoOsmPalco. A pista só existe
+ * sob html.js, exatamente como [data-hero]: com JavaScript desligado ou
+ * com reduced motion o palco é fluxo normal, os números já estão no valor
+ * final (o servidor os pinta) e os fios estão desenhados — estado
+ * escondido de animação nasce em gsap.set(), nunca aqui (o gate A-8 cobre
+ * o pré-paint via [data-reveal], mais acima).
+ * ========================================================================== */
+
+[data-trabalho] {
+  position: relative;
+}
+
+html.js [data-trabalho] {
+  height: 250vh;
+}
+
+/* Sem height fixa sob html.js — deliberado, diferente do palco da capa
+ * (que é arte posicionada em overlay): o conteúdo daqui é fluxo, e numa
+ * viewport baixa o palco cresce além de 100dvh em vez de cortar ou vazar. */
+[data-trabalho-palco] {
+  position: sticky;
+  top: 0;
+  min-height: 100dvh;
+}
+
+/* A preferência vale mais que a classe — mesma correia de [data-hero]. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-trabalho] {
+    height: auto;
+  }
+}
+
+/* O número que conta: tabular, senão a largura pula a cada dígito. */
+[data-trabalho] [data-numero] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* A medida do aviso de código privado — parágrafo, não linha infinita. */
+[data-trabalho] [data-codigo] {
+  max-width: 55ch;
+}
+
+/* Foco sempre visível: se um link da prova recebe foco enquanto o scrub
+ * ainda o esconde (clip fechado do gsap ou gate A-8), a peça abre.
+ * !important porque precisa vencer o estilo inline do gsap — o mesmo
+ * recurso que o bloco de reduced motion acima já usa. Solto o foco, o
+ * estilo inline do scrub volta a valer. */
+html.js [data-trabalho] [data-trabalho-prova]:focus-within {
+  clip-path: none !important;
+  opacity: 1 !important;
+}
+
+/* Teto de altura para o título da seção nas viewports BAIXAS (medido:
+ * 1440×900 estourava o palco em 57px e 1280×800 em 95px). A causa é que
+ * --text-display escala por vw — puramente horizontal — e 3 linhas dele
+ * não enxergam a altura da tela; tela larga e baixa é onde tipo em vw
+ * estoura palco em vh. A correção é LOCAL à seção: o token global fica
+ * intacto (o trilho da F4b também o usa) e acima de 950px de altura nada
+ * muda. */
+@media (max-height: 950px) {
+  [data-trabalho] h2 {
+    font-size: min(var(--text-display), 8vh);
+  }
+}
+
+/* ==========================================================================
+ * F4b — TRABALHO SELECIONADO · O TRILHO HORIZONTAL (PEÇAS 02–04)
+ *
+ * Os três repositórios públicos num trilho dirigido por scrub. Mesma
+ * mecânica das outras pistas: [data-trilho] é a pista — a ALTURA dela é
+ * calculada no efeito (100vh + a distância da travessia) e escrita em
+ * style inline pelo TrabalhoTrilhoPalco, nunca aqui; [data-trilho-palco] é
+ * o palco preso por position: sticky — nunca pelo pin do ScrollTrigger;
+ * [data-trilho-janela] é a janela; [data-trilho-esteira] é a fileira que
+ * translada em X sob o scrub único.
+ *
+ * Desde a F4d cada peça é uma PRANCHA QUE SE MONTA: o título pende de um
+ * datum visível (fio de 1px), a stack é cota com tique de extremidade, e
+ * a peça se desenha ao entrar em quadro pelo canal --entrada — escrito
+ * pelo palco no mesmo scrub, consumido aqui por clamp() de sub-faixa.
+ * Procure "O CANAL DA ENTRADA" neste bloco para o contrato completo.
+ *
+ * Sem html.js (JavaScript desligado, reduced motion, motor que não pousou)
+ * não existe trilho: as peças são lista vertical no fluxo normal —
+ * ordinal, nome, descrição, stack e links visíveis, links clicáveis. É o
+ * mesmo contrato de [data-hero] e [data-trabalho]: o estado de fluxo é o
+ * padrão do CSS, e é o html.js que instala o mecanismo — nunca o
+ * contrário.
+ * ========================================================================== */
+
+[data-trilho] {
+  position: relative;
+}
+
+/* F4d-bis — o nome da peça tem tamanho PRÓPRIO, menor que --text-display.
+ *
+ * O defeito, achado pelo Jonas na tela e conferido na conta: o nome mais
+ * longo do conteúdo é `spring-task-manager-api` — 23 caracteres, ~10,2em
+ * de avanço em Archivo com o tracking do display. Em --text-display o
+ * tamanho satura em 6rem (96px), e a peça satura em 1000px: 10,2 × 96 =
+ * ~980px numa caixa de 1000px. Passa raspando, e qualquer folga interna o
+ * empurra para a segunda linha — por isso quebrava só nas telas largas,
+ * nunca a 1280.
+ *
+ * Aqui o teto é 5rem (80px): 10,2 × 80 = ~816px na mesma caixa de 1000px,
+ * ~18% de folga. A folga é de propósito e é o ponto: ela absorve erro de
+ * métrica de fonte E um nome de repositório um pouco maior, sem que
+ * ninguém precise medir de novo. O conteúdo manda no layout; encurtar
+ * nome para caber seria escrever fato à mão (inviolável nº 2).
+ *
+ * O ordinal acompanha o MESMO tamanho: se só o nome encolhesse, o número
+ * passaria a ser o maior elemento da peça e a hierarquia se inverteria —
+ * a marcação gritaria mais que o marcado. */
+[data-trilho] [data-peca] {
+  --peca-display: clamp(1.75rem, 5.4vw, 5rem);
+}
+
+/* Vence o utilitário .text-display do RSC por especificidade (0,2,0 contra
+ * 0,1,0) — só o font-size; line-height, tracking e peso continuam do
+ * token, e escalam junto porque são relativos. */
+[data-trilho] [data-peca-nome],
+[data-trilho] [data-peca-ordinal] {
+  font-size: var(--peca-display);
+}
+
+/* O estado base: lista vertical, uma peça embaixo da outra. position:
+ * relative na esteira também é contrato com o efeito: garante que o
+ * offsetLeft das peças seja medido contra ELA, determinístico. */
+[data-trilho-esteira] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--spacing-s-6);
+}
+
+[data-peca] {
+  position: relative;
+}
+
+/* A única linha de prosa da peça — parágrafo, não linha infinita. */
+[data-trilho] [data-peca-descricao] {
+  max-width: 46ch;
+}
+
+/* A stack como COTA (F4d) — numa prancha, uma sequência de termos
+ * técnicos é medida, não prosa: cada termo carrega o próprio vão de
+ * cota, um segmento de fio por cima com tique de extremidade descendo
+ * nas duas pontas. Substitui o separador vertical do §2-bis, e mata de
+ * vez o defeito da quebra: como cada termo leva o próprio segmento, a
+ * linha nova abre com um vão completo — nunca com fio órfão (era o
+ * SWAGGER/OPENAPI sozinho na segunda linha). Vale também na lista sem
+ * JS: é fio de 1px, o vocabulário de sempre, legível em fluxo. */
+[data-trilho] [data-peca-stack] {
+  column-gap: var(--spacing-s-4);
+}
+
+[data-trilho] [data-peca-stack] li {
+  position: relative;
+  padding-top: var(--spacing-s-2);
+}
+
+[data-trilho] [data-peca-stack] li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-top: 1px solid var(--color-rule);
+  border-left: 1px solid var(--color-rule);
+  border-right: 1px solid var(--color-rule);
+}
+
+/* O fio de base só existe como peça do movimento — sem motor não há
+ * paralaxe. display, não opacity: é decoração (aria-hidden), nunca
+ * conteúdo. */
+[data-trilho-fio] {
+  display: none;
+}
+
+/* O trilho, só sob html.js. O palco é preso por sticky na altura da
+ * viewport; a janela sangra até as bordas da tela (a margem negativa
+ * desfaz o respiro do palco e a esteira o repõe como padding — assim o
+ * anel de foco de um link na primeira peça tem o respiro inteiro antes da
+ * borda de corte, e a peça vizinha aparece pela borda física da tela). */
+html.js [data-trilho-palco] {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+html.js [data-trilho-janela] {
+  position: relative;
+  height: 100%;
+  margin-inline: calc(-1 * var(--spacing-stage));
+  display: flex;
+  align-items: center;
+}
+
+/* §9-bis — a ÚNICA regra de estouro horizontal do projeto, aprovada para
+ * esta janela: um trilho tem conteúdo fora da tela por construção — é o
+ * mecanismo, não bug. `clip` porque não cria contêiner de rolagem, não
+ * gera barra e não quebra o sticky; a outra palavra-chave da propriedade
+ * segue proibida no projeto inteiro. Sob html.js: sem JavaScript não
+ * existe trilho, logo não existe janela, logo nada é mascarado. Qualquer
+ * outra regra de overflow, em qualquer lugar, continua proibida. */
+html.js [data-trilho-janela] {
+  overflow-x: clip;
+}
+
+/* stretch, não center (F4c/I-1): com center, a peça mais alta tinha topo
+ * mais alto, e o ordinal — absoluto, ancorado no topo da PRÓPRIA peça —
+ * pousava em três alturas (12px de degrau medidos a 1280×720). Com
+ * stretch as três peças medem a altura da mais alta, os topos coincidem e
+ * o top: -0.6em do ordinal cai no mesmo y de tela nas três, por
+ * construção. O conteúdo nasce no TOPO da caixa — o datum; ver
+ * [data-peca] abaixo. */
+html.js [data-trilho-esteira] {
+  flex-direction: row;
+  align-items: stretch;
+  column-gap: var(--spacing-s-7);
+  row-gap: 0;
+  width: max-content;
+  padding-inline: var(--spacing-stage);
+}
+
+/* A peça não ocupa a janela inteira: o vizinho aparecendo pela borda é o
+ * que faz o mecanismo se explicar sozinho — peça em tela cheia viraria
+ * slide, e slide é o que a direção recusa. flex-start, não center
+ * (F4d/I-3): prancha técnica alinha por DATUM comum, então os três
+ * títulos nascem no topo da caixa esticada — a primeira linha do nome no
+ * mesmo y nas três peças, com título de 1 ou de 2 linhas, e o vão
+ * ordinal→título idêntico por construção. O center da F4c fazia o
+ * conteúdo de título curto descer dentro da caixa enquanto o ordinal
+ * ficava preso ao topo: três vãos diferentes (40/0/55px medidos). O
+ * ordinal é absoluto e não participa do fluxo. */
+html.js [data-peca] {
+  width: min(72vw, 1000px);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* O ordinal desce para trás do conteúdo (z menor): marca de prancha, não
+ * número de slide. No fluxo (base) ele é estático, encabeçando a peça.
+ * O -0.6em é deliberado: o terço de baixo do número passa POR TRÁS da
+ * zona de capitular do título — oclusão é a pista de profundidade que a
+ * paralaxe sozinha não dá. O clip-path é o canal da entrada (ver o
+ * comentário do canal, abaixo): recorte de pintura, nunca de layout —
+ * I-1 e I-2 medem caixa, e caixa não se move aqui. A transição de cor é
+ * a reação à aproximação: a marcação esquenta com a peça sob o ponteiro
+ * (regra :hover mais abaixo) — cor não é movimento. */
+html.js [data-peca-ordinal] {
+  position: absolute;
+  /* -1.2em, não -0.6em (F4d-bis): com -0.6em a caixa do ordinal (altura
+   * 0,94em, o line-height do display) descia até +0,34em DENTRO do
+   * conteúdo e cobria a zona capitular do nome. O Jonas pediu ar entre o
+   * número e o título, na tela, olhando: a -1.2em a borda de baixo do
+   * ordinal para 0,26em ACIMA do datum — sobra sem encostar, e a relação
+   * é idêntica nas três peças porque o topo da caixa é comum (stretch) e
+   * o valor é em em do próprio ordinal. I-1 e I-3 seguem por construção. */
+  top: -1.2em;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.05) / 0.55), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+  transition: color 200ms;
+}
+
+html.js [data-peca-conteudo] {
+  position: relative;
+  z-index: 1;
+}
+
+/* O DATUM VISÍVEL (F4d): o fio de 1px do qual o título pende e sobre o
+ * qual o ordinal desliza. A correção geométrica da I-3 virou elemento de
+ * desenho — prancha alinha por linha comum, e aqui a linha se mostra.
+ * Pseudo-elemento: decoração pura, nada no RSC, nada na lista sem JS.
+ * Desenha da ponta esquerda no primeiro trecho da entrada (scaleX pelo
+ * canal --entrada); transform fora da lista de transition, para o scrub
+ * nunca ser amortecido. */
+html.js [data-peca-conteudo]::before {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--spacing-s-2));
+  left: 0;
+  width: 100%;
+  border-top: 1px solid var(--color-rule);
+  transform: scaleX(clamp(0, calc(var(--entrada, 1) / 0.45), 1));
+  transform-origin: left;
+  transition: border-color 200ms;
+}
+
+/* O tique de origem do datum — a marca de registro da peça, cruzando o
+ * fio na ponta esquerda. Em repouso é mobiliário do instrumento (ink-2);
+ * sob aproximação vira sinal (accent) e desce em direção ao título — a
+ * peça inteira reage ao leitor, não só o link (do link cuida o ímã do
+ * cursor de detalhe da F6a). */
+html.js [data-peca-conteudo]::after {
+  content: '';
+  position: absolute;
+  top: calc(-1 * var(--spacing-s-2) - var(--spacing-s-1));
+  left: 0;
+  width: 1px;
+  height: var(--spacing-s-2);
+  background: var(--color-ink-2);
+  transform: scaleY(clamp(0, calc((var(--entrada, 1) - 0.1) / 0.3), 1));
+  transform-origin: top;
+  transition: background-color 200ms, height 200ms;
+}
+
+html.js [data-peca]:hover [data-peca-conteudo]::before {
+  border-color: color-mix(in srgb, var(--color-ink-2) 35%, var(--color-rule));
+}
+
+html.js [data-peca]:hover [data-peca-conteudo]::after {
+  background: var(--color-accent);
+  height: var(--spacing-s-3);
+}
+
+html.js [data-peca]:hover [data-peca-ordinal] {
+  color: color-mix(in srgb, var(--color-ink-2) 45%, var(--color-rule));
+}
+
+/* O CANAL DA ENTRADA (F4d): --entrada é escrito pelo palco no MESMO
+ * scrub — afim em p, CRU (pode ser negativo ou maior que 1); quem
+ * recorta a própria sub-faixa e clampa é cada consumidor AQUI, via
+ * clamp(). 0 = a borda esquerda da peça alcançou a borda direita da
+ * janela; 1 = a peça entrou 45% da própria largura. A peça se DESENHA ao
+ * entrar em quadro: o datum puxa na frente, o ordinal e o nome imprimem
+ * em seguida, descrição, stack e links fecham — sempre da esquerda, a
+ * direção de todo fio que se desenha neste site. clip-path é recorte de
+ * pintura: nenhuma invariante geométrica (I-1..I-3) o enxerga. As
+ * margens de -8px no inset são o respiro do anel de foco âmbar
+ * (:focus-visible, 2px a 3px da caixa): recorte nenhum pode comê-lo — e
+ * quando o pouso de foco rola a peça para dentro do quadro, --entrada
+ * já passou de 1 por construção (caber no quadro exige ter entrado a
+ * largura inteira, e o desenho fecha em 45%). O fallback 1 é a lei do
+ * repouso: sem motor (no-JS, reduced motion, motor que não pousou) nada
+ * disto recorta um pixel — o estado legível e parado é o HTML do
+ * servidor. E fora da janela, o que ainda não se desenhou já está atrás
+ * da borda de corte: nada visível nasce escondido. */
+html.js [data-peca-nome] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.25) / 0.5), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+html.js [data-peca-descricao] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.4) / 0.45), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+html.js [data-peca-stack] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.5) / 0.45), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+html.js [data-peca-links] {
+  clip-path: inset(
+    -8px
+    calc((1 - clamp(0, calc((var(--entrada, 1) - 0.6) / 0.4), 1)) * 110% - 8px)
+    -8px
+    -8px
+  );
+}
+
+/* O fio de base no palco: absoluto na janela (para a borda de corte da
+ * própria janela cobrir o trajeto dele), correndo a 1,35× no efeito. A
+ * largura de 100% é só o estado pré-motor; o efeito a substitui em style
+ * inline por janela + 1,35× a travessia. */
+html.js [data-trilho-fio] {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: var(--spacing-s-5);
+  width: 100%;
+}
+
+/* A preferência vale mais que a classe — mesma correia de [data-hero] e
+ * [data-trabalho], seletor a seletor: quem pediu menos movimento recebe a
+ * lista em fluxo mesmo que html.js sobreviva na árvore. (A altura inline
+ * da pista morre com o motor: o provider zera o motor e o cleanup do
+ * efeito a remove.) */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-trilho-palco] {
+    position: static;
+    height: auto;
+  }
+
+  html.js [data-trilho-janela] {
+    height: auto;
+    margin-inline: 0;
+    display: block;
+  }
+
+  html.js [data-trilho-esteira] {
+    flex-direction: column;
+    align-items: stretch;
+    column-gap: 0;
+    row-gap: var(--spacing-s-6);
+    width: auto;
+    padding-inline: 0;
+  }
+
+  html.js [data-peca] {
+    width: auto;
+  }
+
+  html.js [data-peca-ordinal] {
+    position: static;
+    pointer-events: auto;
+    clip-path: none;
+  }
+
+  /* O instrumento inteiro em repouso: datum e tique fora (são mobiliário
+   * do mecanismo, e sem mecanismo seriam enfeite), e nenhum consumidor
+   * do canal --entrada recorta nada — o fallback 1 já garante, o none é
+   * o cinto. A lista fica idêntica à sem JS. */
+  html.js [data-peca-conteudo]::before,
+  html.js [data-peca-conteudo]::after {
+    content: none;
+  }
+
+  html.js [data-peca-nome],
+  html.js [data-peca-descricao],
+  html.js [data-peca-stack],
+  html.js [data-peca-links] {
+    clip-path: none;
+  }
+
+  html.js [data-trilho-fio] {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+ * F5a — PERCURSO · AS QUATRO LINHAS
+ *
+ * A travessia do tempo depois do trilho: quatro linhas — ano em display
+ * gigante, organização e cargo — em fluxo NORMAL. De propósito: esta seção
+ * não é presa — nenhuma pista, nenhum sticky, nenhuma regra sob html.js —
+ * porque três seções presas seguidas viram tique; ela atravessa a viewport
+ * e o scrub do PercursoPalco só lê a travessia ('top bottom' → 'bottom
+ * top') para a paralaxe diferencial dos anos e o desenho dos fios.
+ *
+ * O estado BASE deste CSS já é o estado final: com JavaScript desligado ou
+ * com reduced motion, as quatro linhas estão visíveis e legíveis na ordem
+ * ascendente do DOM, fios desenhados, zero transform — o movimento é
+ * instalado por cima, nunca o contrário. O fio entra escondido SÓ pelo
+ * gate A-8 ([data-reveal], mais acima); nenhum opacity: 0 novo aqui, e
+ * nenhuma regra de overflow: o ano translada dentro da própria faixa.
+ *
+ * As duas colunas (anos | organização + cargo) alinham ENTRE as linhas por
+ * subgrid: o <ol> é o dono das tracks e cada linha as herda — a coluna do
+ * texto começa no mesmo X nas quatro linhas, sem largura mágica, e é
+ * contra ela que a coluna dos anos desliza no scrub.
+ * ========================================================================== */
+
+[data-percurso] {
+  padding-block: var(--spacing-s-7);
+}
+
+[data-percurso-linhas] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--spacing-s-6);
+}
+
+[data-percurso-linha] {
+  position: relative;
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  padding-block: var(--spacing-s-5);
+}
+
+/* O intervalo não pula de largura entre linhas: dígito tabular no ano. */
+[data-percurso-ano] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* O fio que separa as linhas, na borda de baixo da própria linha — o da
+ * última fecha a strip. Absoluto para marcar a faixa exata da linha,
+ * independente do respiro interno; decoração (aria-hidden), nunca caixa. */
+[data-percurso-linha] > [data-rule] {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+}
+
+/* ==========================================================================
+ * F5b — CAPACIDADES · QUATRO PALAVRAS ENORMES
+ *
+ * Quatro capacidades, cada uma uma palavra enorme em display; a ativa abre
+ * no eixo wdth e o painel ao lado mostra os termos dela. Terceiro emprego
+ * do mesmo eixo no site — na capa o wdth é dirigido pelo scroll, na F4a
+ * pelo dado, aqui pela interação. O CapacidadesPalco é o outro lado deste
+ * contrato: os pousos 62/125 de lá são os mesmos números daqui.
+ *
+ * A lei do layout: as quatro palavras NUNCA se movem. Cada botão carrega
+ * um molde invisível da própria palavra em wdth 125 — a caixa já nasce na
+ * largura final e a palavra visível (absoluta por cima) abre DENTRO dela;
+ * o painel empilha os quatro <ul> na mesma célula de grid (a altura da
+ * célula é a do maior conjunto) e o palco ainda escreve essa medida em
+ * style inline a cada refresh. Nada reflui ao trocar de capacidade.
+ *
+ * Sem html.js (JavaScript desligado, reduced motion, motor que não pousou)
+ * não existe mecanismo: as quatro capacidades e TODOS os seus itens ficam
+ * visíveis em fluxo, palavra em wdth 125, zero esconderijo — o mesmo
+ * contrato do trilho e do percurso: o estado de fluxo é o padrão do CSS, e
+ * é o html.js que instala o mecanismo, nunca o contrário. O
+ * esconder-para-revelar da ENTRADA (botões e fios) é do gate A-8
+ * ([data-reveal], mais acima); a visibility dos <ul> inativos, aqui, é
+ * estado do MECANISMO — só sob html.js, desfeita seletor a seletor na
+ * correia de reduced motion. Nenhuma regra de overflow: a palavra abre
+ * dentro de caixa reservada, nada estoura.
+ * ========================================================================== */
+
+[data-capacidades] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s-6);
+  padding-block: var(--spacing-s-7);
+}
+
+[data-capacidades-lista] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* A caixa da palavra: o molde reserva a largura (e a altura) de wdth 125 e
+ * a palavra visível senta absoluta por cima, abrindo dentro dela. O molde
+ * é GEOMETRIA duplicada do mesmo fato, nunca conteúdo escondido:
+ * aria-hidden e invisível em TODOS os estados, com a mesma palavra sempre
+ * visível logo acima dele. Se o título quebra linha, quebra na medida do
+ * molde — o layout se adapta ao título, nunca o contrário. */
+[data-capacidade-caixa] {
+  display: block;
+  position: relative;
+}
+
+[data-capacidade-molde] {
+  display: block;
+  visibility: hidden;
+  font-variation-settings: 'wdth' 125, 'wght' 600;
+}
+
+[data-capacidade-palavra] {
+  display: block;
+  position: absolute;
+  inset: 0;
+  font-variation-settings: 'wdth' 125, 'wght' 600;
+}
+
+[data-capacidades-painel] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s-5);
+}
+
+/* Os termos, um por linha. */
+[data-capacidade-itens] li + li {
+  margin-top: var(--spacing-s-2);
+}
+
+/* O mecanismo, só sob html.js: as palavras à esquerda, o painel à direita
+ * — e uma coluna só quando o painel não cabe (o flex-wrap decide pela
+ * base de 32ch; nada de media query de largura: a direção própria de
+ * mobile é da F7). */
+html.js [data-capacidades] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+html.js [data-capacidades-lista] {
+  flex: 0 1 auto;
+}
+
+html.js [data-capacidades-painel] {
+  flex: 1 1 32ch;
+  min-inline-size: min(100%, 32ch);
+  display: grid;
+}
+
+/* Os quatro conjuntos na MESMA célula: altura reservada por construção. */
+html.js [data-capacidades-painel] > [data-capacidade-itens] {
+  grid-area: 1 / 1;
+}
+
+/* Um conjunto visível por vez É o mecanismo (estado, não reveal de
+ * animação — o esconder-para-revelar continua sendo só do gate A-8):
+ * visibility, que também tira o inativo da árvore de acessibilidade. */
+html.js [data-capacidades-painel] > [data-capacidade-itens]:not([data-ativa]) {
+  visibility: hidden;
+}
+
+/* A palavra em repouso: fechada (wdth 62) e recuada (ink-2). Este é o
+ * pouso PRÉ-MOTOR; quando o motor pousa o gsap assume o wdth por estilo
+ * inline (mesmos 62/125) e a cor continua seguindo o atributo. */
+html.js [data-capacidade]:not([data-ativa]) [data-capacidade-palavra] {
+  font-variation-settings: 'wdth' 62, 'wght' 600;
+  color: var(--color-ink-2);
+}
+
+/* O âmbar é sinal de estado, coerente com o idioma ativo da capa: marca o
+ * ordinal da capacidade ativa — um ponto de sinal, nunca o texto inteiro. */
+html.js [data-capacidade][data-ativa] [data-capacidade-ordinal] {
+  color: var(--color-accent);
+}
+
+/* Foco sempre visível: se o botão recebe foco enquanto a entrada ainda o
+ * esconde (clip do gsap ou gate A-8), ele abre. !important porque precisa
+ * vencer o estilo inline do gsap — mesmo recurso da F4a; solto o foco, o
+ * estado do scrub volta a valer. */
+html.js [data-capacidade]:focus-visible {
+  clip-path: none !important;
+  opacity: 1 !important;
+}
+
+/* A preferência vale mais que a classe — a correia de sempre, seletor a
+ * seletor: quem pediu menos movimento recebe o fluxo com tudo visível,
+ * mesmo que html.js sobreviva na árvore. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-capacidades] {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  html.js [data-capacidades-lista] {
+    flex: none;
+  }
+
+  html.js [data-capacidades-painel] {
+    flex: none;
+    min-inline-size: 0;
+    display: flex;
+  }
+
+  html.js [data-capacidades-painel] > [data-capacidade-itens] {
+    grid-area: auto;
+  }
+
+  html.js [data-capacidades-painel] > [data-capacidade-itens]:not([data-ativa]) {
+    visibility: visible;
+  }
+
+  html.js [data-capacidade]:not([data-ativa]) [data-capacidade-palavra] {
+    font-variation-settings: 'wdth' 125, 'wght' 600;
+    color: var(--color-ink);
+  }
+
+  html.js [data-capacidade][data-ativa] [data-capacidade-ordinal] {
+    color: var(--color-ink-2);
+  }
+}
+
+/* ==========================================================================
+ * F5c — DISPONIBILIDADE E RODAPÉ · O FECHO
+ *
+ * A resolução da página: a placa (fio, as duas linhas de disponibilidade,
+ * os canais, fio) e o rodapé — o nome em text-mega fechando o laço da
+ * capa: lá o wdth comprime 125 → 62, aqui abre 62 → 125. Mesmo objeto,
+ * mesmo eixo, gesto invertido. O FechoPalco é o outro lado deste
+ * contrato: os pousos 62/125 de lá são os mesmos números daqui.
+ *
+ * Seção em fluxo NORMAL, como o percurso: nenhuma pista, nenhum sticky,
+ * nenhum overflow — o scrub do FechoPalco só lê a chegada ('top bottom' →
+ * 'bottom bottom'). O estado BASE deste CSS já é o estado final: com
+ * JavaScript desligado ou com reduced motion, as duas linhas, os canais
+ * clicáveis, o nome em wdth 125, o ano e o colofão — tudo visível, em
+ * fluxo, zero transform. O esconder-para-revelar da entrada (fios, linhas
+ * e canais) é só do gate A-8 ([data-reveal], mais acima); nenhum
+ * opacity: 0 novo aqui. O pouso pré-motor do nome em wdth 62 é regra sob
+ * html.js — o mesmo padrão da palavra em repouso da F5b — desfeita na
+ * correia de reduced motion.
+ * ========================================================================== */
+
+[data-fecho] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s-7);
+  padding-block: var(--spacing-s-7) var(--spacing-s-4);
+}
+
+[data-fecho-plaquinha] > [data-fecho-fio]:first-child {
+  margin-bottom: var(--spacing-s-5);
+}
+
+[data-fecho-plaquinha] > [data-fecho-fio]:last-child {
+  margin-top: var(--spacing-s-5);
+}
+
+[data-disponibilidade] + [data-disponibilidade] {
+  margin-top: var(--spacing-s-2);
+}
+
+/* Os canais numa linha que quebra — gap, nunca caixa. */
+[data-fecho-canais] {
+  margin-top: var(--spacing-s-5);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--spacing-s-4);
+  row-gap: var(--spacing-s-2);
+}
+
+/* O clip da entrada recorta a caixa do próprio link, não a linha inteira. */
+[data-canal] {
+  display: inline-block;
+}
+
+/* O nome do rodapé: uma palavra por linha (mesma apresentação derivada da
+ * capa) e o estado BASE já no pouso final — wdth 125, wght parado no peso
+ * do próprio token mega. */
+[data-rodape-nome] > span {
+  display: block;
+}
+
+[data-rodape-nome] {
+  font-variation-settings: 'wdth' 125, 'wght' 700;
+}
+
+/* O pouso PRÉ-MOTOR sob html.js: o nome espera comprimido (wdth 62) até o
+ * scrub abri-lo; quando o motor pousa o gsap assume por estilo inline
+ * (mesmos 62/125). Sem motor em ~2,5s a rede de segurança remove html.js
+ * e o estado final volta a valer. */
+html.js [data-rodape-nome] {
+  font-variation-settings: 'wdth' 62, 'wght' 700;
+}
+
+[data-rodape-meta] {
+  margin-top: var(--spacing-s-4);
+}
+
+/* Foco sempre visível: se um canal recebe foco enquanto a entrada ainda o
+ * esconde (clip do gsap ou gate A-8), ele abre. !important porque precisa
+ * vencer o estilo inline do gsap — mesmo recurso da F4a e da F5b; solto o
+ * foco, o estado do scrub volta a valer. */
+html.js [data-fecho] [data-canal]:focus-visible {
+  clip-path: none !important;
+  opacity: 1 !important;
+}
+
+/* A preferência vale mais que a classe — a correia de sempre, seletor a
+ * seletor: quem pediu menos movimento recebe o nome já aberto, mesmo que
+ * html.js sobreviva na árvore. (Os [data-reveal] daqui já são cobertos
+ * pela correia do gate A-8, mais acima.) */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-rodape-nome] {
+    font-variation-settings: 'wdth' 125, 'wght' 700;
+  }
+}
+
+/* ==========================================================================
+ * F6a — O CURSOR DE DETALHE
+ *
+ * A marca de detalhe do leitor: o anel fino que, num desenho de corte,
+ * circunda o trecho que merece ampliação. Anel, nunca disco — fio de 1px
+ * como todo fio do projeto. O elemento nasce do JavaScript (cursor.tsx),
+ * nunca do HTML do servidor: sem motor, nada disto existe no DOM.
+ *
+ * Enfeite não custa acesso: o cursor NATIVO só some sob os DOIS gates —
+ * html.motion-ready E (pointer: fine). Motor que não pousa, toque ou
+ * reduced motion (que nunca recebe motion-ready) deixam o cursor do
+ * sistema intacto. Nunca cursor: none na raiz sem os dois gates.
+ * ========================================================================== */
+
+/* O gate duplo: cursor: none também nos interativos, porque o `pointer`
+ * da UA (a { cursor: pointer }) venceria a herança do body. */
+@media (pointer: fine) {
+  html.motion-ready body,
+  html.motion-ready a,
+  html.motion-ready button {
+    cursor: none;
+  }
+}
+
+/* O ponto do instrumento: fixo em 0,0 — o GSAP dirige x/y (transform),
+ * nunca left/top, que são layout e refluem a cada frame. z-index 90:
+ * abaixo do skip-link (100). pointer-events: none: decoração nunca
+ * intercepta clique; aria-hidden (no .tsx) a esconde do leitor de tela. */
+[data-cursor] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+/* O anel, centrado no ponto pela propriedade `translate` — independente
+ * do transform que o GSAP escreve no pai. A largura/altura é do gsap
+ * (12 → 40px); o fio é sempre 1px, por isso o tamanho anima em box, não
+ * em scale — scale afinaria o fio. */
+[data-cursor-anel] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  translate: -50% -50%;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+/* O identificador ao lado da marca — fora do anel, à direita e abaixo,
+ * nunca dentro. Tipografia no .tsx (font-mono text-micro uppercase
+ * text-ink-2); aqui só a posição. s-4 (24px) na diagonal fica além do
+ * raio máximo do anel (20px). */
+[data-cursor-rotulo] {
+  position: absolute;
+  top: var(--spacing-s-4);
+  left: var(--spacing-s-4);
+  white-space: nowrap;
+}
+
+/* O ímã escreve --ima-x/--ima-y por tween; o CSS aplica pela propriedade
+ * `translate`, que COMPÕE com o transform que o fecho anima em
+ * [data-canal] em vez de sobrescrevê-lo — os dois nunca brigam pelo
+ * mesmo campo. Sem ímã (toque, reduced, motor no ar) o fallback é 0 e a
+ * regra é inerte. */
+a[data-link],
+button {
+  translate: var(--ima-x, 0) var(--ima-y, 0);
 }

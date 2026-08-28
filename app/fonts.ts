@@ -1,20 +1,34 @@
-import { IBM_Plex_Sans, JetBrains_Mono } from 'next/font/google'
+import { Archivo, Martian_Mono } from 'next/font/google'
 
 /**
- * Shared brand fonts (Terminal / Engineer direction).
- * - IBM Plex Sans: UI, headings and body.
- * - JetBrains Mono: labels, tags, section numbers and code-like accents.
+ * As duas fontes da direção CORTE. O body declara a Archivo pelo CSS
+ * (globals.css) consumindo --font-archivo; a microtipografia mono consome
+ * --font-martian. As classes .variable no <body> são o que define essas
+ * custom properties.
+ *
+ * - Archivo: display e texto — wght 100–900 e, DECLARADO DE PROPÓSITO,
+ *   o eixo wdth 62–125. O `wdth` é o eixo de MOVIMENTO da direção: o nome
+ *   no hero vai comprimir de `wdth 125` para `wdth 62` durante o scroll,
+ *   e `transform: scaleX` deformaria a letra (hastes finas, curvas
+ *   esmagadas) em vez de estreitá-la de verdade — largura variável troca
+ *   o desenho do glifo, não a sua escala.
+ * - Martian Mono: rótulo, legenda, microtipografia — wght variável.
+ *   Ela TEM eixo wdth (75–112.5), mas não o declaramos: o gesto de
+ *   largura pertence só ao display — usá-lo também na microtipografia
+ *   diluiria o gesto e engordaria o arquivo da fonte por nada. Martian
+ *   Mono fica na largura padrão (100) de propósito, não por falta de eixo.
  */
-export const ibmPlexSans = IBM_Plex_Sans({
-  variable: '--font-ibm-plex-sans',
+export const archivo = Archivo({
+  weight: 'variable',
+  axes: ['wdth'],
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-archivo',
   display: 'swap',
 })
 
-export const jetbrainsMono = JetBrains_Mono({
-  variable: '--font-jetbrains-mono',
+export const martianMono = Martian_Mono({
+  weight: 'variable',
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  variable: '--font-martian',
   display: 'swap',
 })
