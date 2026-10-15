@@ -13,12 +13,52 @@ import type { Locale } from '@/lib/locale'
  */
 const pt = {
   pularParaConteudo: 'Pular para o conteúdo',
+  nav: {
+    rotulo: 'Navegação',
+    sobre: 'Sobre',
+    experiencia: 'Experiência',
+    stack: 'Stack',
+    projetos: 'Projetos',
+    contato: 'Contato',
+  },
+  idioma: 'Idioma',
+  tema: 'Alternar entre tema claro e escuro',
+  menu: {
+    rotulo: 'Menu',
+    abrir: 'Abrir menu',
+    fechar: 'Fechar menu',
+  },
+  abreEmNovaAba: 'abre em nova aba',
+  rodape: {
+    codigoDoSite: 'Código deste site',
+    voltarAoTopo: 'Voltar ao topo',
+  },
 }
 
 export type Ui = typeof pt
 
 const en = {
   pularParaConteudo: 'Skip to content',
+  nav: {
+    rotulo: 'Navigation',
+    sobre: 'About',
+    experiencia: 'Experience',
+    stack: 'Stack',
+    projetos: 'Projects',
+    contato: 'Contact',
+  },
+  idioma: 'Language',
+  tema: 'Switch between light and dark theme',
+  menu: {
+    rotulo: 'Menu',
+    abrir: 'Open menu',
+    fechar: 'Close menu',
+  },
+  abreEmNovaAba: 'opens in a new tab',
+  rodape: {
+    codigoDoSite: 'Source of this site',
+    voltarAoTopo: 'Back to top',
+  },
 } satisfies Ui
 
 const ui: Record<Locale, Ui> = { pt, en }

@@ -1,9 +1,12 @@
+import { Nav } from '@/components/site/nav'
+import { Rodape } from '@/components/site/rodape'
 import { getUi } from '@/content/ui'
 import { getMarkdownFile } from '@/lib/markdown'
 import { htmlLang, isLocale, locales, ogLocale, type Locale } from '@/lib/locale'
 import { getSiteUrl } from '@/lib/site'
+import { corDeFundo, scriptDeTema } from '@/lib/tema'
 import { cn } from '@/utils/cn'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
 import { archivo, martianMono } from '../fonts'
@@ -27,6 +30,14 @@ export const dynamicParams = false
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
+}
+
+/** A barra do navegador segue o sistema sem JS; com JS o script de tema a ajusta à escolha. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: corDeFundo.light },
+    { media: '(prefers-color-scheme: dark)', color: corDeFundo.dark },
+  ],
 }
 
 function getFatos(locale: Locale) {
@@ -111,12 +122,24 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   return (
-    <html lang={htmlLang[locale]} className={cn(archivo.variable, martianMono.variable, 'antialiased')}>
-      <body>
+    // suppressHydrationWarning: o script de tema escreve data-theme e a
+    // classe `js` no <html> antes de o React hidratar — é mismatch esperado.
+    <html
+      lang={htmlLang[locale]}
+      className={cn(archivo.variable, martianMono.variable, 'antialiased')}
+      suppressHydrationWarning
+    >
+      {/* #topo é o próprio documento: "Voltar ao topo" e o nome no header
+          levam ao alto da página, não a uma seção. */}
+      <body id="topo">
+        {/* Primeiro filho do <body>, síncrono: tema e html.js antes do primeiro paint. */}
+        <script dangerouslySetInnerHTML={{ __html: scriptDeTema }} />
         <a href="#conteudo" className="skip-link">
           {ui.pularParaConteudo}
         </a>
+        <Nav nome={nome} locale={locale} ui={ui} />
         {children}
+        <Rodape locale={locale} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -54,7 +54,8 @@ for (const loc of ['pt', 'en']) {
     .map((attrs) => attrs.match(/\bsrc="([^"]+)"/)?.[1])
     .filter((s) => s && s.startsWith('/_next/'))
   const bytes = [...new Set(srcs)].reduce((soma, s) => {
-    const f = path.join(OUT, s.split('?')[0])
+    const f = path.join(OUT, decodeURIComponent(s.split('?')[0]))
+    if (!fs.existsSync(f)) falhas.push(`${s}: citado no HTML e ausente de out/`)
     return soma + (fs.existsSync(f) ? zlib.gzipSync(fs.readFileSync(f)).length : 0)
   }, 0)
   const kb = bytes / 1024
