@@ -1,3 +1,4 @@
+import { Cursor } from '@/components/motion/cursor'
 import { Nav } from '@/components/site/nav'
 import { Rodape } from '@/components/site/rodape'
 import { getUi } from '@/content/ui'
@@ -134,6 +135,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         <Nav nome={nome} locale={locale} ui={ui} />
         {children}
         <Rodape locale={locale} />
+        {/* O anel só existe com ponteiro fino e sem reduced motion; o componente decide no cliente. */}
+        <Cursor />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -1,3 +1,4 @@
+import { Objeto } from '@/components/motion/objeto'
 import { Botao } from '@/components/ui/botao'
 import { getConteudo } from '@/content'
 import { getUi } from '@/content/ui'
@@ -30,6 +31,9 @@ export function Capa({ locale }: Props) {
             </h1>
             <p className="mt-3 font-mono text-sm text-accent md:text-base">{c.cargo}</p>
           </div>
+          {/* O objeto fica no fluxo, à direita, do mesmo tamanho da foto: o nome
+              encolhe (min-w-0) e quebra antes de ficar atrás dele. */}
+          <Objeto className="ml-auto hidden size-32 shrink-0 md:block" />
         </div>
 
         <div className="mt-8 md:mt-10">
