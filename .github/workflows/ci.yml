@@ -1,0 +1,67 @@
+name: CI
+
+# O que dá para garantir só com este repositório, em cada push e PR.
+# Os gates que dependem do registro privado de fatos (termos proibidos, números
+# remedidos contra o código, deriva entre canais) rodam na bancada local antes do
+# PR — o corpo do PR traz a saída deles.
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Esquema do conteúdo
+        run: npm run valida
+
+      - name: Build (export estático em out/)
+        run: npm run build
+
+      - name: Saída do export (arquivos, telefone, CV, orçamento de First Load)
+        run: node scripts/checa-saida.mjs
+
+      - name: Links do HTML gerado
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --max-retries 3
+            --exclude-mail
+            --exclude 'linkedin\.com'
+            --exclude '^https://jonasdev\.vercel\.app'
+            --root-dir ${{ github.workspace }}/out
+            'out/**/*.html'
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: out
+          path: out/
+          retention-days: 7

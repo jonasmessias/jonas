@@ -41,3 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 /vagas
+# relatório da verificação semanal (vira corpo de PR, nunca commit)
+/.github/verificacao/
