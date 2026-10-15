@@ -41,12 +41,13 @@
   --color-signal: #ff8a1e;
 
   /* TEXTO */
-  --text-display: clamp(2.25rem, 6.5vw, 6rem); /* h1 do hero */
-  --text-display--line-height: 0.94;
+  /* O h1 do hero: 32px no celular, 54px em 1280, teto 56px — um título, não um cartaz. */
+  --text-display: clamp(2rem, 4.2vw, 3.5rem);
+  --text-display--line-height: 0.96;
   --text-display--letter-spacing: -0.025em;
   --text-display--font-weight: 600;
 
-  --text-lead: clamp(1.375rem, 2.6vw, 2.25rem); /* frase de abertura */
+  --text-lead: clamp(1.25rem, 1.7vw, 1.5rem); /* frase de abertura (o menu mobile a empresta) */
   --text-lead--line-height: 1.22;
   --text-lead--letter-spacing: -0.015em;
   --text-lead--font-weight: 400;
@@ -564,14 +565,20 @@
   }
 
   /* ==========================================================================
-   * O CURSOR DE DETALHE — anel fino que segue o ponteiro (components/motion/cursor.tsx).
+   * O CURSOR DE DETALHE — ponto e anel (components/motion/cursor.tsx).
    *
-   * O cursor NATIVO só some sob html[data-cursor] (que o componente põe
-   * quando há ponteiro fino e não há reduced motion) E (pointer: fine), e
-   * nunca em campo de texto. aria-hidden + pointer-events: none: decoração
-   * que não intercepta clique. z-index 90, abaixo do skip-link (100). O
-   * anel é um SVG com traço que não escala, então o tamanho anima em
-   * transform e o fio continua 1px.
+   * O ponto (4px, âmbar) está sempre sob o ponteiro — o script escreve o
+   * transform dele no próprio pointermove. O anel chega logo atrás, com
+   * interpolação curta. O cursor NATIVO só some sob html[data-cursor] (que
+   * o componente põe quando há ponteiro fino e não há reduced motion) E
+   * (pointer: fine), e nunca em campo de texto. aria-hidden + pointer-events:
+   * none: decoração que não intercepta clique. z-index 90, abaixo do
+   * skip-link (100). O anel é um SVG com traço que não escala, então o
+   * tamanho anima em transform e o fio continua 1px.
+   *
+   * Cor: no escuro, o anel e o ponto são o âmbar (8,2:1). No claro o âmbar
+   * queimado some num fio de 1px sobre o creme, então o anel vira tinta
+   * (16,2:1) e só o ponto fica âmbar — o sinal raro.
    * ========================================================================== */
 
   @media (pointer: fine) {
@@ -591,22 +598,99 @@
     z-index: 90;
     opacity: 0;
     pointer-events: none;
+    --cursor-anel: var(--color-accent);
+    --cursor-ponto: var(--color-accent);
   }
 
-  [data-cursor-anel] {
+  :root[data-theme='light'] [data-cursor-raiz] {
+    --cursor-anel: var(--color-ink);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) [data-cursor-raiz] {
+      --cursor-anel: var(--color-ink);
+    }
+  }
+
+  [data-cursor-anel],
+  [data-cursor-ponto] {
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
+    will-change: transform;
+  }
+
+  [data-cursor-anel] {
     width: 40px;
     height: 40px;
-    translate: -50% -50%;
-    transform: scale(0.3);
-    color: var(--color-accent);
+    margin: -20px 0 0 -20px;
+    color: var(--cursor-anel);
+  }
+
+  [data-cursor-anel] > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(0.35);
+  }
+
+  [data-cursor-ponto] {
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    background: var(--cursor-ponto);
   }
 
   /* ==========================================================================
-   * O OBJETO — wireframe ao lado do nome (components/motion/objeto.tsx).
+   * A MOLDURA DA FOTO — a sombra de desenho técnico (components/secoes/capa.tsx).
+   *
+   * A foto fica no fio de 1px (rule), como tudo. Atrás dela, deslocado
+   * 6px para baixo e para a direita, um segundo fio vazio: a cópia
+   * deslocada de um desenho técnico, sem preenchimento, sem sombra. No
+   * canto onde o deslocamento aparece inteiro (inferior direito), um
+   * quadrado de 4px no sinal: o único âmbar da moldura. Tudo em
+   * pseudo-elemento, sem JS, nos dois temas.
+   * ========================================================================== */
+
+  .moldura {
+    position: relative;
+    display: block;
+    --moldura-desloca: 6px;
+  }
+
+  .moldura > img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .moldura::before,
+  .moldura::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .moldura::before {
+    inset: 0;
+    border: 1px solid var(--color-rule);
+    translate: var(--moldura-desloca) var(--moldura-desloca);
+  }
+
+  .moldura::after {
+    right: calc(-1 * var(--moldura-desloca) - 1px);
+    bottom: calc(-1 * var(--moldura-desloca) - 1px);
+    width: 4px;
+    height: 4px;
+    background: var(--color-signal);
+  }
+
+  /* ==========================================================================
+   * O OBJETO — wireframe em três pontos da página (components/motion/objeto.tsx):
+   * o icosaedro ao lado do nome, o dodecaedro no canto vazio da escada do
+   * caminho, o octaedro sob o título do contato.
    *
    * A caixa reserva o tamanho sempre (o layout não pula). Dentro, o SVG
    * estático é o que todo mundo recebe; o canvas do three.js só chega
