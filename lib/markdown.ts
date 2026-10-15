@@ -8,9 +8,8 @@ export interface MarkdownFile {
   slug: string // Base slug without locale suffix (e.g., 'perfil' instead of 'perfil.en')
   content: string
   locale?: string // The locale of this file (e.g., 'en', 'pt')
-  data: {
-    [key: string]: any
-  }
+  /** Frontmatter cru. Ninguém lê isto direto: passa pelo esquema em lib/dossie. */
+  data: Record<string, unknown>
 }
 
 /**

@@ -1,7 +1,7 @@
 import { Nav } from '@/components/site/nav'
 import { Rodape } from '@/components/site/rodape'
 import { getUi } from '@/content/ui'
-import { getMarkdownFile } from '@/lib/markdown'
+import { getPerfil, getSobre } from '@/lib/dossie'
 import { htmlLang, isLocale, locales, ogLocale, type Locale } from '@/lib/locale'
 import { getSiteUrl } from '@/lib/site'
 import { corDeFundo, scriptDeTema } from '@/lib/tema'
@@ -40,24 +40,20 @@ export const viewport: Viewport = {
   ],
 }
 
+/** Os fatos da metadata e do JSON-LD, pelos loaders validados do dossiê. */
 function getFatos(locale: Locale) {
-  const perfil = getMarkdownFile('dossie', 'perfil', locale)
-  const sobre = getMarkdownFile('dossie', 'sobre', locale)
-
-  const nome: string | undefined = perfil?.data?.nome?.texto
-  const titulo: string | undefined = perfil?.data?.titulo?.texto
-  const posicionamento: string | undefined = perfil?.data?.posicionamento?.texto
-  const local: string | undefined = perfil?.data?.local?.texto
-  const email: string | undefined = perfil?.data?.contato?.email?.texto
-  const linkedin: string | undefined = perfil?.data?.contato?.linkedin?.url
-  const github: string | undefined = perfil?.data?.contato?.github?.url
-  const instituicao: string | undefined = sobre?.data?.formacao?.instituicao
-
-  if (!nome || !titulo || !posicionamento || !local || !email || !linkedin || !github || !instituicao) {
-    throw new Error(`dossie/{perfil,sobre}.${locale}.md: campo de metadata ausente no frontmatter`)
+  const perfil = getPerfil(locale)
+  const sobre = getSobre(locale)
+  return {
+    nome: perfil.nome.texto,
+    titulo: perfil.titulo.texto,
+    posicionamento: perfil.posicionamento.texto,
+    local: perfil.local.texto,
+    email: perfil.contato.email.texto,
+    linkedin: perfil.contato.linkedin.url,
+    github: perfil.contato.github.url,
+    instituicao: sobre.formacao.instituicao,
   }
-
-  return { nome, titulo, posicionamento, local, email, linkedin, github, instituicao }
 }
 
 async function localeDe(params: Props['params']): Promise<Locale> {

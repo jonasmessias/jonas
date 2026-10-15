@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "valida": "tsx scripts/valida-conteudo.ts",
     "prebuild": "tsx scripts/gera-icones.ts && tsx scripts/valida-conteudo.ts",
@@ -15,7 +15,6 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
     "clsx": "^2.1.1",
-    "eslint-config-next": "^15.4.5",
     "gray-matter": "^4.0.3",
     "next": "^15.5.20",
     "react": "^19.2.7",
@@ -25,10 +24,13 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^15.5.28",
     "postcss": "^8",
     "tailwindcss": "^4.1.11",
     "tsx": "^4.23.15",
