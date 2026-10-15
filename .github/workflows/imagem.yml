@@ -1,4 +1,4 @@
-name: Imagem
+name: Deploy
 
 # A cada push na main, constrói a imagem Docker do site e publica no GitHub
 # Container Registry. A VM não recebe nada de fora: ela mesma busca a imagem
