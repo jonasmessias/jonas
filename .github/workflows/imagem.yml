@@ -24,6 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Emula ARM na máquina do GitHub, para montar a imagem também para a VM da Oracle.
+      - uses: docker/setup-qemu-action@v3
+
       - uses: docker/setup-buildx-action@v3
 
       - uses: docker/login-action@v3
@@ -36,6 +39,7 @@ jobs:
         with:
           context: .
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: |
             ghcr.io/jonasmessias/jonas:latest
             ghcr.io/jonasmessias/jonas:${{ github.sha }}
