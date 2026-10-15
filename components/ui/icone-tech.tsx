@@ -1,4 +1,4 @@
-import { chaveDeRotulo, marcas, simbolos, type ChaveIcone } from '@/content/icones'
+import { chaveDeRotulo, simbolos, type ChaveIcone } from '@/content/icones'
 import { cn } from '@/utils/cn'
 
 type Props = {
@@ -12,7 +12,8 @@ type Props = {
 
 /**
  * Ícone monocromático (currentColor) ao lado de um item da stack. Renderiza
- * no servidor: a marca vira <svg><path>, o símbolo é um phosphor /ssr. Sem
+ * no servidor: a marca vira <svg><use> apontando para o sprite, o símbolo é um
+ * phosphor /ssr. Sem
  * chave que case, devolve null — o item fica só com o texto, nunca com um
  * ícone errado. É decorativo (aria-hidden): o rótulo ao lado é o nome.
  */
@@ -25,7 +26,8 @@ export function IconeTech({ rotulo, icone, size = 16, className }: Props) {
     return <Simbolo size={size} weight="light" className={cn('shrink-0', className)} aria-hidden="true" />
   }
 
-  const marca = marcas[chave as keyof typeof marcas]
+  // O desenho mora no sprite (public/icones.svg, gerado no prebuild); a página
+  // só referencia a chave — ver scripts/gera-icones.ts.
   return (
     <svg
       viewBox="0 0 24 24"
@@ -35,7 +37,7 @@ export function IconeTech({ rotulo, icone, size = 16, className }: Props) {
       className={cn('shrink-0', className)}
       aria-hidden="true"
     >
-      <path d={marca.path} />
+      <use href={`/icones.svg#${chave}`} />
     </svg>
   )
 }

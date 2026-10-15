@@ -10,6 +10,9 @@ import type { Locale } from '@/lib/locale'
  * inclusive aria-label e o payload do App Router, palavra inteira e sem
  * diferenciar maiúsculas. "Principal" casa com um termo proibido — por isso
  * o skip link diz "Pular para o conteúdo" e a navegação se chama "Navegação".
+ *
+ * Os nomes de mês moram aqui porque são apresentação de uma data (o fato é
+ * o `AAAA-MM` do dossiê); `lib/periodo.ts` os consome.
  */
 const pt = {
   pularParaConteudo: 'Pular para o conteúdo',
@@ -29,6 +32,48 @@ const pt = {
     fechar: 'Fechar menu',
   },
   abreEmNovaAba: 'abre em nova aba',
+  meses: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+  capa: {
+    verProjetos: 'Ver projetos',
+    github: 'GitHub',
+    /** O alt da foto: só o nome entra depois, vindo do dossiê. */
+    fotoDe: 'Foto de',
+  },
+  sobre: {
+    formacao: 'Formação',
+    certificacoes: 'Certificações',
+    idiomas: 'Idiomas',
+  },
+  experiencia: {
+    atual: 'atual',
+    /** "desde abr 2026" quando a experiência não terminou. */
+    desde: 'desde',
+    /** "abr 2022 a mar 2023" — o separador do período, sem travessão. */
+    a: 'a',
+    verCase: 'Ver o projeto',
+    noAr: 'No ar',
+  },
+  stack: {
+    titulo: 'Stack',
+  },
+  projetos: {
+    codigoPrivado: 'Código privado',
+    verCodigo: 'Ver código',
+    verDemo: 'Ver demo',
+    verSite: 'Ver site',
+    maisNoGithub: 'Mais no GitHub',
+  },
+  bastidores: {
+    /** O passo sem `prova`: roda na bancada privada, fora do repositório. */
+    bancadaLocal: 'bancada local, privada',
+    prova: 'prova',
+  },
+  contato: {
+    email: 'E-mail',
+    linkedin: 'LinkedIn',
+    github: 'GitHub',
+    baixarCv: 'Baixar CV',
+  },
   rodape: {
     codigoDoSite: 'Código deste site',
     voltarAoTopo: 'Voltar ao topo',
@@ -55,6 +100,44 @@ const en = {
     fechar: 'Close menu',
   },
   abreEmNovaAba: 'opens in a new tab',
+  meses: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  capa: {
+    verProjetos: 'See projects',
+    github: 'GitHub',
+    fotoDe: 'Photo of',
+  },
+  sobre: {
+    formacao: 'Education',
+    certificacoes: 'Certifications',
+    idiomas: 'Languages',
+  },
+  experiencia: {
+    atual: 'present',
+    desde: 'since',
+    a: 'to',
+    verCase: 'See the project',
+    noAr: 'Live',
+  },
+  stack: {
+    titulo: 'Stack',
+  },
+  projetos: {
+    codigoPrivado: 'Private code',
+    verCodigo: 'View code',
+    verDemo: 'View demo',
+    verSite: 'View site',
+    maisNoGithub: 'More on GitHub',
+  },
+  bastidores: {
+    bancadaLocal: 'local workbench, private',
+    prova: 'proof',
+  },
+  contato: {
+    email: 'Email',
+    linkedin: 'LinkedIn',
+    github: 'GitHub',
+    baixarCv: 'Download CV',
+  },
   rodape: {
     codigoDoSite: 'Source of this site',
     voltarAoTopo: 'Back to top',

@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "valida": "tsx scripts/valida-conteudo.ts",
-    "prebuild": "tsx scripts/valida-conteudo.ts"
+    "prebuild": "tsx scripts/gera-icones.ts && tsx scripts/valida-conteudo.ts",
+    "icones": "tsx scripts/gera-icones.ts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

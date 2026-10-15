@@ -160,8 +160,10 @@
     touch-action: manipulation;
   }
 
-  /* Âncora de seção chega abaixo do header fixo, com respiro. */
-  section[id] {
+  /* Âncora de seção (ou de card, como #projeto-osm) chega abaixo do header
+   * fixo, com respiro. */
+  section[id],
+  article[id] {
     scroll-margin-top: calc(var(--spacing-header) + var(--spacing-s-4));
   }
 
@@ -403,6 +405,129 @@
   }
 
   /* ==========================================================================
+   * O PIPELINE DOS BASTIDORES — o trilho, o pacote e os nós.
+   *
+   * Comportamento emprestado do site de referência; a pele é a nossa. O
+   * trilho vai do centro do primeiro nó ao centro do último: com --n colunas
+   * e gap de 1rem, a última coluna começa em 100% menos uma coluna, e o nó
+   * (10px) tem o centro 5px adentro. O pacote é um portador de largura
+   * total que desliza de -100% a 0, então o ponto na ponta direita dele
+   * percorre o trilho inteiro — só transform/opacity. A luz do pacote e dos
+   * nós é --color-signal com brilho: a segunda exceção deliberada à regra
+   * "sem sombra" (a primeira é o .spotlight).
+   * ========================================================================== */
+
+  .fluxo-trilho,
+  .fluxo-pista {
+    position: absolute;
+    left: 5px;
+    right: calc((100% - (var(--n, 6) - 1) * 1rem) / var(--n, 6) - 5px);
+  }
+
+  .fluxo-trilho {
+    top: 4.5px;
+    height: 1px;
+    background: var(--color-rule);
+  }
+
+  .fluxo-pista {
+    top: 1.5px;
+    height: 6px;
+  }
+
+  .fluxo-pacote {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    animation: fluxo-pacote 4s linear infinite;
+  }
+
+  .fluxo-pacote > span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6px;
+    height: 6px;
+    transform: translateX(50%);
+    background: var(--color-signal);
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--color-signal) 70%, transparent);
+  }
+
+  /* O nó: 10px, quadrado. No trilho vertical (abaixo de lg) fica à esquerda
+   * do texto; no horizontal, acima dele. O último é o destino, preenchido. */
+  .fluxo-no {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    display: block;
+    width: 10px;
+    height: 10px;
+  }
+
+  @media (width >= 64rem) {
+    .fluxo-no {
+      position: relative;
+      top: 0;
+      margin-bottom: 1rem;
+    }
+  }
+
+  /* A ligação vertical entre nós, só abaixo de lg. */
+  .fluxo-ligacao {
+    position: absolute;
+    left: 4.5px;
+    top: 15px;
+    bottom: -5px;
+    width: 1px;
+    background: var(--color-rule);
+  }
+
+  /* O nó acende quando o pacote passa: o atraso vem inline do componente. */
+  .fluxo-no-luz {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: var(--color-signal);
+    box-shadow: 0 0 14px 3px color-mix(in srgb, var(--color-signal) 55%, transparent);
+    animation: fluxo-no 4s linear infinite;
+  }
+
+  @keyframes fluxo-pacote {
+    0%,
+    12% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    14% {
+      opacity: 1;
+    }
+    72% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    86%,
+    100% {
+      transform: translateX(0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes fluxo-no {
+    0% {
+      opacity: 1;
+      transform: scale(1.6);
+    }
+    18% {
+      opacity: 0;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
+  }
+
+  /* ==========================================================================
    * REDUCED MOTION — nada se move. O script de tema já não põe html.js, mas
    * quem muda a preferência com a página aberta também não pode ficar com
    * nada escondido nem em transição.
@@ -424,6 +549,12 @@
     [data-menu] [data-item],
     [data-menu-icone] span {
       transition: none !important;
+    }
+
+    /* O trilho e os nós ficam (são o diagrama); só o que se move some. */
+    .fluxo-pista,
+    .fluxo-no-luz {
+      display: none !important;
     }
   }
 }
