@@ -31,7 +31,7 @@ function Prova({ caminho, repo, ui }: { caminho: string | null; repo?: string; u
   }
   return (
     <a
-      href={`${repo}/blob/master/${caminho}`}
+      href={`${repo}/blob/main/${caminho}`}
       target="_blank"
       rel="noopener noreferrer"
       className="group mt-1 inline-flex min-h-11 items-start gap-1 py-2 font-mono text-micro text-accent transition-colors duration-300 ease-fluid hover:text-hot"

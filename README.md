@@ -49,7 +49,7 @@ fato é escrito à mão.
 
 ## Publicar
 
-`master` é produção: **push na `master` faz deploy na Vercel.** Toda mudança entra por branch +
+`main` é produção: **push na `main` faz deploy na Vercel.** Toda mudança entra por branch +
 Pull Request, e o merge é do dono.
 
 **O currículo em PDF não é linkado** enquanto a versão publicada não bater com o registro de fatos.

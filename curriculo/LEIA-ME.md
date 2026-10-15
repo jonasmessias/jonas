@@ -12,7 +12,7 @@ erros listados em `carreira/canais/site.md`.
 cp curriculo/cv.pdf public/cv.pdf
 ```
 
-Depois: branch + PR (push na `master` dispara deploy na Vercel), e por fim
+Depois: branch + PR (push na `main` dispara deploy na Vercel), e por fim
 `node engine/check_deriva.js` lá no `carreira` tem que parar de acusar o `/cv.pdf`.
 
 ## Como regerar, se o polo mudar
