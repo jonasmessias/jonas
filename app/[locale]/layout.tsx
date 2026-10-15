@@ -1,25 +1,24 @@
-import { locales, type Locale } from '@/i18n/config'
-import { getMarkdownFile } from '@/lib/markdown'
+import { Nav } from '@/components/site/nav'
+import { Rodape } from '@/components/site/rodape'
+import { getUi } from '@/content/ui'
+import { getPerfil, getSobre } from '@/lib/dossie'
+import { htmlLang, isLocale, locales, ogLocale, type Locale } from '@/lib/locale'
 import { getSiteUrl } from '@/lib/site'
-import type { Metadata } from 'next'
+import { corDeFundo, scriptDeTema } from '@/lib/tema'
+import { cn } from '@/utils/cn'
+import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
 import { ReactNode } from 'react'
+import { archivo, martianMono } from '../fonts'
+import '../globals.css'
 
 /**
- * Layout por locale — metadata, JSON-LD e o esqueleto do documento.
+ * Layout raiz, por idioma. É a raiz (não há app/layout.tsx) porque o
+ * `<html lang>` depende do parâmetro da rota — no export estático não há
+ * middleware para descobrir o idioma.
  *
  * Todo fato aqui (nome, cargo, posicionamento, contatos, formação) vem de
- * content/dossie/{perfil,sobre}.<locale>.md — nunca de constante no código.
- * Campos com prefixo `_` são registro de auditoria e NUNCA são lidos nem
- * publicados.
- *
- * Sem o provider de client do next-intl, de propósito: as nove peças do
- * dossiê são RSC (nenhum `'use client'` no repo) e a única consumidora de
- * tradução (site-header.tsx) usa getTranslations, que é servidor e lê de
- * i18n/request.ts. O provider só serializava as messages inteiras no HTML
- * de toda página — payload sem consumidor. Se um componente-cliente
- * traduzido nascer, reintroduza o provider com escopo
- * (`messages={{ dossie: messages.dossie }}`), não com as messages inteiras.
+ * content/dossie/{perfil,sobre}.<locale>.md. Campo ausente derruba o build.
  */
 
 type Props = {
@@ -27,106 +26,81 @@ type Props = {
   params: Promise<{ locale: string }>
 }
 
+export const dynamicParams = false
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
 
-/** Locale do dossiê → locale do Open Graph. */
-const OG_LOCALES: Record<Locale, string> = {
-  pt: 'pt_BR',
-  en: 'en_US',
+/** A barra do navegador segue o sistema sem JS; com JS o script de tema a ajusta à escolha. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: corDeFundo.light },
+    { media: '(prefers-color-scheme: dark)', color: corDeFundo.dark },
+  ],
 }
 
-/**
- * Fatos que a metadata e o JSON-LD consomem, lidos do frontmatter do
- * dossiê. Campo ausente derruba o build — mesmo padrão do site-header.
- */
+/** Os fatos da metadata e do JSON-LD, pelos loaders validados do dossiê. */
 function getFatos(locale: Locale) {
-  const perfil = getMarkdownFile('dossie', 'perfil', locale)
-  const sobre = getMarkdownFile('dossie', 'sobre', locale)
-
-  const nome: string | undefined = perfil?.data?.nome?.texto
-  const titulo: string | undefined = perfil?.data?.titulo?.texto
-  const posicionamento: string | undefined = perfil?.data?.posicionamento?.texto
-  const local: string | undefined = perfil?.data?.local?.texto
-  const email: string | undefined = perfil?.data?.contato?.email?.texto
-  const linkedin: string | undefined = perfil?.data?.contato?.linkedin?.url
-  const github: string | undefined = perfil?.data?.contato?.github?.url
-  const instituicao: string | undefined = sobre?.data?.formacao?.instituicao
-
-  if (
-    !nome ||
-    !titulo ||
-    !posicionamento ||
-    !local ||
-    !email ||
-    !linkedin ||
-    !github ||
-    !instituicao
-  ) {
-    // Inviolável nº 2: fato não registrado não se escreve à mão.
-    // Falhar o build é o comportamento certo; inventar fallback, não.
-    throw new Error(
-      `dossie/{perfil,sobre}.${locale}.md: campo de metadata ausente no frontmatter`,
-    )
+  const perfil = getPerfil(locale)
+  const sobre = getSobre(locale)
+  return {
+    nome: perfil.nome.texto,
+    titulo: perfil.titulo.texto,
+    posicionamento: perfil.posicionamento.texto,
+    local: perfil.local.texto,
+    email: perfil.contato.email.texto,
+    linkedin: perfil.contato.linkedin.url,
+    github: perfil.contato.github.url,
+    instituicao: sobre.formacao.instituicao,
   }
-
-  return { nome, titulo, posicionamento, local, email, linkedin, github, instituicao }
 }
 
-export async function generateMetadata({
-  params,
-}: Omit<Props, 'children'>): Promise<Metadata> {
+async function localeDe(params: Props['params']): Promise<Locale> {
   const { locale } = await params
+  if (!isLocale(locale)) notFound()
+  return locale
+}
 
-  if (!locales.includes(locale as Locale)) {
-    notFound()
-  }
-
-  const l = locale as Locale
-  const { nome, titulo, posicionamento } = getFatos(l)
+export async function generateMetadata({ params }: Omit<Props, 'children'>): Promise<Metadata> {
+  const locale = await localeDe(params)
+  const { nome, titulo, posicionamento } = getFatos(locale)
   const title = `${nome} — ${titulo}`
 
-  // A description é o posicionamento ÍNTEGRO do dossiê: o buscador trunca a
-  // exibição; cortar aqui seria inventar texto que não passou pelo GATE 1.
   return {
     metadataBase: new URL(getSiteUrl()),
     title,
     description: posicionamento,
     alternates: {
-      canonical: `/${l}`,
+      canonical: `/${locale}/`,
       languages: {
-        pt: '/pt',
-        en: '/en',
-        'x-default': '/pt',
+        ...Object.fromEntries(locales.map((l) => [htmlLang[l], `/${l}/`])),
+        'x-default': '/pt/',
       },
     },
     openGraph: {
       type: 'website',
-      url: `/${l}`,
+      url: `/${locale}/`,
       siteName: nome,
       title,
       description: posicionamento,
-      locale: OG_LOCALES[l],
-      alternateLocale: locales.filter((x) => x !== l).map((x) => OG_LOCALES[x]),
+      locale: ogLocale[locale],
+      alternateLocale: locales.filter((l) => l !== locale).map((l) => ogLocale[l]),
+      images: [{ url: '/avatar.jpg', width: 460, height: 460, alt: nome }],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary',
       title,
       description: posicionamento,
+      images: ['/avatar.jpg'],
     },
   }
 }
 
 export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await params
-
-  if (!locales.includes(locale as Locale)) {
-    notFound()
-  }
-
-  const { nome, titulo, local, email, linkedin, github, instituicao } =
-    getFatos(locale as Locale)
+  const locale = await localeDe(params)
+  const { nome, titulo, local, email, linkedin, github, instituicao } = getFatos(locale)
+  const ui = getUi(locale)
 
   // JSON-LD Person — só campos do frontmatter. Sem knowsAbout (vetor de
   // volta dos termos proibidos), sem award, sem senioridade.
@@ -136,38 +110,40 @@ export default async function LocaleLayout({ children, params }: Props) {
     name: nome,
     jobTitle: titulo,
     url: getSiteUrl(),
+    image: `${getSiteUrl()}/avatar.jpg`,
     email,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: local,
-    },
-    alumniOf: {
-      '@type': 'CollegeOrUniversity',
-      name: instituicao,
-    },
+    address: { '@type': 'PostalAddress', addressLocality: local },
+    alumniOf: { '@type': 'CollegeOrUniversity', name: instituicao },
     sameAs: [linkedin, github],
   }
 
-  const skipLinkLabel =
-    {
-      pt: 'Pular para o conteúdo principal',
-      en: 'Skip to main content',
-    }[locale] ?? 'Skip to main content'
-
   return (
-    <>
-      <a href="#main-content" className="skip-link">
-        {skipLinkLabel}
-      </a>
-      {children}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          // JSON.stringify, nunca string montada à mão; o replace escapa `<`
-          // no JSON serializado (padrão da doc do Next contra XSS).
-          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
-        }}
-      />
-    </>
+    // suppressHydrationWarning: o script de tema escreve data-theme e a
+    // classe `js` no <html> antes de o React hidratar — é mismatch esperado.
+    <html
+      lang={htmlLang[locale]}
+      className={cn(archivo.variable, martianMono.variable, 'antialiased')}
+      suppressHydrationWarning
+    >
+      {/* #topo é o próprio documento: "Voltar ao topo" e o nome no header
+          levam ao alto da página, não a uma seção. */}
+      <body id="topo">
+        {/* Primeiro filho do <body>, síncrono: tema e html.js antes do primeiro paint. */}
+        <script dangerouslySetInnerHTML={{ __html: scriptDeTema }} />
+        <a href="#conteudo" className="skip-link">
+          {ui.pularParaConteudo}
+        </a>
+        <Nav nome={nome} locale={locale} ui={ui} />
+        {children}
+        <Rodape locale={locale} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            // JSON.stringify, nunca string montada à mão; o replace escapa `<`.
+            __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
+          }}
+        />
+      </body>
+    </html>
   )
 }

@@ -5,9 +5,10 @@ locale: en
 titulo: 'oSeuMáximo — an education ecosystem in production'
 ancora_experiencia: 'experiencias/osm'
 codigo:
+  _correcao: 'Em 15/10/2026 saiu "e as decisões descritas abaixo": o site estático não renderiza o corpo do case, e a frase apontava para nada.'
   polo: 'experiencias[id=osm].prova'
   estado: 'private'
-  texto: 'The code is private — it belongs to the client and stays closed. What can be checked here are the two live products and the decisions described below.'
+  texto: 'The code is private — it belongs to the client and stays closed. What can be checked are the two live products.'
 prova:
   - polo: 'experiencias[id=osm].prova'
     nome: 'oseumaximo.com'

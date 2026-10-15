@@ -1,0 +1,122 @@
+name: Verificação semanal do portfólio
+
+# Toda segunda: confere se cada link e repositório que o site publica ainda responde
+# e se as versões declaradas batem com os repositórios — e abre um PR com o que
+# encontrou. O robô VERIFICA, não AFIRMA: a única edição permitida é a data de
+# verificação (_verificado_em, nunca renderizada). Divergência vira pendência no
+# corpo do PR para o dono decidir; fato novo entra primeiro no registro privado.
+#
+# Pré-requisitos (configurações do repositório, feitos pelo dono):
+#   - secret CLAUDE_CODE_OAUTH_TOKEN (gerado com `claude setup-token`)
+#   - Settings → Actions → "Allow GitHub Actions to create and approve pull requests"
+
+on:
+  schedule:
+    - cron: "0 12 * * 1" # segunda, 09:00 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
+concurrency:
+  group: verificar-portfolio
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Parte do PR aberto, se houver, para não perder uma data ainda sem merge.
+      - name: Partir do PR aberto
+        run: |
+          if [ -n "$(gh pr list --head bot/verificacao --state open --json number --jq '.[]')" ]; then
+            git fetch origin bot/verificacao
+            git checkout FETCH_HEAD -- content/dossie
+          fi
+
+      - name: Links e repositórios (determinístico)
+        id: links
+        run: node scripts/verifica-links.mjs --saida .github/verificacao/links.md
+
+      - name: Versões declaradas × repositórios (Claude)
+        id: claude
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --max-turns 30
+            --allowedTools "Read,Edit,Write,Glob,Grep,Bash(gh api:*),Bash(gh repo view:*),Bash(npx tsc --noEmit),Bash(npm run valida)"
+          prompt: |
+            Você é VERIFICADOR, não autor, do portfólio de Jonas Messias (GitHub: jonasmessias).
+            O conteúdo do site está em content/dossie/ (markdown com frontmatter YAML). Cada campo
+            publicado traz um ponteiro `polo:` para um registro privado de fatos que você NÃO vê e
+            que manda sobre o site. Você não decide fato nenhum.
+
+            1. Leia .github/verificacao/links.md (resultado dos links e da visibilidade dos repositórios).
+            2. Para cada arquivo em content/dossie/projetos/*.pt.md com `repo` não nulo: leia o
+               package.json, pom.xml ou build.gradle do repositório com
+               `gh api repos/OWNER/NOME/contents/<arquivo> --jq .content` (base64) e compare as
+               versões declaradas em `stack.itens` e em `decisao.texto` (ex.: "Angular 20",
+               "Spring Boot 3.5", "Java 17", "React 18") com as do repositório.
+            3. Escreva .github/verificacao/relatorio.md com as seções: "Links", "Visibilidade",
+               "Versões (declarado × repositório)" e "Pendências para o Jonas". Cada pendência cita
+               arquivo, campo, valor publicado, valor observado e a fonte (URL da API ou do arquivo).
+               Se não houver nenhuma, escreva "Sem pendências.".
+
+            PERMITIDO editar: somente o campo `_verificado_em` (data de hoje, 'AAAA-MM-DD', entre
+            aspas) dos arquivos de content/dossie/projetos/ cujo repo/demo respondeu e cujas versões
+            conferem — nos dois idiomas (.pt.md e .en.md).
+
+            PROIBIDO: criar, alterar ou remover qualquer outro campo ou texto; mexer em stack.itens,
+            descricao, decisao, nota, ordem, estado, polo, repo, demo; adicionar ou remover projetos
+            ou experiências; "corrigir" uma versão divergente (divergência é pendência, não edição);
+            criar arquivos fora de .github/verificacao/; tocar em lib/, components/, app/, scripts/.
+
+            Termine rodando `npm run valida` e `npx tsc --noEmit`. Se falharem, desfaça suas edições.
+
+      - name: Relatório de reserva (se o passo do Claude falhou)
+        if: steps.claude.outcome != 'success' || hashFiles('.github/verificacao/relatorio.md') == ''
+        run: |
+          {
+            cat .github/verificacao/links.md
+            echo
+            echo "### Versões"
+            echo
+            echo "Verificação de versões não executada nesta rodada (passo do Claude falhou ou não escreveu relatório)."
+          } > .github/verificacao/relatorio.md
+
+      - name: Validar o conteúdo depois da verificação
+        run: npm run valida && npx tsc --noEmit
+
+      - name: Abrir ou atualizar o PR
+        id: pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/verificacao
+          add-paths: content/dossie/**/*.md
+          commit-message: "chore(dossie): verificação semanal — _verificado_em"
+          title: "Verificação semanal do portfólio"
+          body-path: .github/verificacao/relatorio.md
+          delete-branch: true
+
+      # Link morto não passa em silêncio: sem PR para carregar o relatório, vira issue.
+      - name: Issue quando há falha e nenhum PR
+        if: steps.links.outputs.falhas != '0' && steps.pr.outputs.pull-request-operation == 'none'
+        run: |
+          gh issue create --title "Verificação semanal: link ou repositório com falha" --body-file .github/verificacao/relatorio.md

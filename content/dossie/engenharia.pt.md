@@ -71,9 +71,10 @@ grupos:
     polo: 'competencias.frontend.grupos[Mobile]'
     itens: ['React Native', 'Expo (expo-router, React Navigation, NativeWind, Reanimated)']
   - id: secundarias
+    _correcao: 'Angular 19 → 20 em 15/10/2026: projetos_publicos[id=angular-task-manager].versao_medida (package.json, @angular/core ^20).'
     titulo: 'Secundárias, com projeto público'
     polo: 'competencias.secundarias.grupos'
-    itens: ['Angular 19 — zoneless change detection, standalone components, Signals API, Angular CDK', 'Java 17 com Spring Boot 3.5']
+    itens: ['Angular 20 — zoneless change detection, standalone components, Signals API, Angular CDK', 'Java 17 com Spring Boot 3.5']
     _atribuicao: 'Secundárias de propósito. Cada uma tem um repositório público para abrir; nenhuma é o foco do trabalho.'
   - id: produto
     titulo: 'Processo e produto'

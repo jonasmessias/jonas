@@ -1,22 +1,18 @@
+import { htmlLang, locales } from '@/lib/locale'
 import { getSiteUrl } from '@/lib/site'
 import type { MetadataRoute } from 'next'
 
+export const dynamic = 'force-static'
+
 /**
- * Sitemap do dossiê: /pt e /en, e nada mais. A rota /es se aposentou (D3)
- * e responde 308 no middleware — rota aposentada não entra em sitemap.
- * URLs absolutas a partir de lib/site.ts, que lê a URL do conteúdo.
+ * Uma entrada por idioma, cada uma listando as outras como alternativa
+ * (hreflang). Com barra final: é a URL canônica do export (trailingSlash).
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getSiteUrl()
-
   const languages = {
-    pt: `${base}/pt`,
-    en: `${base}/en`,
-    'x-default': `${base}/pt`,
+    ...Object.fromEntries(locales.map((l) => [htmlLang[l], `${base}/${l}/`])),
+    'x-default': `${base}/pt/`,
   }
-
-  return [
-    { url: `${base}/pt`, alternates: { languages } },
-    { url: `${base}/en`, alternates: { languages } },
-  ]
+  return locales.map((l) => ({ url: `${base}/${l}/`, alternates: { languages } }))
 }

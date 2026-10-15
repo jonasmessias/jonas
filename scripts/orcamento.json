@@ -1,0 +1,4 @@
+{
+  "_o_que_e": "Teto do First Load de /pt/ e /en/ (soma gzip dos <script> do HTML servido). A base do Next 15.5 sozinha mede ~103 kB; o teto é base + 8.",
+  "firstLoadKb": 111
+}
