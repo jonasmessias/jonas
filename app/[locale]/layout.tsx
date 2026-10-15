@@ -65,10 +65,12 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>): Pro
   const locale = await localeDe(params)
   const { nome, titulo, posicionamento } = getFatos(locale)
   const title = `${nome} — ${titulo}`
+  // O título da aba é o próprio domínio (jonasmessias.dev.br), sem o www.
+  const tituloDaAba = new URL(getSiteUrl()).hostname.replace(/^www\./, '')
 
   return {
     metadataBase: new URL(getSiteUrl()),
-    title,
+    title: tituloDaAba,
     description: posicionamento,
     alternates: {
       canonical: `/${locale}/`,
