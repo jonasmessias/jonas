@@ -1,0 +1,103 @@
+name: Atualizar portfolio
+
+# Toda segunda, o Claude olha os repositórios públicos do Jonas e abre um PR
+# atualizando os projetos e a lista "Estudando" do site. Ele só edita
+# content/pt.ts e content/en.ts, e nada vai ao ar sem o merge do Jonas.
+#
+# Regra simples para um repositório aparecer no site: ter a topic "portfolio".
+#
+# Precisa do secret CLAUDE_CODE_OAUTH_TOKEN (gerado com `claude setup-token`) e de
+# Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
+
+on:
+  schedule:
+    - cron: "0 12 * * 1" # toda segunda, 09:00 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: atualizar-portfolio
+  cancel-in-progress: true
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Se já existe um PR aberto do robô, parte dele, para não perder o que ainda não teve merge.
+      - name: Partir do PR aberto
+        run: |
+          if [ -n "$(gh pr list --head bot/atualizar-portfolio --state open --json number --jq '.[]')" ]; then
+            git fetch origin bot/atualizar-portfolio
+            git checkout FETCH_HEAD -- content/pt.ts content/en.ts
+          fi
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --model claude-sonnet-5-5
+            --max-turns 40
+            --allowedTools "Read,Edit,Glob,Grep,Bash(gh api:*),Bash(gh repo view:*),Bash(npx tsc --noEmit),Bash(npm run lint)"
+          prompt: |
+            Você mantém o conteúdo do site pessoal do Jonas Messias (GitHub: jonasmessias).
+            Todo o texto do site está em dois arquivos, com a mesma forma (content/tipos.ts):
+            - content/pt.ts: português
+            - content/en.ts: inglês
+            Leia os três arquivos antes de começar.
+
+            1. Projetos. Liste os repositórios públicos com
+               gh api "users/jonasmessias/repos?per_page=100&sort=pushed"
+               e fique só com os que têm a topic "portfolio" (campo topics) e não são fork.
+               Para cada um, leia a descrição, as linguagens (gh api repos/jonasmessias/NOME/languages),
+               o README (gh repo view jonasmessias/NOME) e o package.json, pom.xml ou build.gradle.
+               - Repositório que ainda não está em `projetos`: acrescente um item no fim da lista, com
+                 nome = nome do repositório, repo = "https://github.com/jonasmessias/NOME",
+                 resumo de uma frase curta, e stack com 3 a 6 nomes (com versão quando o arquivo de
+                 dependências mostrar, ex.: "Spring Boot 3.5").
+               - Repositório que já está: corrija só o que mudou de verdade (ex.: versão na stack).
+               - Nunca remova projetos. Nunca mexa em projetos sem `repo` (são manuais).
+            2. Estudando. Veja os repositórios públicos com push nos últimos 60 dias. Se usam uma
+               linguagem ou framework que não aparece em `stack` nem em `estudando`, acrescente em
+               `estudando`. Nunca remova itens de `estudando` nem de `stack`.
+            3. Valide com `npx tsc --noEmit` e `npm run lint`. Corrija qualquer erro.
+
+            Como escrever:
+            - Simples, natural e objetivo, como o Jonas escreve. Uma frase por resumo, sem adjetivo
+              de propaganda ("robusto", "escalável", "moderno"), sem travessão.
+            - Nunca use: especialista, sênior, senior, tech lead, arquiteto, staff, principal.
+            - Só o que está no repositório. Não invente feature, número ou tecnologia.
+            - Inglês: o mesmo conteúdo, no mesmo tom curto.
+            - Não mexa em nada além de projetos e estudando.
+            - Se nada mudou, não edite nenhum arquivo.
+
+      - name: Checar tipos e lint
+        run: npx tsc --noEmit && npm run lint
+
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/atualizar-portfolio
+          add-paths: |
+            content/pt.ts
+            content/en.ts
+          commit-message: "chore: atualiza projetos e estudando"
+          title: "Atualização automática: projetos e estudando"
+          body: |
+            O Claude conferiu os repositórios públicos (topic `portfolio`) e os pushes dos últimos 60 dias.
+            Revise os textos nos dois idiomas antes do merge. Depois do merge, o deploy roda sozinho.
+          delete-branch: true

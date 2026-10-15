@@ -1,4 +1,4 @@
-name: CI
+name: Checagem
 
 # O que dá para garantir só com este repositório, em cada push e PR.
 # Os gates que dependem do registro privado de fatos (termos proibidos, números
