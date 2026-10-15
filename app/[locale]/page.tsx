@@ -13,7 +13,7 @@ export default async function Home({ params }: Props) {
   if (!nome) throw new Error(`dossie/perfil.${locale}.md: campo "nome.texto" ausente`)
 
   return (
-    <main id="main-content" className="stage py-s-7">
+    <main id="conteudo" className="stage py-s-7">
       <h1 className="text-display">{nome}</h1>
     </main>
   )

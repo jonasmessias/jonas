@@ -13,7 +13,6 @@
     "eslint-config-next": "^15.4.5",
     "gray-matter": "^4.0.3",
     "next": "^15.5.20",
-    "next-intl": "^4.13.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwind-merge": "^3.3.1"
