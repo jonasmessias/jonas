@@ -3,16 +3,22 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * O cursor de detalhe: um anel fino que segue o ponteiro com um pequeno
- * atraso, cresce sobre link e botão e puxa o alvo levemente na direção do
- * ponteiro (ímã). Sem GSAP: um requestAnimationFrame com interpolação
- * exponencial, independente da taxa de quadros.
+ * O cursor de detalhe: um ponto que está SEMPRE sob o ponteiro (escrito no
+ * próprio pointermove, sem interpolação) e um anel fino que o alcança em
+ * dois ou três quadros, cresce sobre link e botão e puxa o alvo de leve na
+ * direção do ponteiro (ímã). Sem GSAP: um requestAnimationFrame com
+ * interpolação exponencial, independente da taxa de quadros.
+ *
+ * Precisão primeiro: o ponto é a posição real; o anel é o detalhe. Por isso
+ * o anel segue com fator alto (0,5 por quadro: 94% do caminho em 4 quadros)
+ * e o ímã é curto (4px no máximo) — um deslocamento maior do alvo faria o
+ * ponteiro parecer impreciso.
  *
  * Travas:
  * - só com (pointer: fine) e sem reduced motion — as duas reativas: mouse
  *   desconectado ou preferência mudada no meio da sessão desligam tudo e
  *   devolvem o cursor nativo (html[data-cursor] sai, o CSS deixa de casar);
- * - o anel só nasce no primeiro pointermove: quem navega por Tab nunca o vê;
+ * - o cursor só nasce no primeiro pointermove: quem navega por Tab nunca o vê;
  * - aria-hidden + pointer-events: none (CSS): decoração que não intercepta;
  * - o ímã só pega alvo pequeno (botão, link de menu, ícone) — um card
  *   inteiro deslocando seria ruído — e só escreve `translate`, que compõe
@@ -23,18 +29,18 @@ import { useEffect, useRef, useState } from 'react'
 const ALVOS = 'a, button, summary, label, [role="button"]'
 /** Tamanho máximo de um alvo imantável (px). */
 const IMA_ALVO_MAX = { largura: 280, altura: 72 }
-const IMA_FATOR = 0.18
-const IMA_MAX = 6
+const IMA_FATOR = 0.1
+const IMA_MAX = 4
 
-/** Escala do anel (o SVG mede 40px): repouso 12px, detalhe 40px, pressionado -12%. */
-const ESCALA_REPOUSO = 0.3
+/** Escala do anel (o SVG mede 40px): repouso 14px, detalhe 40px, pressionado -12%. */
+const ESCALA_REPOUSO = 0.35
 const ESCALA_DETALHE = 1
 const FATOR_PRESSAO = 0.88
 
-/** Fatores de interpolação por quadro de 16,7ms. */
-const SEGUIR = 0.22
-const ANEL = 0.18
-const FADE = 0.2
+/** Fatores de interpolação por quadro de 16,7ms. O ponto não interpola. */
+const SEGUIR = 0.5
+const ANEL = 0.3
+const FADE = 0.25
 
 type Ima = { el: HTMLElement; x: number; y: number; ax: number; ay: number; solto: boolean }
 
@@ -43,7 +49,9 @@ const clamp = (v: number, m: number) => Math.max(-m, Math.min(m, v))
 
 export function Cursor() {
   const raizRef = useRef<HTMLDivElement>(null)
-  const anelRef = useRef<SVGSVGElement>(null)
+  const pontoRef = useRef<HTMLDivElement>(null)
+  const anelRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
   const [ativo, setAtivo] = useState(false)
 
   useEffect(() => {
@@ -62,8 +70,10 @@ export function Cursor() {
   useEffect(() => {
     if (!ativo) return
     const raiz = raizRef.current
+    const ponto = pontoRef.current
     const anel = anelRef.current
-    if (!raiz || !anel) return
+    const svg = svgRef.current
+    if (!raiz || !ponto || !anel || !svg) return
 
     document.documentElement.setAttribute('data-cursor', '')
 
@@ -100,9 +110,9 @@ export function Cursor() {
       y = lerp(y, py, k(SEGUIR))
       opacidade = lerp(opacidade, visivel ? 1 : 0, k(FADE))
       escala = lerp(escala, escalaAlvo(), k(ANEL))
-      raiz.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`
+      anel.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`
+      svg.style.transform = `scale(${escala.toFixed(3)})`
       raiz.style.opacity = opacidade.toFixed(3)
-      anel.style.transform = `scale(${escala.toFixed(3)})`
 
       let ativoImas = false
       const imas = imaAtual ? [imaAtual, ...imasSoltos] : imasSoltos
@@ -159,8 +169,10 @@ export function Cursor() {
     const aoMover = (e: PointerEvent) => {
       px = e.clientX
       py = e.clientY
+      // O ponto vai direto, no próprio evento: zero atraso.
+      ponto.style.transform = `translate3d(${px}px, ${py}px, 0)`
       if (!visivel) {
-        // Primeiro movimento: pula para o ponteiro e só então aparece.
+        // Primeiro movimento: o anel pula para o ponteiro e só então aparece.
         visivel = true
         x = px
         y = py
@@ -223,9 +235,12 @@ export function Cursor() {
 
   return (
     <div ref={raizRef} data-cursor-raiz="" aria-hidden="true">
-      <svg ref={anelRef} data-cursor-anel="" viewBox="0 0 40 40" fill="none">
-        <circle cx="20" cy="20" r="19.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-      </svg>
+      <div ref={anelRef} data-cursor-anel="">
+        <svg ref={svgRef} viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="19.5" stroke="currentColor" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+        </svg>
+      </div>
+      <div ref={pontoRef} data-cursor-ponto="" />
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { Objeto } from '@/components/motion/objeto'
 import { IconeTech } from '@/components/ui/icone-tech'
 import { Secao } from '@/components/ui/secao'
 import { getConteudo } from '@/content'
@@ -54,7 +55,13 @@ export function Contato({ locale }: Props) {
   }
 
   return (
-    <Secao id="contato" titulo={ui.nav.contato} colunas>
+    <Secao
+      id="contato"
+      titulo={ui.nav.contato}
+      colunas
+      // O octaedro: sob o título, na coluna que sobra em md+ (nunca sobre texto).
+      ornamento={<Objeto forma="octaedro" className="mt-8 hidden size-24 md:block" />}
+    >
       <ul className="flex flex-col">
         {linhas.map((l) => (
           <li key={l.chave} className="border-t border-rule last:border-b">

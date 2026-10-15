@@ -1,4 +1,5 @@
 import { Fada } from '@/components/motion/fada'
+import { Objeto } from '@/components/motion/objeto'
 import { Secao } from '@/components/ui/secao'
 import { getConteudo } from '@/content'
 import type { Locale } from '@/lib/locale'
@@ -12,6 +13,9 @@ type Props = { locale: Locale }
  * (components/motion/fada.tsx) percorre as estações e acende cada uma ao
  * passar; o desenho dos fios e nós mora em globals.css (.fluxo-*). O número
  * de passos é livre: a grade nasce de --n e cada passo sabe seu --i.
+ *
+ * O dodecaedro ocupa o canto superior direito da escada — o que a
+ * diagonal dos passos deixa vazio em md+. Abaixo de md não existe.
  */
 export function Caminho({ locale }: Props) {
   const { caminho } = getConteudo(locale)
@@ -38,6 +42,7 @@ export function Caminho({ locale }: Props) {
             </li>
           ))}
         </ol>
+        <Objeto forma="dodecaedro" className="absolute top-0 right-0 hidden size-24 md:block" />
       </Fada>
     </Secao>
   )
