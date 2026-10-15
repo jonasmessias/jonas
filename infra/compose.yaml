@@ -1,0 +1,25 @@
+# O que roda na VM: o site e o túnel da Cloudflare.
+# Nenhuma porta é publicada: o túnel abre a conexão de dentro para fora,
+# então o firewall da VM pode bloquear toda entrada.
+
+services:
+  site:
+    image: ghcr.io/jonasmessias/jonas:latest
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+    networks: [interna]
+
+  tunel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on: [site]
+    networks: [interna]
+
+networks:
+  interna:

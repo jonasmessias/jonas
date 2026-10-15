@@ -1,7 +1,8 @@
+import { Cursor } from '@/components/motion/cursor'
 import { Nav } from '@/components/site/nav'
 import { Rodape } from '@/components/site/rodape'
 import { getUi } from '@/content/ui'
-import { getPerfil, getSobre } from '@/lib/dossie'
+import { getConteudo } from '@/content'
 import { htmlLang, isLocale, locales, ogLocale, type Locale } from '@/lib/locale'
 import { getSiteUrl } from '@/lib/site'
 import { corDeFundo, scriptDeTema } from '@/lib/tema'
@@ -17,8 +18,7 @@ import '../globals.css'
  * `<html lang>` depende do parâmetro da rota — no export estático não há
  * middleware para descobrir o idioma.
  *
- * Todo fato aqui (nome, cargo, posicionamento, contatos, formação) vem de
- * content/dossie/{perfil,sobre}.<locale>.md. Campo ausente derruba o build.
+ * O texto (nome, cargo, frase, contatos, formação) vem de content/<idioma>.ts.
  */
 
 type Props = {
@@ -40,19 +40,18 @@ export const viewport: Viewport = {
   ],
 }
 
-/** Os fatos da metadata e do JSON-LD, pelos loaders validados do dossiê. */
+/** O que a metadata e o JSON-LD usam, do conteúdo do idioma. */
 function getFatos(locale: Locale) {
-  const perfil = getPerfil(locale)
-  const sobre = getSobre(locale)
+  const c = getConteudo(locale)
   return {
-    nome: perfil.nome.texto,
-    titulo: perfil.titulo.texto,
-    posicionamento: perfil.posicionamento.texto,
-    local: perfil.local.texto,
-    email: perfil.contato.email.texto,
-    linkedin: perfil.contato.linkedin.url,
-    github: perfil.contato.github.url,
-    instituicao: sobre.formacao.instituicao,
+    nome: c.nome,
+    titulo: c.cargo,
+    posicionamento: c.frase,
+    local: c.local,
+    email: c.contato.email,
+    linkedin: c.contato.linkedin.url,
+    github: c.contato.github.url,
+    instituicao: c.formacao.instituicao,
   }
 }
 
@@ -66,10 +65,12 @@ export async function generateMetadata({ params }: Omit<Props, 'children'>): Pro
   const locale = await localeDe(params)
   const { nome, titulo, posicionamento } = getFatos(locale)
   const title = `${nome} — ${titulo}`
+  // O título da aba é o próprio domínio (jonasmessias.dev.br), sem o www.
+  const tituloDaAba = new URL(getSiteUrl()).hostname.replace(/^www\./, '')
 
   return {
     metadataBase: new URL(getSiteUrl()),
-    title,
+    title: tituloDaAba,
     description: posicionamento,
     alternates: {
       canonical: `/${locale}/`,
@@ -136,6 +137,8 @@ export default async function LocaleLayout({ children, params }: Props) {
         <Nav nome={nome} locale={locale} ui={ui} />
         {children}
         <Rodape locale={locale} />
+        {/* O anel só existe com ponteiro fino e sem reduced motion; o componente decide no cliente. */}
+        <Cursor />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -1,4 +1,4 @@
-import { Bastidores } from '@/components/secoes/bastidores'
+import { Caminho } from '@/components/secoes/caminho'
 import { Capa } from '@/components/secoes/capa'
 import { Contato } from '@/components/secoes/contato'
 import { Experiencia } from '@/components/secoes/experiencia'
@@ -14,7 +14,7 @@ type Props = {
 
 /**
  * A página: sete seções, uma por componente RSC em components/secoes/, na
- * ordem de leitura. Todo fato vem de lib/dossie; os rótulos, de content/ui.
+ * ordem de leitura. O texto vem de content/pt.ts e content/en.ts; os rótulos, de content/ui.ts.
  * `#topo` é o <body> (layout); `#conteudo` é o alvo do skip link.
  */
 export default async function Home({ params }: Props) {
@@ -28,7 +28,7 @@ export default async function Home({ params }: Props) {
       <Experiencia locale={locale} />
       <Stack locale={locale} />
       <Projetos locale={locale} />
-      <Bastidores locale={locale} />
+      <Caminho locale={locale} />
       <Contato locale={locale} />
     </main>
   )

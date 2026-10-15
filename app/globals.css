@@ -13,8 +13,8 @@
  * Regras que não cabem em token (valem no uso):
  * - Toda cor sai dos tokens. Sem gradiente, sombra, glass ou canto
  *   arredondado. Duas exceções deliberadas, as duas comportamentos
- *   emprestados: a luz do painel (.spotlight) e o brilho do pacote no
- *   diagrama de bastidores. As duas usam --color-signal.
+ *   emprestados: a luz do painel (.spotlight) e o brilho da fada e dos nós
+ *   na escada de bastidores. As duas usam --color-signal.
  * - Escuro é o padrão de @theme. O claro redefine os tokens FORA de
  *   qualquer @layer (`:root[data-theme='light']`), para vencer a camada
  *   `theme` do Tailwind; quem está sem JS recebe o tema do sistema por
@@ -41,12 +41,13 @@
   --color-signal: #ff8a1e;
 
   /* TEXTO */
-  --text-display: clamp(2.25rem, 6.5vw, 6rem); /* h1 do hero */
-  --text-display--line-height: 0.94;
+  /* O h1 do hero: 32px no celular, 54px em 1280, teto 56px — um título, não um cartaz. */
+  --text-display: clamp(2rem, 4.2vw, 3.5rem);
+  --text-display--line-height: 0.96;
   --text-display--letter-spacing: -0.025em;
   --text-display--font-weight: 600;
 
-  --text-lead: clamp(1.375rem, 2.6vw, 2.25rem); /* frase de abertura */
+  --text-lead: clamp(1.25rem, 1.7vw, 1.5rem); /* frase de abertura (o menu mobile a empresta) */
   --text-lead--line-height: 1.22;
   --text-lead--letter-spacing: -0.015em;
   --text-lead--font-weight: 400;
@@ -405,56 +406,43 @@
   }
 
   /* ==========================================================================
-   * O PIPELINE DOS BASTIDORES — o trilho, o pacote e os nós.
+   * A ESCADA DOS BASTIDORES — as estações, os fios e a fada.
    *
-   * Comportamento emprestado do site de referência; a pele é a nossa. O
-   * trilho vai do centro do primeiro nó ao centro do último: com --n colunas
-   * e gap de 1rem, a última coluna começa em 100% menos uma coluna, e o nó
-   * (10px) tem o centro 5px adentro. O pacote é um portador de largura
-   * total que desliza de -100% a 0, então o ponto na ponta direita dele
-   * percorre o trilho inteiro — só transform/opacity. A luz do pacote e dos
-   * nós é --color-signal com brilho: a segunda exceção deliberada à regra
-   * "sem sombra" (a primeira é o .spotlight).
+   * Cada passo é uma estação: nó quadrado de 10px com o texto à direita.
+   * Abaixo de md as estações descem num fio vertical; de md em diante
+   * formam uma escada — o passo i ocupa a coluna i e a linha i de uma grade
+   * de --n colunas, e o fio sai do nó, vai na horizontal até a coluna
+   * seguinte e desce até o próximo nó. Nada aqui depende do número de
+   * passos: --n vem do componente e --i de cada passo.
+   *
+   * A fada (o poro luminoso, --color-signal) é posicionada por
+   * components/motion/fada.tsx com transform/opacity a cada quadro; o nó
+   * acende por data-acesa quando ela passa. Sem JS (html sem .js, o que
+   * inclui reduced motion) a fada não existe e todos os nós ficam acesos e
+   * parados. O brilho da fada e dos nós é a segunda exceção deliberada à
+   * regra "sem sombra" (a primeira é o .spotlight).
+   *
+   * Medidas: nó em top 5px → centro em (5px, 10px) do passo. --fluxo-gap é
+   * o espaço entre linhas; --fluxo-col, entre colunas.
    * ========================================================================== */
 
-  .fluxo-trilho,
-  .fluxo-pista {
-    position: absolute;
-    left: 5px;
-    right: calc((100% - (var(--n, 6) - 1) * 1rem) / var(--n, 6) - 5px);
-  }
-
-  .fluxo-trilho {
-    top: 4.5px;
-    height: 1px;
-    background: var(--color-rule);
-  }
-
-  .fluxo-pista {
-    top: 1.5px;
-    height: 6px;
-  }
-
-  .fluxo-pacote {
+  .fluxo {
     position: relative;
-    width: 100%;
-    height: 100%;
-    animation: fluxo-pacote 4s linear infinite;
+    --fluxo-gap: 1.75rem;
+    --fluxo-col: 1rem;
   }
 
-  .fluxo-pacote > span {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 6px;
-    height: 6px;
-    transform: translateX(50%);
-    background: var(--color-signal);
-    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--color-signal) 70%, transparent);
+  .fluxo-passos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fluxo-gap);
   }
 
-  /* O nó: 10px, quadrado. No trilho vertical (abaixo de lg) fica à esquerda
-   * do texto; no horizontal, acima dele. O último é o destino, preenchido. */
+  .fluxo-passo {
+    position: relative;
+    padding-left: 1.75rem;
+  }
+
   .fluxo-no {
     position: absolute;
     left: 0;
@@ -462,69 +450,282 @@
     display: block;
     width: 10px;
     height: 10px;
+    border: 1px solid var(--color-rule);
+    background: var(--color-ground);
   }
 
-  @media (width >= 64rem) {
-    .fluxo-no {
-      position: relative;
-      top: 0;
-      margin-bottom: 1rem;
-    }
-  }
-
-  /* A ligação vertical entre nós, só abaixo de lg. */
-  .fluxo-ligacao {
+  .fluxo-no-luz {
     position: absolute;
-    left: 4.5px;
-    top: 15px;
-    bottom: -5px;
-    width: 1px;
+    inset: -1px;
+    opacity: 0;
+    transform: scale(1.6);
+    background: var(--color-signal);
+    box-shadow: 0 0 14px 3px color-mix(in srgb, var(--color-signal) 55%, transparent);
+    transition:
+      opacity 0.35s var(--ease-fluid),
+      transform 0.35s var(--ease-fluid);
+  }
+
+  [data-acesa] .fluxo-no-luz {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  html:not(.js) .fluxo-no-luz {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  /* Os fios: o vertical desce do centro do nó ao centro do próximo; o
+   * horizontal só existe na escada. */
+  .fluxo-fio {
+    position: absolute;
     background: var(--color-rule);
   }
 
-  /* O nó acende quando o pacote passa: o atraso vem inline do componente. */
-  .fluxo-no-luz {
+  .fluxo-fio-v {
+    left: 4.5px;
+    top: 10px;
+    bottom: calc(-1 * (var(--fluxo-gap) + 10px));
+    width: 1px;
+  }
+
+  .fluxo-fio-h {
+    display: none;
+  }
+
+  @media (width >= 48rem) {
+    .fluxo-passos {
+      display: grid;
+      grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
+      column-gap: var(--fluxo-col);
+      row-gap: var(--fluxo-gap);
+    }
+
+    .fluxo-passo {
+      grid-column: calc(var(--i, 0) + 1);
+      grid-row: calc(var(--i, 0) + 1);
+    }
+
+    .fluxo-fio-h {
+      display: block;
+      left: 5px;
+      right: calc(-1 * (var(--fluxo-col) + 5px));
+      top: 9.5px;
+      height: 1px;
+    }
+
+    .fluxo-fio-v {
+      left: calc(100% + var(--fluxo-col) + 4.5px);
+    }
+  }
+
+  /* A fada: 10px, redonda, com halo que respira (só transform). Nasce
+   * invisível; o JS escreve transform e opacity. translate centra o ponto
+   * sem brigar com o transform escrito pelo script. */
+  .fluxo-fada {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    translate: -50% -50%;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--color-signal);
+    box-shadow:
+      0 0 6px 1px var(--color-hot),
+      0 0 16px 4px color-mix(in srgb, var(--color-signal) 70%, transparent);
+  }
+
+  .fluxo-fada::before {
+    content: '';
+    position: absolute;
+    inset: -11px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-signal) 45%, transparent), transparent 70%);
+    animation: fluxo-halo 1.8s ease-in-out infinite;
+  }
+
+  html:not(.js) .fluxo-fada {
+    display: none;
+  }
+
+  @keyframes fluxo-halo {
+    0%,
+    100% {
+      transform: scale(0.85);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+  }
+
+  /* ==========================================================================
+   * O CURSOR DE DETALHE — ponto e anel (components/motion/cursor.tsx).
+   *
+   * O ponto (4px, âmbar) está sempre sob o ponteiro — o script escreve o
+   * transform dele no próprio pointermove. O anel chega logo atrás, com
+   * interpolação curta. O cursor NATIVO só some sob html[data-cursor] (que
+   * o componente põe quando há ponteiro fino e não há reduced motion) E
+   * (pointer: fine), e nunca em campo de texto. aria-hidden + pointer-events:
+   * none: decoração que não intercepta clique. z-index 90, abaixo do
+   * skip-link (100). O anel é um SVG com traço que não escala, então o
+   * tamanho anima em transform e o fio continua 1px.
+   *
+   * Cor: no escuro, o anel e o ponto são o âmbar (8,2:1). No claro o âmbar
+   * queimado some num fio de 1px sobre o creme, então o anel vira tinta
+   * (16,2:1) e só o ponto fica âmbar — o sinal raro.
+   * ========================================================================== */
+
+  @media (pointer: fine) {
+    html[data-cursor] :where(body, a, button, summary, label, [role='button']) {
+      cursor: none;
+    }
+
+    html[data-cursor] :where(input, textarea, select, [contenteditable='true']) {
+      cursor: auto;
+    }
+  }
+
+  [data-cursor-raiz] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 90;
+    opacity: 0;
+    pointer-events: none;
+    --cursor-anel: var(--color-accent);
+    --cursor-ponto: var(--color-accent);
+  }
+
+  :root[data-theme='light'] [data-cursor-raiz] {
+    --cursor-anel: var(--color-ink);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) [data-cursor-raiz] {
+      --cursor-anel: var(--color-ink);
+    }
+  }
+
+  [data-cursor-anel],
+  [data-cursor-ponto] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    will-change: transform;
+  }
+
+  [data-cursor-anel] {
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    color: var(--cursor-anel);
+  }
+
+  [data-cursor-anel] > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(0.35);
+  }
+
+  [data-cursor-ponto] {
+    width: 4px;
+    height: 4px;
+    margin: -2px 0 0 -2px;
+    background: var(--cursor-ponto);
+  }
+
+  /* ==========================================================================
+   * A MOLDURA DA FOTO — a sombra de desenho técnico (components/secoes/capa.tsx).
+   *
+   * A foto fica no fio de 1px (rule), como tudo. Atrás dela, deslocado
+   * 6px para baixo e para a direita, um segundo fio vazio: a cópia
+   * deslocada de um desenho técnico, sem preenchimento, sem sombra. No
+   * canto onde o deslocamento aparece inteiro (inferior direito), um
+   * quadrado de 4px no sinal: o único âmbar da moldura. Tudo em
+   * pseudo-elemento, sem JS, nos dois temas.
+   * ========================================================================== */
+
+  .moldura {
+    position: relative;
+    display: block;
+    --moldura-desloca: 6px;
+  }
+
+  .moldura > img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .moldura::before,
+  .moldura::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .moldura::before {
+    inset: 0;
+    border: 1px solid var(--color-rule);
+    translate: var(--moldura-desloca) var(--moldura-desloca);
+  }
+
+  .moldura::after {
+    right: calc(-1 * var(--moldura-desloca) - 1px);
+    bottom: calc(-1 * var(--moldura-desloca) - 1px);
+    width: 4px;
+    height: 4px;
+    background: var(--color-signal);
+  }
+
+  /* ==========================================================================
+   * O OBJETO — wireframe em três pontos da página (components/motion/objeto.tsx):
+   * o icosaedro ao lado do nome, o dodecaedro no canto vazio da escada do
+   * caminho, o octaedro sob o título do contato.
+   *
+   * A caixa reserva o tamanho sempre (o layout não pula). Dentro, o SVG
+   * estático é o que todo mundo recebe; o canvas do three.js só chega
+   * depois da página pronta, por import dinâmico, e entra por opacidade
+   * sobre o SVG. Sem WebGL, com reduced motion ou em tela pequena, fica o
+   * SVG.
+   * ========================================================================== */
+
+  .objeto {
+    position: relative;
+  }
+
+  .objeto > svg,
+  .objeto > canvas {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.6s var(--ease-fluid);
+  }
+
+  .objeto > svg {
+    color: var(--color-accent);
+  }
+
+  .objeto > canvas {
     opacity: 0;
-    background: var(--color-signal);
-    box-shadow: 0 0 14px 3px color-mix(in srgb, var(--color-signal) 55%, transparent);
-    animation: fluxo-no 4s linear infinite;
   }
 
-  @keyframes fluxo-pacote {
-    0%,
-    12% {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    14% {
-      opacity: 1;
-    }
-    72% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    86%,
-    100% {
-      transform: translateX(0);
-      opacity: 0;
-    }
+  .objeto[data-3d] > svg {
+    opacity: 0;
   }
 
-  @keyframes fluxo-no {
-    0% {
-      opacity: 1;
-      transform: scale(1.6);
-    }
-    18% {
-      opacity: 0;
-      transform: scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: scale(1);
-    }
+  .objeto[data-3d] > canvas {
+    opacity: 1;
   }
 
   /* ==========================================================================
@@ -547,14 +748,22 @@
     .link-draw::after,
     [data-menu],
     [data-menu] [data-item],
-    [data-menu-icone] span {
+    [data-menu-icone] span,
+    .objeto > svg,
+    .objeto > canvas {
       transition: none !important;
     }
 
-    /* O trilho e os nós ficam (são o diagrama); só o que se move some. */
-    .fluxo-pista,
-    .fluxo-no-luz {
+    /* A fada some; as estações ficam todas acesas e paradas (são o diagrama). */
+    .fluxo-fada,
+    [data-cursor-raiz] {
       display: none !important;
+    }
+
+    .fluxo-no-luz {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
     }
   }
 }

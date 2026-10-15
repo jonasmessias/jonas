@@ -1,0 +1,8 @@
+[Unit]
+Description=Atualiza o site (docker compose pull + up)
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/jonas/atualizar.sh

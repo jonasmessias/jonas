@@ -1,10 +1,6 @@
-import { getPerfil } from '@/lib/dossie'
+import { getConteudo } from '@/content'
 
-/**
- * URL canônica do site — o único ponto do código que a conhece, e ele a
- * LÊ do conteúdo (content/dossie/perfil.pt.md → site.url, validado pelo
- * esquema), não a escreve. Consumida pela metadata, sitemap e robots.
- */
+/** O endereço do site no ar, do conteúdo (campo `site`). Usado na metadata, no sitemap e no robots. */
 export function getSiteUrl(): string {
-  return getPerfil('pt').site.url.replace(/\/$/, '')
+  return getConteudo('pt').site.replace(/\/$/, '')
 }

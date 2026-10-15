@@ -36,19 +36,14 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Esquema do conteúdo
-        run: npm run valida
-
       - name: Build (export estático em out/)
         run: npm run build
 
       - name: Saída do export (arquivos, telefone, CV, orçamento de First Load)
         run: node scripts/checa-saida.mjs
 
-      # E-mail já fica de fora por padrão no lychee atual (a flag --exclude-mail foi removida).
-      # Links para arquivos DESTE repositório (as provas dos bastidores) ficam de fora: antes do
-      # merge eles apontam para arquivos que ainda não estão na main. O checa-saida confere, no
-      # checkout, que cada caminho de prova existe.
+      # E-mail já fica de fora por padrão no lychee atual. Links para arquivos deste repositório
+      # ficam de fora: antes do merge eles ainda não existem na main.
       - name: Links do HTML gerado
         uses: lycheeverse/lychee-action@v2
         with:

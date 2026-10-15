@@ -1,0 +1,43 @@
+name: Imagem
+
+# A cada push na main, constrói a imagem Docker do site e publica no GitHub
+# Container Registry. A VM não recebe nada de fora: ela mesma busca a imagem
+# nova a cada 5 minutos (infra/atualizar.sh).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: imagem
+  cancel-in-progress: false
+
+jobs:
+  imagem:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/jonasmessias/jonas:latest
+            ghcr.io/jonasmessias/jonas:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
