@@ -37,6 +37,9 @@ contato:
 site:
   polo: 'canais_estado_esperado.site.url'
   url: 'https://jonasdev.vercel.app'
+repositorio_do_site:
+  polo: 'canais_estado_esperado.site.repo'
+  url: 'https://github.com/jonasmessias/jonas'
 # Deliberate omissions, with a reason — not oversights:
 _telefone: null   # identidade.telefone exists in the polo. A public page is a spam magnet; email converts.
 _cv: null         # blocker B-1 — the published /cv.pdf contradicts the polo. Do not link until resolved.

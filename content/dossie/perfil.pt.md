@@ -37,6 +37,9 @@ contato:
 site:
   polo: 'canais_estado_esperado.site.url'
   url: 'https://jonasdev.vercel.app'
+repositorio_do_site:
+  polo: 'canais_estado_esperado.site.repo'
+  url: 'https://github.com/jonasmessias/jonas'
 # Ausências deliberadas, com motivo — não são esquecimento:
 _telefone: null   # identidade.telefone existe no polo. Página pública é ímã de spam; o e-mail converte.
 _cv: null         # bloqueio B-1 — o /cv.pdf publicado contradiz o polo. Não linkar até ser Tipo P resolvido.
