@@ -11,14 +11,10 @@
  * - nenhum link para o /cv.pdf (bloqueado até o currículo publicado bater com o registro)
  * - sem middleware (incompatível com export)
  * - First Load de /pt/ e /en/: soma gzip dos <script> do HTML servido ≤ orçamento
- * - cada `prova` dos bastidores aponta para um caminho que existe neste repositório (o link
- *   sai como github.com/…/blob/main/<caminho>; o lychee não o checa porque, antes do merge,
- *   o arquivo ainda não está na main)
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
-import matter from 'gray-matter'
 
 const OUT = path.resolve('out')
 const orcamento = JSON.parse(fs.readFileSync('scripts/orcamento.json', 'utf8'))
@@ -45,14 +41,6 @@ for (const arq of htmls) {
   const texto = html.replace(/<[^>]+>/g, ' ')
   if (TELEFONE.test(texto)) falhas.push(`${rel}: padrão de telefone`)
   if (/cv\.pdf/i.test(html)) falhas.push(`${rel}: menciona cv.pdf`)
-}
-
-for (const loc of ['pt', 'en']) {
-  const arq = path.join('content', `bastidores.${loc}.md`)
-  if (!fs.existsSync(arq)) continue
-  const { data } = matter(fs.readFileSync(arq, 'utf8'))
-  const provas = [...(data.passos ?? []).map((p) => p.prova), data.semanal?.prova].filter(Boolean)
-  for (const prova of provas) if (!fs.existsSync(prova)) falhas.push(`${arq}: prova "${prova}" não existe no repositório`)
 }
 
 const medidas = []

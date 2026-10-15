@@ -1,31 +1,18 @@
 import { IconeTech } from '@/components/ui/icone-tech'
 import { Secao } from '@/components/ui/secao'
+import { getConteudo } from '@/content'
 import { getUi } from '@/content/ui'
-import { getPerfil } from '@/lib/dossie'
 import type { Locale } from '@/lib/locale'
 import { ArrowRightIcon, ArrowUpRightIcon, EnvelopeSimpleIcon, FileArrowDownIcon, LinkedinLogoIcon } from '@phosphor-icons/react/ssr'
 import type { ReactNode } from 'react'
 
 type Props = { locale: Locale }
 
-type Linha = {
-  chave: string
-  icone: ReactNode
-  rotulo: string
-  valor: string
-  href: string
-  externo: boolean
-}
+type Linha = { chave: string; icone: ReactNode; rotulo: string; valor: string; href: string; externo: boolean }
 
-/**
- * Contato: as duas linhas de disponibilidade abrem; depois a lista dividida
- * por fios — e-mail (endereço visível, decisão do contrato mestre),
- * LinkedIn, GitHub. A linha inteira é o link (≥ 44px). "Baixar CV" só
- * existe quando o dossiê tiver `cv` — hoje não tem (bloqueio B-1), e nada
- * aqui aponta para /cv.pdf.
- */
+/** Contato: e-mail, LinkedIn e GitHub. O currículo só aparece se `cv` estiver preenchido no conteúdo. */
 export function Contato({ locale }: Props) {
-  const perfil = getPerfil(locale)
+  const c = getConteudo(locale)
   const ui = getUi(locale)
   const icone = 'shrink-0 text-ink-2 transition-colors duration-300 ease-fluid group-hover:text-accent'
 
@@ -34,47 +21,41 @@ export function Contato({ locale }: Props) {
       chave: 'email',
       icone: <EnvelopeSimpleIcon size={18} weight="light" aria-hidden="true" className={icone} />,
       rotulo: ui.contato.email,
-      valor: perfil.contato.email.texto,
-      href: `mailto:${perfil.contato.email.texto}`,
+      valor: c.contato.email,
+      href: `mailto:${c.contato.email}`,
       externo: false,
     },
     {
       chave: 'linkedin',
       icone: <LinkedinLogoIcon size={18} weight="light" aria-hidden="true" className={icone} />,
       rotulo: ui.contato.linkedin,
-      valor: perfil.contato.linkedin.texto,
-      href: perfil.contato.linkedin.url,
+      valor: c.contato.linkedin.texto,
+      href: c.contato.linkedin.url,
       externo: true,
     },
     {
       chave: 'github',
       icone: <IconeTech rotulo="github" icone="github" size={18} className={icone} />,
       rotulo: ui.contato.github,
-      valor: perfil.contato.github.texto,
-      href: perfil.contato.github.url,
+      valor: c.contato.github.texto,
+      href: c.contato.github.url,
       externo: true,
     },
   ]
-  if (perfil.cv) {
+  if (c.cv) {
     linhas.push({
       chave: 'cv',
       icone: <FileArrowDownIcon size={18} weight="light" aria-hidden="true" className={icone} />,
       rotulo: ui.contato.baixarCv,
       valor: ui.contato.baixarCv,
-      href: perfil.cv.url,
+      href: c.cv,
       externo: true,
     })
   }
 
   return (
     <Secao id="contato" titulo={ui.nav.contato} colunas>
-      <ul className="flex flex-col gap-1 text-lead text-ink">
-        {perfil.disponibilidade.map((d) => (
-          <li key={d.polo}>{d.texto}</li>
-        ))}
-      </ul>
-
-      <ul className="mt-10 flex flex-col">
+      <ul className="flex flex-col">
         {linhas.map((l) => (
           <li key={l.chave} className="border-t border-rule last:border-b">
             <a

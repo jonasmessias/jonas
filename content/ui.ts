@@ -41,7 +41,6 @@ const pt = {
   },
   sobre: {
     formacao: 'Formação',
-    certificacoes: 'Certificações',
     idiomas: 'Idiomas',
   },
   experiencia: {
@@ -50,23 +49,15 @@ const pt = {
     desde: 'desde',
     /** "abr 2022 a mar 2023" — o separador do período, sem travessão. */
     a: 'a',
-    verCase: 'Ver o projeto',
-    noAr: 'No ar',
   },
   stack: {
     titulo: 'Stack',
+    estudando: 'Estudando',
   },
   projetos: {
     codigoPrivado: 'Código privado',
     verCodigo: 'Ver código',
-    verDemo: 'Ver demo',
-    verSite: 'Ver site',
     maisNoGithub: 'Mais no GitHub',
-  },
-  bastidores: {
-    /** O passo sem `prova`: roda na bancada privada, fora do repositório. */
-    bancadaLocal: 'bancada local, privada',
-    prova: 'prova',
   },
   contato: {
     email: 'E-mail',
@@ -108,29 +99,21 @@ const en = {
   },
   sobre: {
     formacao: 'Education',
-    certificacoes: 'Certifications',
     idiomas: 'Languages',
   },
   experiencia: {
     atual: 'present',
     desde: 'since',
     a: 'to',
-    verCase: 'See the project',
-    noAr: 'Live',
   },
   stack: {
     titulo: 'Stack',
+    estudando: 'Studying',
   },
   projetos: {
     codigoPrivado: 'Private code',
     verCodigo: 'View code',
-    verDemo: 'View demo',
-    verSite: 'View site',
     maisNoGithub: 'More on GitHub',
-  },
-  bastidores: {
-    bancadaLocal: 'local workbench, private',
-    prova: 'proof',
   },
   contato: {
     email: 'Email',

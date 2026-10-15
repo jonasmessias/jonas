@@ -7,7 +7,7 @@ import { clsx } from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 
 type Props = {
-  /** perfil.nome, de lib/dossie — chega pronto do layout (RSC). */
+  /** O nome, do conteúdo — chega pronto do layout (RSC). */
   nome: string
   locale: Locale
   ui: Pick<Ui, 'nav' | 'idioma' | 'tema' | 'menu'>
