@@ -13,6 +13,7 @@ export const pt: Conteudo = {
   sobre: [
     'Sou desenvolvedor de software com experiência em projetos web. Gosto de entender como as partes de um sistema se conectam e contribuir em diferentes etapas, da arquitetura e do back-end à interface, cloud e infraestrutura.',
     'Continuo estudando e explorando novas tecnologias por meio de projetos práticos. Busco colaborar com equipes e participar de desafios que me ajudem a evoluir como profissional.',
+    'Sei usar IA a favor da produtividade. Uso agentes de programação, como o Claude Code, para apoiar a análise, a implementação e a revisão de código, sempre revisando o resultado.',
   ],
   formacao: {
     curso: 'Bacharelado em Ciência da Computação',
@@ -26,13 +27,14 @@ export const pt: Conteudo = {
 
   experiencias: [
     {
-      cargo: 'Desenvolvedor Full-Stack',
-      empresa: 'oSeuMáximo',
-      inicio: '2026-04',
+      cargo: 'Desenvolvedor Full Stack',
+      empresa: 'Freelancer',
+      inicio: '2023-03',
       fim: null,
-      onde: 'Remoto · cliente próprio',
-      resumo: 'API REST em NestJS e três SPAs em React 19 para um produto de educação em produção.',
-      stack: ['TypeScript', 'NestJS', 'React 19', 'PostgreSQL', 'Prisma', 'Redis', 'BullMQ', 'Docker'],
+      onde: 'Remoto',
+      resumo:
+        'Meu maior cliente é o oSeuMáximo, uma plataforma de educação em produção que construí de ponta a ponta: a API em NestJS e as três aplicações React. Fiz a cobrança com PIX, parcelamento e assinatura em moeda estrangeira, garanti que cliente pagante não perdesse o acesso, protegi a receita contra inadimplência e chargebacks e criei a venda assistida pelo WhatsApp. Também refatorei o checkout com agentes de IA, de 994 para 184 linhas em 6 PRs com testes, e atendi outros clientes em mais de 100 entregas, de sites a sistemas sob medida.',
+      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend', 'n8n'],
       links: [
         { texto: 'oseumaximo.com', url: 'https://oseumaximo.com' },
         { texto: 'oseuprof.com', url: 'https://oseuprof.com' },
@@ -44,17 +46,9 @@ export const pt: Conteudo = {
       inicio: '2025-01',
       fim: '2025-08',
       onde: 'Caratinga, MG · híbrido',
-      resumo: 'Front-end e integrações de um app em React Native, num time com code review.',
-      stack: ['React', 'Next.js', 'React Native', 'Expo', 'TypeScript', 'Tailwind CSS'],
-    },
-    {
-      cargo: 'Desenvolvedor Full-Stack',
-      empresa: 'Autônomo',
-      inicio: '2023-03',
-      fim: null,
-      onde: 'Remoto',
-      resumo: 'Sites e sistemas para clientes, do levantamento de requisitos ao deploy.',
-      stack: ['React', 'Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Docker'],
+      resumo:
+        'Trabalhei em time, com code review, refinamento e planning. Conduzi 2 projetos do início à entrega, incluindo o front-end e as integrações de um app em React Native com Expo, e usei IA para cumprir prazos apertados do cliente.',
+      stack: ['React', 'Next.js', 'React Native', 'Expo', 'TypeScript', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'React Query', 'Zod', 'Jest', 'Vitest', 'PostgreSQL'],
     },
     {
       cargo: 'Analista Programador',
@@ -62,8 +56,9 @@ export const pt: Conteudo = {
       inicio: '2022-04',
       fim: '2023-03',
       onde: 'Caratinga, MG · presencial',
-      resumo: 'Sites institucionais em WordPress e integrações em PHP para clientes da região.',
-      stack: ['WordPress', 'PHP', 'JavaScript', 'MySQL'],
+      resumo:
+        'Entreguei mais de 10 sites institucionais em WordPress, com integrações em PHP para clientes da região.',
+      stack: ['WordPress', 'PHP', 'JavaScript', 'jQuery', 'HTML', 'CSS', 'MySQL'],
     },
   ],
 
@@ -71,8 +66,9 @@ export const pt: Conteudo = {
     {
       nome: 'oSeuMáximo',
       status: 'Em produção · código privado',
-      resumo: 'Plataforma de estudos e agendador de aulas ao vivo: um back-end e três SPAs.',
-      stack: ['NestJS', 'React 19', 'PostgreSQL', 'Prisma', 'Redis', 'Stripe'],
+      resumo:
+        'Ecossistema de educação em produção: plataforma de estudos, agendador de aulas ao vivo e painel administrativo, todos sobre a mesma API. Tem pagamentos com Stripe e InfinitePay, login único entre os dois sites e flashcards gerados por IA.',
+      stack: ['TypeScript', 'NestJS', 'React 19', 'Vite', 'PostgreSQL', 'Prisma', 'Redis', 'BullMQ', 'Tailwind CSS', 'shadcn/ui', 'TanStack Query', 'Zustand', 'Stripe', 'Docker', 'GitHub Actions', 'Sentry', 'Jest', 'Vitest'],
       links: [
         { texto: 'oseumaximo.com', url: 'https://oseumaximo.com' },
         { texto: 'oseuprof.com', url: 'https://oseuprof.com' },
@@ -81,37 +77,44 @@ export const pt: Conteudo = {
     },
     {
       nome: 'react-microfrontend',
-      resumo: 'E-commerce em microfrontends com Module Federation, num monorepo com Turborepo.',
-      stack: ['React 18', 'Webpack 5', 'Turborepo', 'Zustand', 'GitHub Actions'],
+      resumo:
+        'Loja virtual dividida em microfrontends (vitrine, catálogo e carrinho) que carregam em tempo de execução e fazem deploy separado. As partes conversam por eventos, sem importar umas às outras, e compartilham um design system.',
+      stack: ['React 18', 'TypeScript', 'Webpack 5', 'Module Federation', 'Turborepo', 'Zustand', 'Tailwind CSS', 'Jest', 'GitHub Actions'],
       repo: 'https://github.com/jonasmessias/react-microfrontend',
       links: [{ texto: 'Demo', url: 'https://jonasmessias.github.io/react-microfrontend/' }],
       destaque: true,
     },
     {
       nome: 'spring-task-manager-api',
-      resumo: 'API REST de tarefas com JWT, refresh token em Redis e login com Google.',
-      stack: ['Java 17', 'Spring Boot 3.5', 'PostgreSQL', 'Redis', 'Docker'],
+      status: 'Estudo',
+      resumo:
+        'API de um sistema de tarefas no estilo Kanban, com login por JWT ou Google, refresh token em Redis e e-mails pelo AWS SES. Rodou numa EC2 com banco no RDS e deploy automático pelo GitHub Actions.',
+      stack: ['Java 17', 'Spring Boot 3.5', 'Spring Data JPA', 'PostgreSQL', 'Redis', 'OAuth 2.0', 'AWS EC2', 'AWS RDS', 'AWS S3', 'AWS SES', 'Docker', 'GitHub Actions'],
       repo: 'https://github.com/jonasmessias/spring-task-manager-api',
     },
     {
       nome: 'angular-task-manager',
-      resumo: 'Kanban em Angular 20, sem Zone.js, consumindo a API acima.',
-      stack: ['Angular 20', 'Signals', 'TypeScript', 'Tailwind CSS'],
+      status: 'Estudo',
+      resumo:
+        'Front-end do Kanban em Angular 20, sem Zone.js e com estado em Signals, consumindo a API acima. A sessão se renova sozinha: um interceptor troca o token vencido e repete a requisição.',
+      stack: ['Angular 20', 'TypeScript', 'Signals', 'RxJS', 'Angular CDK', 'Tailwind CSS'],
       repo: 'https://github.com/jonasmessias/angular-task-manager',
       links: [{ texto: 'Demo', url: 'https://task-manager-app-angular.vercel.app' }],
     },
     {
       nome: 'transacoes-simplificado',
       status: 'Estudo',
-      resumo: 'API de transferências entre usuários e lojistas numa única transação.',
-      stack: ['Java 21', 'Spring Boot 4.1', 'PostgreSQL', 'OpenFeign'],
+      resumo:
+        'API de transferências entre usuários e lojistas. Cada transferência roda numa única transação: valida o saldo, consulta um autorizador externo e notifica as partes.',
+      stack: ['Java 21', 'Spring Boot 4.1', 'Spring Data JPA', 'PostgreSQL', 'OpenFeign', 'Docker'],
       repo: 'https://github.com/jonasmessias/transacoes-simplificado',
     },
     {
       nome: 'aprocama',
       status: 'Código privado',
-      resumo: 'Site institucional com blog em Markdown e formulário de contato.',
-      stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS'],
+      resumo:
+        'Site institucional com blog escrito em Markdown e renderizado no servidor com Next.js. O formulário de contato é validado com Zod e enviado por e-mail.',
+      stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'React Hook Form', 'Zod'],
       links: [{ texto: 'Site', url: 'https://aprocama.vercel.app' }],
     },
   ],
@@ -124,8 +127,9 @@ export const pt: Conteudo = {
     },
     { grupo: 'Back-end', itens: ['Node.js', 'NestJS', 'Fastify', 'Spring Boot', 'Prisma', 'Zod'] },
     { grupo: 'Dados', itens: ['PostgreSQL', 'Redis', 'BullMQ'] },
-    { grupo: 'Infra', itens: ['Docker', 'GitHub Actions', 'AWS S3', 'Sentry', 'Vercel'] },
+    { grupo: 'Infra', itens: ['Docker', 'GitHub Actions', 'AWS EC2', 'AWS RDS', 'AWS S3', 'AWS SES', 'Sentry', 'Vercel'] },
     { grupo: 'Testes', itens: ['Vitest', 'Jest', 'Testing Library', 'Cypress'] },
+    { grupo: 'Agentes de IA', itens: ['Claude Code'] },
   ],
   estudando: ['PHP', 'Laravel'],
 

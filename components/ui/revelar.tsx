@@ -7,7 +7,7 @@ type Props = {
   className?: string
   /** Atraso em segundos, escrito como variável CSS — o CSS é quem anima. */
   atraso?: number
-  as?: 'div' | 'li' | 'section' | 'article'
+  as?: 'div' | 'span' | 'li' | 'section' | 'article'
 }
 
 /**

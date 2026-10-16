@@ -26,6 +26,7 @@ import {
   siGithub,
   siGithubactions,
   siGithubcopilot,
+  siGooglegemini,
   siGsap,
   siHtml5,
   siJavascript,
@@ -149,6 +150,7 @@ export const marcas = {
   'claude code': siClaude,
   'github copilot': siGithubcopilot,
   cursor: siCursor,
+  gemini: siGooglegemini,
 }
 
 export const simbolos = {
