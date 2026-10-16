@@ -1,5 +1,5 @@
 import { Fada } from '@/components/motion/fada'
-import { Objeto } from '@/components/motion/objeto'
+import { Octaedro } from '@/components/motion/octaedro'
 import { Secao } from '@/components/ui/secao'
 import { getConteudo } from '@/content'
 import type { Locale } from '@/lib/locale'
@@ -14,8 +14,8 @@ type Props = { locale: Locale }
  * passar; o desenho dos fios e nós mora em globals.css (.fluxo-*). O número
  * de passos é livre: a grade nasce de --n e cada passo sabe seu --i.
  *
- * O dodecaedro ocupa o canto superior direito da escada — o que a
- * diagonal dos passos deixa vazio em md+. Abaixo de md não existe.
+ * A última estação é o destino: no lugar do nó quadrado, o octaedro — a
+ * marca da casa. A fada chega nele e ele acende (`.fluxo-no-marca`).
  */
 export function Caminho({ locale }: Props) {
   const { caminho } = getConteudo(locale)
@@ -34,15 +34,20 @@ export function Caminho({ locale }: Props) {
                   <span aria-hidden="true" className="fluxo-fio fluxo-fio-v" />
                 </>
               )}
-              <span aria-hidden="true" data-no="" className="fluxo-no">
-                <span className="fluxo-no-luz" />
-              </span>
+              {i < ultimo ? (
+                <span aria-hidden="true" data-no="" className="fluxo-no">
+                  <span className="fluxo-no-luz" />
+                </span>
+              ) : (
+                <span aria-hidden="true" data-no="" className="fluxo-no fluxo-no-marca">
+                  <Octaedro />
+                </span>
+              )}
               <p className="relative z-[1] w-fit bg-ground pr-2 font-mono text-sm text-ink">{passo.nome}</p>
               <p className="mt-1 max-w-[40ch] text-xs leading-snug text-ink-2">{passo.detalhe}</p>
             </li>
           ))}
         </ol>
-        <Objeto forma="dodecaedro" className="absolute top-0 right-0 hidden size-24 md:block" />
       </Fada>
     </Secao>
   )

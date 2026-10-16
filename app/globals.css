@@ -477,6 +477,38 @@
     transition: none;
   }
 
+  /* A última estação é o destino: o octaedro (a marca da casa) em 20px,
+   * centrado onde o nó quadrado estaria (centro em 5px, 10px — o fio
+   * vertical do passo anterior chega aí e o fundo da caixa o esconde).
+   * Apagado, é fio como os outros; aceso, é sinal com o mesmo brilho dos
+   * nós — o drop-shadow é a mesma exceção deliberada à regra "sem sombra". */
+  .fluxo-no-marca {
+    left: -5px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 0;
+    color: var(--color-rule);
+    transition: color 0.35s var(--ease-fluid);
+  }
+
+  .fluxo-no-marca > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: filter 0.35s var(--ease-fluid);
+  }
+
+  .fluxo-no-marca[data-acesa],
+  html:not(.js) .fluxo-no-marca {
+    color: var(--color-signal);
+  }
+
+  .fluxo-no-marca[data-acesa] > svg,
+  html:not(.js) .fluxo-no-marca > svg {
+    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-signal) 70%, transparent));
+  }
+
   /* Os fios: o vertical desce do centro do nó ao centro do próximo; o
    * horizontal só existe na escada. */
   .fluxo-fio {
@@ -567,7 +599,7 @@
   /* ==========================================================================
    * O CURSOR DE DETALHE — ponto e anel (components/motion/cursor.tsx).
    *
-   * O ponto (4px, âmbar) está sempre sob o ponteiro — o script escreve o
+   * O ponto (4px, redondo, âmbar) está sempre sob o ponteiro — o script escreve o
    * transform dele no próprio pointermove. O anel chega logo atrás, com
    * interpolação curta. O cursor NATIVO só some sob html[data-cursor] (que
    * o componente põe quando há ponteiro fino e não há reduced motion) E
@@ -638,6 +670,7 @@
     width: 4px;
     height: 4px;
     margin: -2px 0 0 -2px;
+    border-radius: 50%;
     background: var(--cursor-ponto);
   }
 
@@ -688,15 +721,17 @@
   }
 
   /* ==========================================================================
-   * O OBJETO — wireframe em três pontos da página (components/motion/objeto.tsx):
-   * o icosaedro ao lado do nome, o dodecaedro no canto vazio da escada do
-   * caminho, o octaedro sob o título do contato.
+   * O OCTAEDRO — a forma da casa, em três papéis (components/motion/octaedro.tsx):
+   * grande e em 3D nas quatro colunas da direita da capa (.objeto,
+   * components/motion/objeto.tsx), pequeno antes do título de cada seção
+   * (.secao-marca) e como a última estação do caminho (.fluxo-no-marca,
+   * acima). Sempre o mesmo desenho: arestas de 1px, cor do acento.
    *
-   * A caixa reserva o tamanho sempre (o layout não pula). Dentro, o SVG
-   * estático é o que todo mundo recebe; o canvas do three.js só chega
-   * depois da página pronta, por import dinâmico, e entra por opacidade
-   * sobre o SVG. Sem WebGL, com reduced motion ou em tela pequena, fica o
-   * SVG.
+   * .objeto: a caixa reserva o tamanho sempre (o layout não pula). Dentro,
+   * o SVG estático é o que todo mundo recebe; o canvas do three.js só
+   * chega depois da página pronta, por import dinâmico, e entra por
+   * opacidade sobre o SVG. Sem WebGL, com reduced motion ou em tela
+   * pequena, fica o SVG.
    * ========================================================================== */
 
   .objeto {
@@ -726,6 +761,33 @@
 
   .objeto[data-3d] > canvas {
     opacity: 1;
+  }
+
+  /* A marca de seção: 14px antes do h2, na cor do acento. Sob html.js ela
+   * entra girando e aparecendo quando a seção chega à tela (o Revelar põe
+   * data-visivel; a transição e o estado visível são os do reveal genérico,
+   * só o estado escondido muda: giro e escala em vez de translateY). Sem JS
+   * ou em reduced motion, parada e visível desde o início. */
+  .secao-marca {
+    display: inline-flex;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    color: var(--color-accent);
+  }
+
+  .secao-marca > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  html.js .secao-marca[data-reveal] {
+    transition-duration: 0.9s;
+  }
+
+  html.js .secao-marca[data-reveal]:not([data-visivel]) {
+    transform: rotate(-120deg) scale(0.5);
   }
 
   /* ==========================================================================
@@ -763,6 +825,16 @@
     .fluxo-no-luz {
       opacity: 1 !important;
       transform: none !important;
+      transition: none !important;
+    }
+
+    .fluxo-no-marca {
+      color: var(--color-signal) !important;
+      transition: none !important;
+    }
+
+    .fluxo-no-marca > svg {
+      filter: drop-shadow(0 0 4px color-mix(in srgb, var(--color-signal) 70%, transparent)) !important;
       transition: none !important;
     }
   }
