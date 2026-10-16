@@ -29,7 +29,7 @@ avisa. Rótulos de interface (menu, botões) ficam em `content/ui.ts`.
 |---|---|---|
 | **Checagem** (`ci.yml`) | todo push e PR | confere tipos, lint, build, peso da página e links |
 | **Deploy** (`imagem.yml`) | push na `main` | monta a imagem Docker (nginx + site) e publica em `ghcr.io/jonasmessias/jonas` |
-| **Atualizar portfolio** (`atualizar-portfolio.yml`) | toda segunda | o Claude olha os repositórios públicos com a topic `portfolio` e os pushes recentes, e abre um PR atualizando projetos e "Estudando". Com a topic `estudo`, o projeto ganha o selo Estudo |
+| **Atualizar portfolio** (`atualizar-portfolio.yml`) | toda segunda | o Claude olha os repositórios públicos com a topic `portfolio` e os pushes recentes, e abre um PR atualizando projetos e "Estudando". Com a topic `estudo` ou `estudos`, o projeto ganha o selo Estudo |
 | **Claude Code** (`claude.yml`) | quando eu escrevo `@claude` | responde ou faz a mudança pedida num issue ou PR. Só responde a mim |
 
 Nada da IA vai ao ar sozinho: tudo vira PR, e o merge é meu.

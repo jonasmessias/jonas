@@ -6,7 +6,7 @@ name: Atualizar portfolio
 #
 # Regras simples, pelas topics do repositório no GitHub:
 #   - "portfolio": o repositório aparece no site;
-#   - "estudo": além disso, ganha o selo Estudo (Study no inglês).
+#   - "estudo" ou "estudos": além disso, ganha o selo Estudo (Study no inglês).
 #
 # Precisa do secret CLAUDE_CODE_OAUTH_TOKEN (gerado com `claude setup-token`) e de
 # Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
@@ -73,9 +73,9 @@ jobs:
                  resumo de uma frase curta, e stack com 3 a 6 nomes (com versão quando o arquivo de
                  dependências mostrar, ex.: "Spring Boot 3.5").
                - Repositório que já está: corrija só o que mudou de verdade (ex.: versão na stack).
-               - Selo de estudo: se o repositório tem a topic "estudo", o projeto leva
+               - Selo de estudo: se o repositório tem a topic "estudo" ou "estudos", o projeto leva
                  status: 'Estudo' em content/pt.ts e status: 'Study' em content/en.ts. Se não tem
-                 a topic e o status atual é 'Estudo'/'Study', remova o campo status. Nunca mexa em
+                 nenhuma das duas topics e o status atual é 'Estudo'/'Study', remova o campo status. Nunca mexa em
                  outros valores de status (ex.: 'Código privado').
                - Nunca remova projetos. Nunca mexa em projetos sem `repo` (são manuais).
             2. Estudando. Veja os repositórios públicos com push nos últimos 60 dias. Se usam uma
