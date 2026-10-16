@@ -12,7 +12,7 @@ export const en: Conteudo = {
   sobre: [
     "I'm a software developer with experience in web projects. I like understanding how the parts of a system connect and contributing at different stages, from architecture and back-end to interface, cloud and infrastructure.",
     "I keep studying and exploring new technologies through hands-on projects. I'm looking to work with teams and take on challenges that help me grow as a professional.",
-    'I know how to use AI for productivity. I use coding agents, such as Claude Code and Codex, to support code analysis, implementation and review, always reviewing the result. I also know how to integrate language models into applications through APIs, such as OpenAI and Gemini.',
+    'I know how to use AI for productivity. I use coding agents, such as Claude Code, to support code analysis, implementation and review, always reviewing the result.',
   ],
   formacao: {
     curso: 'B.Sc. in Computer Science',
@@ -138,9 +138,7 @@ export const en: Conteudo = {
     { grupo: 'Data', itens: ['PostgreSQL', 'Redis', 'BullMQ'] },
     { grupo: 'Infra', itens: ['Docker', 'GitHub Actions', 'AWS EC2', 'AWS RDS', 'AWS S3', 'AWS SES', 'Sentry', 'Vercel'] },
     { grupo: 'Testing', itens: ['Vitest', 'Jest', 'Testing Library', 'Cypress'] },
-    { grupo: 'AI agents', itens: ['Claude Code', 'Codex'] },
-    { grupo: 'Models via API', itens: ['OpenAI', 'Gemini'] },
-    { grupo: 'AI assistants', itens: ['GitHub Copilot', 'Cursor'] },
+    { grupo: 'AI agents', itens: ['Claude Code'] },
   ],
   estudando: ['PHP', 'Laravel'],
 
