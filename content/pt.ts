@@ -13,6 +13,7 @@ export const pt: Conteudo = {
   sobre: [
     'Sou desenvolvedor de software com experiência em projetos web. Gosto de entender como as partes de um sistema se conectam e contribuir em diferentes etapas, da arquitetura e do back-end à interface, cloud e infraestrutura.',
     'Continuo estudando e explorando novas tecnologias por meio de projetos práticos. Busco colaborar com equipes e participar de desafios que me ajudem a evoluir como profissional.',
+    'Sei usar IA a favor da produtividade. Uso agentes de programação, como Claude Code e Codex, para apoiar a análise, a implementação e a revisão de código, sempre revisando o resultado. Também sei integrar modelos de linguagem a aplicações por meio de APIs, como OpenAI e Gemini.',
   ],
   formacao: {
     curso: 'Bacharelado em Ciência da Computação',
@@ -138,6 +139,9 @@ export const pt: Conteudo = {
     { grupo: 'Dados', itens: ['PostgreSQL', 'Redis', 'BullMQ'] },
     { grupo: 'Infra', itens: ['Docker', 'GitHub Actions', 'AWS EC2', 'AWS RDS', 'AWS S3', 'AWS SES', 'Sentry', 'Vercel'] },
     { grupo: 'Testes', itens: ['Vitest', 'Jest', 'Testing Library', 'Cypress'] },
+    { grupo: 'Agentes de IA', itens: ['Claude Code', 'Codex'] },
+    { grupo: 'Modelos via API', itens: ['OpenAI', 'Gemini'] },
+    { grupo: 'Assistentes de IA', itens: ['GitHub Copilot', 'Cursor'] },
   ],
   estudando: ['PHP', 'Laravel'],
 
