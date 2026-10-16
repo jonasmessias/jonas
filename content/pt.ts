@@ -27,14 +27,14 @@ export const pt: Conteudo = {
 
   experiencias: [
     {
-      cargo: 'Desenvolvedor Full-Stack',
-      empresa: 'oSeuMáximo',
-      inicio: '2026-04',
+      cargo: 'Desenvolvedor Full Stack',
+      empresa: 'Freelancer',
+      inicio: '2023-03',
       fim: null,
-      onde: 'Remoto · cliente próprio',
+      onde: 'Remoto',
       resumo:
-        'Desenvolvo a API em NestJS e as três aplicações React do produto: plataforma de estudos, agendador de aulas ao vivo e painel administrativo. Cuido de pagamentos com Stripe e InfinitePay, filas com BullMQ, testes automatizados e deploy com Docker, e integrei IA para gerar flashcards a partir do conteúdo do aluno.',
-      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend'],
+        'Meu maior cliente é o oSeuMáximo, uma plataforma de educação em produção que construí de ponta a ponta: a API em NestJS e as três aplicações React. Fiz a cobrança com PIX, parcelamento e assinatura em moeda estrangeira, garanti que cliente pagante não perdesse o acesso, protegi a receita contra inadimplência e chargebacks e criei a venda assistida pelo WhatsApp. Também refatorei o checkout com agentes de IA, de 994 para 184 linhas em 6 PRs com testes, e atendi outros clientes em mais de 100 entregas, de sites a sistemas sob medida.',
+      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend', 'n8n'],
       links: [
         { texto: 'oseumaximo.com', url: 'https://oseumaximo.com' },
         { texto: 'oseuprof.com', url: 'https://oseuprof.com' },
@@ -47,18 +47,8 @@ export const pt: Conteudo = {
       fim: '2025-08',
       onde: 'Caratinga, MG · híbrido',
       resumo:
-        'Desenvolvi o front-end e as integrações de um app mobile em React Native com Expo, além de interfaces para web e PWA com um design system em shadcn/ui. Trabalhei em time com code review, refinamento e planning, e melhorei a performance com code splitting e lazy loading.',
+        'Trabalhei em time, com code review, refinamento e planning. Conduzi 2 projetos do início à entrega, incluindo o front-end e as integrações de um app em React Native com Expo, e usei IA para cumprir prazos apertados do cliente.',
       stack: ['React', 'Next.js', 'React Native', 'Expo', 'TypeScript', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'React Query', 'Zod', 'Jest', 'Vitest', 'PostgreSQL'],
-    },
-    {
-      cargo: 'Desenvolvedor Full-Stack',
-      empresa: 'Autônomo',
-      inicio: '2023-03',
-      fim: null,
-      onde: 'Remoto',
-      resumo:
-        'Construo sites e sistemas para clientes do Brasil e de fora, como SaaS, CRM, lojas virtuais e landing pages. Faço do levantamento de requisitos ao deploy, conversando direto com o cliente, e automatizo processos com n8n.',
-      stack: ['React', 'Next.js', 'Vite', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Framer Motion', 'GSAP', 'React Hook Form', 'Zod', 'PostgreSQL', 'Docker', 'n8n'],
     },
     {
       cargo: 'Analista Programador',
@@ -67,7 +57,7 @@ export const pt: Conteudo = {
       fim: '2023-03',
       onde: 'Caratinga, MG · presencial',
       resumo:
-        'Desenvolvi sites institucionais em WordPress e integrações em PHP que tiraram etapas manuais dos processos dos clientes. Também mantive ambientes virtuais de aprendizagem (AVA) e cuidei das atualizações e do banco de dados dos sites.',
+        'Entreguei mais de 10 sites institucionais em WordPress, com integrações em PHP para clientes da região.',
       stack: ['WordPress', 'PHP', 'JavaScript', 'jQuery', 'HTML', 'CSS', 'MySQL'],
     },
   ],
