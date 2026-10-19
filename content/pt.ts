@@ -117,6 +117,13 @@ export const pt: Conteudo = {
       stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'React Hook Form', 'Zod'],
       links: [{ texto: 'Site', url: 'https://aprocama.vercel.app' }],
     },
+    {
+      nome: 'jonas',
+      resumo:
+        'Este site, em português e inglês, com o texto em arquivos TypeScript e publicado como imagem Docker com nginx.',
+      stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS 4', 'three.js', 'Docker'],
+      repo: 'https://github.com/jonasmessias/jonas',
+    },
   ],
 
   stack: [
@@ -131,7 +138,7 @@ export const pt: Conteudo = {
     { grupo: 'Testes', itens: ['Vitest', 'Jest', 'Testing Library', 'Cypress'] },
     { grupo: 'Agentes de IA', itens: ['Claude Code'] },
   ],
-  estudando: ['PHP', 'Laravel'],
+  estudando: ['PHP', 'Laravel', 'three.js'],
 
   caminho: {
     titulo: 'Como este site chega até você',
