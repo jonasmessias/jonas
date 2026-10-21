@@ -27,24 +27,24 @@ export const pt: Conteudo = {
 
   experiencias: [
     {
-      cargo: 'Desenvolvedor Full Stack',
-      empresa: 'Freelancer',
-      inicio: '2023-03',
+      cargo: 'Engenheiro de Software',
+      empresa: 'oSeuMáximo',
+      inicio: '2026-04',
       fim: null,
       onde: 'Remoto',
       resumo:
-        'Meu maior cliente é o oSeuMáximo, uma plataforma de educação em produção que construí de ponta a ponta: a API em NestJS e as três aplicações React. Fiz a cobrança com PIX, parcelamento e assinatura em moeda estrangeira, garanti que cliente pagante não perdesse o acesso, protegi a receita contra inadimplência e chargebacks e criei a venda assistida pelo WhatsApp. Também refatorei o checkout com agentes de IA, de 994 para 184 linhas em 6 PRs com testes, e atendi outros clientes em mais de 100 entregas, de sites a sistemas sob medida.',
-      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend', 'n8n'],
+        'Sou o único engenheiro do produto: desenhei, construí e mantenho em produção a plataforma de educação do oSeuMáximo, da API em NestJS às três aplicações em React. Fiz a cobrança com PIX, parcelamento e assinatura em moeda estrangeira, garanti que cliente pagante não perdesse o acesso, protegi a receita contra inadimplência e chargebacks e criei a venda assistida pelo WhatsApp. Também refatorei o checkout com agentes de IA, de 994 para 184 linhas em 6 PRs com testes.',
+      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend'],
       links: [
         { texto: 'oseumaximo.com', url: 'https://oseumaximo.com' },
         { texto: 'oseuprof.com', url: 'https://oseuprof.com' },
       ],
     },
     {
-      cargo: 'Desenvolvedor de Software',
+      cargo: 'Desenvolvedor Front-End',
       empresa: 'Agio',
       inicio: '2025-01',
-      fim: '2025-08',
+      fim: '2025-12',
       onde: 'Caratinga, MG · híbrido',
       resumo:
         'Trabalhei em time, com code review, refinamento e planning. Conduzi 2 projetos do início à entrega, incluindo o front-end e as integrações de um app em React Native com Expo, e usei IA para cumprir prazos apertados do cliente.',
