@@ -122,7 +122,7 @@ export const en: Conteudo = {
     { grupo: 'Languages', itens: ['TypeScript', 'JavaScript', 'Java', 'SQL'] },
     {
       grupo: 'Front-end',
-      itens: ['React', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'React Native'],
+      itens: ['React', 'Next.js', 'Angular', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'React Native'],
     },
     { grupo: 'Back-end', itens: ['Node.js', 'NestJS', 'Fastify', 'Spring Boot', 'Prisma', 'Zod'] },
     { grupo: 'Data', itens: ['PostgreSQL', 'Redis', 'BullMQ'] },
@@ -137,7 +137,7 @@ export const en: Conteudo = {
     passos: [
       { nome: 'Commit', detalhe: 'I write the change and push it to GitHub.' },
       { nome: 'Checks', detalhe: 'GitHub checks types, lint, build and links.' },
-      { nome: 'Deploy', detalhe: 'Vercel builds the site and publishes it.' },
+      { nome: 'Deploy', detalhe: 'GitHub builds the Docker image, and my server pulls the new version and publishes it.' },
       { nome: 'You', detalhe: 'The site opens in your language.' },
     ],
   },
