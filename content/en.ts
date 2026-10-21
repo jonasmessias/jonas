@@ -26,24 +26,24 @@ export const en: Conteudo = {
 
   experiencias: [
     {
-      cargo: 'Full Stack Developer',
-      empresa: 'Freelance',
-      inicio: '2023-03',
+      cargo: 'Software Engineer',
+      empresa: 'oSeuMáximo',
+      inicio: '2026-04',
       fim: null,
       onde: 'Remote',
       resumo:
-        'My biggest client is oSeuMáximo, an education platform in production that I built end to end: the NestJS API and the three React apps. I built billing with PIX, installments and foreign-currency subscriptions, made sure paying customers never lost access, protected revenue against defaults and chargebacks, and created assisted sales through WhatsApp. I also refactored the checkout with AI agents, from 994 to 184 lines in 6 tested PRs, and served other clients across more than 100 deliveries, from websites to custom systems.',
-      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend', 'n8n'],
+        "I'm the only engineer on the product: I designed, built and keep in production the oSeuMáximo education platform, from the NestJS API to the three React apps. I built billing with PIX, installments and foreign-currency subscriptions, made sure paying customers never lost access, protected revenue against defaults and chargebacks, and created assisted sales through WhatsApp. I also refactored the checkout with AI agents, from 994 to 184 lines in 6 tested PRs.",
+      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend'],
       links: [
         { texto: 'oseumaximo.com', url: 'https://oseumaximo.com' },
         { texto: 'oseuprof.com', url: 'https://oseuprof.com' },
       ],
     },
     {
-      cargo: 'Software Developer',
+      cargo: 'Front-End Developer',
       empresa: 'Agio',
       inicio: '2025-01',
-      fim: '2025-08',
+      fim: '2025-12',
       onde: 'Caratinga, Brazil · hybrid',
       resumo:
         'I worked in a team with code review, refinement and planning. I led 2 projects from start to delivery, including the front-end and integrations of a React Native app with Expo, and used AI to meet tight client deadlines.',
@@ -122,7 +122,7 @@ export const en: Conteudo = {
     { grupo: 'Languages', itens: ['TypeScript', 'JavaScript', 'Java', 'SQL'] },
     {
       grupo: 'Front-end',
-      itens: ['React', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'React Native'],
+      itens: ['React', 'Next.js', 'Angular', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'React Native'],
     },
     { grupo: 'Back-end', itens: ['Node.js', 'NestJS', 'Fastify', 'Spring Boot', 'Prisma', 'Zod'] },
     { grupo: 'Data', itens: ['PostgreSQL', 'Redis', 'BullMQ'] },
@@ -137,7 +137,7 @@ export const en: Conteudo = {
     passos: [
       { nome: 'Commit', detalhe: 'I write the change and push it to GitHub.' },
       { nome: 'Checks', detalhe: 'GitHub checks types, lint, build and links.' },
-      { nome: 'Deploy', detalhe: 'Vercel builds the site and publishes it.' },
+      { nome: 'Deploy', detalhe: 'GitHub builds the Docker image, and my server pulls the new version and publishes it.' },
       { nome: 'You', detalhe: 'The site opens in your language.' },
     ],
   },
