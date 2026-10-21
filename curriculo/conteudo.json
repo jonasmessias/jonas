@@ -1,5 +1,5 @@
 {
-  "_origem": "Derivado de polo/fatos.json v1 por engine/derive.js em 2026-10-20. Eixo: engineer. Tom: junior. Idioma: pt. Regras: polo/curriculo.md.",
+  "_origem": "Derivado de polo/fatos.json v1 por engine/derive.js em 2026-10-21. Eixo: engineer. Tom: junior. Idioma: pt. Regras: polo/curriculo.md.",
   "_decisoes": "CV coringa, gerado por engine/gera_curriculos.js a partir de curriculos/cenarios.json, no método de 16/10/2026 (polo/curriculo.md): 1 página, visão da empresa, IA em destaque, oSeuMáximo como emprego próprio, sem o freelance (20/10/2026). Eixo engineer; competências de react,angular,node,java,js e as neutras; resumo coringa_impacto; projetos: angular-task-manager, spring-task-manager.",
   "name": "JONAS MESSIAS DE ANDRADE ALVES",
   "title": "Desenvolvedor Full Stack | React, Angular, Node.js e Java",
@@ -9,7 +9,7 @@
     {
       "type": "summary",
       "title": "RESUMO",
-      "text": "Desenvolvedor full stack que entrega produto de ponta a ponta, do banco de dados à interface e do requisito ao deploy. Trabalho com React, Angular, Node.js e Java, e uso IA no dia a dia para entregar mais rápido e com qualidade."
+      "text": "Sou desenvolvedor full stack e gosto de acompanhar uma funcionalidade do requisito até o deploy. Trabalho com React, Angular, Node.js e Java, escrevo testes para o que entrego e uso IA no dia a dia como ferramenta, sempre revisando o resultado."
     },
     {
       "type": "skills",
@@ -25,7 +25,7 @@
         ],
         [
           "Back-end",
-          "Node.js, NestJS, APIs REST, Spring Boot, Spring Data JPA, Bean Validation"
+          "Node.js, NestJS, APIs REST, Spring Boot, Spring Data JPA"
         ],
         [
           "Arquitetura",
@@ -33,11 +33,11 @@
         ],
         [
           "Dados e infraestrutura",
-          "PostgreSQL, Prisma, Flyway, Maven, Redis, Docker, GitHub Actions (CI/CD)"
+          "PostgreSQL, SQL, Prisma, Flyway, Maven, Redis, Docker, GitHub Actions (CI/CD), AWS (S3, SES)"
         ],
         [
           "IA, qualidade e processo",
-          "Claude Code, GitHub Copilot, testes unitários e de integração, Jest, Vitest, Git, code review"
+          "Claude Code, GitHub Copilot, testes unitários e de integração, Jest, Git, code review"
         ]
       ]
     },
@@ -60,7 +60,7 @@
           ]
         },
         {
-          "role": "Desenvolvedor de Software",
+          "role": "Desenvolvedor Front-End",
           "company": "Agio - Híbrido",
           "location": "Caratinga, MG",
           "dates": "Jan 2025 - Dez 2025",
