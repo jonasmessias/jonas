@@ -64,9 +64,10 @@ async function localeDe(params: Props['params']): Promise<Locale> {
 export async function generateMetadata({ params }: Omit<Props, 'children'>): Promise<Metadata> {
   const locale = await localeDe(params)
   const { nome, titulo, posicionamento } = getFatos(locale)
-  const title = `${nome} — ${titulo}`
-  // O título da aba é o próprio domínio (jonasmessias.dev.br), sem o www.
-  const tituloDaAba = new URL(getSiteUrl()).hostname.replace(/^www\./, '')
+  // Nome e cargo na aba, no Google e no preview de link (23/10/2026): o domínio sozinho na aba não
+  // dizia o que ele faz, e o travessão sai (preferência dele).
+  const title = `${nome} · ${titulo}`
+  const tituloDaAba = title
 
   return {
     metadataBase: new URL(getSiteUrl()),

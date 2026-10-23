@@ -5,8 +5,8 @@ import type { Conteudo } from './tipos'
  */
 export const en: Conteudo = {
   nome: 'Jonas Messias',
-  cargo: 'Software developer',
-  frase: 'I build applications and keep learning about different fundamentals and areas of development.',
+  cargo: 'Full Stack Developer',
+  frase: 'I build and maintain products in production with React, Node.js, Angular and Java, from API to interface, with tests, continuous deployment and AI as support.',
   local: 'Caratinga, Brazil',
 
   sobre: [

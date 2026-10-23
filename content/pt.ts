@@ -6,12 +6,12 @@ import type { Conteudo } from './tipos'
  */
 export const pt: Conteudo = {
   nome: 'Jonas Messias',
-  cargo: 'Desenvolvedor de software',
-  frase: 'Construo aplicações e sigo aprendendo sobre diferentes fundamentos e áreas do desenvolvimento.',
+  cargo: 'Desenvolvedor Full Stack',
+  frase: 'Construo e mantenho produtos em produção com React, Node.js, Angular e Java, da API à interface, com testes, deploy contínuo e IA como apoio.',
   local: 'Caratinga, MG',
 
   sobre: [
-    'Sou desenvolvedor de software com experiência em projetos web. Gosto de entender como as partes de um sistema se conectam e contribuir em diferentes etapas, da arquitetura e do back-end à interface, cloud e infraestrutura.',
+    'Sou desenvolvedor full stack com experiência em produtos web em produção. Gosto de entender como as partes de um sistema se conectam e contribuir em diferentes etapas, da arquitetura e do back-end à interface, cloud e infraestrutura.',
     'Continuo estudando e explorando novas tecnologias por meio de projetos práticos. Busco colaborar com equipes e participar de desafios que me ajudem a evoluir como profissional.',
     'Sei usar IA a favor da produtividade. Uso agentes de programação, como o Claude Code, para apoiar a análise, a implementação e a revisão de código, sempre revisando o resultado.',
   ],
