@@ -60,11 +60,11 @@
           "dates": "Abr 2026 - Atual",
           "bullets": [
             "Desenvolvi a API central e as 3 aplicações para alunos, professores e equipe, levando a plataforma de educação à produção.",
-            "Implementei a cobrança no Brasil com parcelamento em até 12x, PIX e boleto, e a assinatura recorrente internacional em moeda estrangeira, integrando 2 gateways (Stripe e InfinitePay).",
+            "Implementei a cobrança no Brasil com parcelamento em até 12x, PIX e boleto pela InfinitePay, e a assinatura recorrente internacional em USD, EUR e GBP pela Stripe.",
             "Corrigi falhas de reconciliação de pagamentos e de liberação de acesso, incluindo o caso em que o pagamento era aprovado e o aluno continuava bloqueado.",
-            "Desenvolvi a venda assistida pelo WhatsApp com pagamento via PIX (link público com QR Code e validação de comprovante).",
+            "Desenvolvi a venda assistida pelo WhatsApp com pagamento via PIX (link público com QR Code e conferência do comprovante no painel).",
             "Refatorei com agentes de IA o caso de uso mais crítico do checkout, de 994 para 184 linhas, em 6 PRs protegidos por testes automatizados, separando as regras em funções testadas isoladamente.",
-            "Migrei o app do aluno de uma ferramenta no-code para a API própria, levando os dados legados do agendamento (906 horários e 457 agendamentos) e tirando a empresa da dependência do fornecedor."
+            "Migrei o app do aluno de uma ferramenta no-code para a API própria e trouxe os dados do agendador de aulas ao vivo (906 horários e 457 agendamentos exportados), tirando a empresa da dependência do fornecedor."
           ]
         },
         {
