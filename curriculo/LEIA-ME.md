@@ -21,11 +21,12 @@ C=~/Documents/Carreira/curriculos/coringa
 cp $C/conteudo.json curriculo/conteudo.json
 cp $C/Jonas_Messias.pdf curriculo/cv.pdf && cp $C/Jonas_Messias.docx curriculo/cv.docx
 cp curriculo/cv.pdf public/cv.pdf
+cp ~/Documents/Carreira/curriculos/coringa-en/Jonas_Messias.pdf public/cv-en.pdf   # versão EN do site
 ```
 
 Depois: branch + PR. O merge na `main` gera a imagem nova (`imagem.yml`), e o servidor a baixa em até
 5 minutos (`infra/atualizar.sh`). Por fim, no cockpit, `node engine/check_deriva.js --canal site` tem
 que parar de acusar o `/cv.pdf`.
 
-O `scripts/checa-saida.mjs` ainda reprova qualquer página que linke o `/cv.pdf`. Liberar esse link é
-outra decisão, depois que este currículo estiver no ar.
+Desde 23/10/2026 o botão **Currículo** da seção Contato aponta para `/cv.pdf` (PT) e `/cv-en.pdf` (EN),
+pelo campo `cv` de `content/pt.ts` e `content/en.ts`.

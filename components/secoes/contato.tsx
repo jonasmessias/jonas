@@ -46,7 +46,7 @@ export function Contato({ locale }: Props) {
     linhas.push({
       chave: 'cv',
       icone: <FileArrowDownIcon size={18} weight="light" aria-hidden="true" className={icone} />,
-      rotulo: ui.contato.baixarCv,
+      rotulo: ui.contato.cv,
       valor: ui.contato.baixarCv,
       href: c.cv,
       externo: true,

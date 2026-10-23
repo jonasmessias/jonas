@@ -63,7 +63,8 @@ const pt = {
     email: 'E-mail',
     linkedin: 'LinkedIn',
     github: 'GitHub',
-    baixarCv: 'Baixar CV',
+    cv: 'Currículo',
+    baixarCv: 'Baixar em PDF',
   },
   rodape: {
     codigoDoSite: 'Código deste site',
@@ -119,7 +120,8 @@ const en = {
     email: 'Email',
     linkedin: 'LinkedIn',
     github: 'GitHub',
-    baixarCv: 'Download CV',
+    cv: 'Résumé',
+    baixarCv: 'Download PDF',
   },
   rodape: {
     codigoDoSite: 'Source of this site',
