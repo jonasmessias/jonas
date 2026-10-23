@@ -9,7 +9,7 @@
     {
       "type": "summary",
       "title": "RESUMO",
-      "text": "Desenvolvedor Full Stack com experiência no desenvolvimento e na evolução de produtos digitais em produção. Trabalho com Node.js e React no dia a dia e com Java/Spring Boot e Angular em projetos próprios, da implementação aos testes e à publicação, usando IA como apoio e revisando o resultado."
+      "text": "Desenvolvedor Full Stack com experiência em produtos digitais em produção, principalmente com Node.js e React. Desenvolvo APIs, interfaces e integrações, da implementação aos testes e à publicação. Também desenvolvo projetos pessoais com Java/Spring Boot e Angular e uso IA como apoio, revisando o resultado."
     },
     {
       "type": "skills",
@@ -28,12 +28,12 @@
           "Node.js, NestJS, APIs REST, Spring Boot, Spring Data JPA"
         ],
         [
-          "Dados",
+          "Banco de dados e cache",
           "PostgreSQL, Prisma, Flyway, Redis"
         ],
         [
-          "Cloud e DevOps",
-          "AWS (EC2, RDS, S3, SES), Docker, GitHub Actions (CI/CD), Sentry, Monorepo (Turborepo)"
+          "Cloud, DevOps e observabilidade",
+          "AWS (EC2, RDS, S3, SES), Docker, GitHub Actions (CI/CD), Sentry"
         ],
         [
           "Testes e qualidade",
@@ -41,7 +41,7 @@
         ],
         [
           "Processo e IA",
-          "Git, Scrum, Claude Code"
+          "Git, Scrum, Claude Code, GitHub Copilot"
         ]
       ]
     },
@@ -55,10 +55,10 @@
           "location": "",
           "dates": "Abr 2026 - Atual",
           "bullets": [
-            "Desenvolvi sozinho a API central e as 3 aplicações para alunos, professores e equipe, levando a plataforma de educação à produção.",
+            "Desenvolvi a API central e as 3 aplicações para alunos, professores e equipe, levando a plataforma de educação à produção.",
             "Implementei a cobrança no Brasil com parcelamento em até 12x, PIX e boleto, e a assinatura recorrente internacional em moeda estrangeira, integrando 2 gateways (Stripe e InfinitePay).",
             "Corrigi falhas de reconciliação de pagamentos e de liberação de acesso, incluindo o caso em que o pagamento era aprovado e o aluno continuava bloqueado.",
-            "Desenvolvi a venda assistida (link público com QR Code PIX e validação de comprovante), que permite vender pelo WhatsApp sem o comprador ter cartão na hora.",
+            "Desenvolvi a venda assistida pelo WhatsApp com pagamento via PIX (link público com QR Code e validação de comprovante).",
             "Refatorei com agentes de IA o caso de uso mais crítico do checkout, de 994 para 184 linhas, em 6 PRs protegidos por testes automatizados, separando as regras em funções testadas isoladamente.",
             "Migrei o app do aluno de uma ferramenta no-code para a API própria, levando os dados legados do agendamento (906 horários e 457 agendamentos) e tirando a empresa da dependência do fornecedor."
           ]
@@ -92,7 +92,7 @@
         {
           "name": "angular-task-manager",
           "link": "github.com/jonasmessias/angular-task-manager  |  Demo: task-manager-app-angular.vercel.app",
-          "bullet": "Kanban em Angular 20 com Signals, componentes standalone, design system próprio e sessão que se renova sozinha, consumindo uma API REST em Java."
+          "bullet": "Kanban em Angular 20 com Signals, componentes standalone, design system próprio e renovação automática de sessão, consumindo uma API REST em Java."
         },
         {
           "name": "spring-task-manager-api",
