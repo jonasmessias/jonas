@@ -56,11 +56,11 @@
           "dates": "Abr 2026 - Atual",
           "bullets": [
             "Desenvolvi sozinho a API central e as 3 aplicações para alunos, professores e equipe, levando a plataforma de educação à produção.",
-            "Mantenho uma suíte com mais de 670 arquivos de testes automatizados, executada a cada entrega para detectar regressões antes de chegarem ao aluno.",
             "Implementei a cobrança no Brasil com parcelamento em até 12x, PIX e boleto, e a assinatura recorrente internacional em moeda estrangeira, integrando 2 gateways (Stripe e InfinitePay).",
-            "Integrei a geração de flashcards por IA ao fluxo de estudo, criando material a partir do conteúdo que o aluno está estudando.",
             "Corrigi falhas de reconciliação de pagamentos e de liberação de acesso, incluindo o caso em que o pagamento era aprovado e o aluno continuava bloqueado.",
-            "Refatorei com agentes de IA o caso de uso mais crítico do checkout, de 994 para 184 linhas, em 6 PRs protegidos por testes automatizados, separando as regras em funções testadas isoladamente."
+            "Desenvolvi a venda assistida (link público com QR Code PIX e validação de comprovante), que permite vender pelo WhatsApp sem o comprador ter cartão na hora.",
+            "Refatorei com agentes de IA o caso de uso mais crítico do checkout, de 994 para 184 linhas, em 6 PRs protegidos por testes automatizados, separando as regras em funções testadas isoladamente.",
+            "Migrei o app do aluno de uma ferramenta no-code para a API própria, levando os dados legados do agendamento (906 horários e 457 agendamentos) e tirando a empresa da dependência do fornecedor."
           ]
         },
         {
@@ -92,12 +92,12 @@
         {
           "name": "angular-task-manager",
           "link": "github.com/jonasmessias/angular-task-manager  |  Demo: task-manager-app-angular.vercel.app",
-          "bullet": "Gerenciador de tarefas em formato Kanban feito em Angular, com login e sessão que se renova sozinha; é o front-end da API em Java abaixo."
+          "bullet": "Kanban em Angular 20 com Signals, componentes standalone, design system próprio e sessão que se renova sozinha, consumindo uma API REST em Java."
         },
         {
           "name": "spring-task-manager-api",
           "link": "github.com/jonasmessias/spring-task-manager-api",
-          "bullet": "API em Java e Spring Boot do gerenciador de tarefas, com login social, e-mails automáticos e controle de acesso por membro."
+          "bullet": "API REST em Java 17 e Spring Boot com JWT e refresh token no Redis, login com Google, anexos direto no S3, testes com JUnit e Mockito e deploy automático na AWS."
         }
       ]
     },
