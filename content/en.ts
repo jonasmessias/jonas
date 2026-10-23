@@ -10,9 +10,9 @@ export const en: Conteudo = {
   local: 'Caratinga, Brazil',
 
   sobre: [
-    "I'm a software developer with experience in web projects. I like understanding how the parts of a system connect and contributing at different stages, from architecture and back-end to interface, cloud and infrastructure.",
-    "I keep studying and exploring new technologies through hands-on projects. I'm looking to work with teams and take on challenges that help me grow as a professional.",
-    'I know how to use AI for productivity. I use coding agents, such as Claude Code, to support code analysis, implementation and review, always reviewing the result.',
+    "I'm a full stack developer with a degree in Computer Science and experience building and evolving digital products in production. Today I'm the only engineer on an education platform: I built the Node.js and NestJS API, the three React apps and billing for Brazil and abroad.",
+    'Day to day I work with TypeScript, Node.js, NestJS, React and PostgreSQL. In my own projects, I built a REST API in Java 17 with Spring Boot and the Angular front end that consumes it, plus a store built with React microfrontends.',
+    "I work with automated tests, code review and continuous deployment, and I use AI coding agents, such as Claude Code, to support analysis, implementation and review, always reviewing the result. I'm looking for a team where I can grow through code review and contribute from day one.",
   ],
   formacao: {
     curso: 'B.Sc. in Computer Science',
