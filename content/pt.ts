@@ -22,7 +22,8 @@ export const pt: Conteudo = {
   },
   idiomas: [
     { idioma: 'Português', nivel: 'nativo' },
-    { idioma: 'Inglês', nivel: 'intermediário a avançado' },
+    { idioma: 'Inglês', nivel: 'intermediário' },
+    { idioma: 'Espanhol', nivel: 'básico' },
   ],
 
   experiencias: [
