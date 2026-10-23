@@ -8,7 +8,8 @@
  *
  * - os arquivos que a hospedagem estática precisa existem
  * - nenhum padrão de telefone no HTML (página pública é ímã de spam; o e-mail converte)
- * - nenhum link para o /cv.pdf (bloqueado até o currículo publicado bater com o registro)
+ * - o link do currículo (/cv.pdf e /cv-en.pdf) liberado em 23/10/2026: o currículo publicado passou a
+ *   bater com o registro (check_deriva do cockpit limpo), que era a condição da trava
  * - sem middleware (incompatível com export)
  * - First Load de /pt/ e /en/: soma gzip dos <script> do HTML servido ≤ orçamento
  */
@@ -40,7 +41,6 @@ for (const arq of htmls) {
   const html = fs.readFileSync(arq, 'utf8')
   const texto = html.replace(/<[^>]+>/g, ' ')
   if (TELEFONE.test(texto)) falhas.push(`${rel}: padrão de telefone`)
-  if (/cv\.pdf/i.test(html)) falhas.push(`${rel}: menciona cv.pdf`)
 }
 
 const medidas = []

@@ -149,4 +149,5 @@ export const en: Conteudo = {
   },
   site: 'https://www.jonasmessias.dev.br',
   repositorio: 'https://github.com/jonasmessias/jonas',
+  cv: '/cv-en.pdf',
 }
