@@ -7,7 +7,8 @@ import type { Locale } from '@/lib/locale'
 type Props = { locale: Locale }
 
 /**
- * O topo: foto, nome, cargo, uma frase, cidade, dois botões. Sem animação de
+ * O topo: foto, nome, cargo, uma frase, cidade e os botões (projetos, GitHub e, quando há `cv` no
+ * conteúdo, o currículo: pedido dele em 23/10/2026, para não depender de rolar até o Contato). Sem animação de
  * entrada (é a primeira coisa que aparece). A escala é de título, não de
  * cartaz: em 1280×800 o topo inteiro cabe com o começo de "Sobre".
  *
@@ -51,6 +52,11 @@ export function Capa({ locale }: Props) {
               <Botao href={c.contato.github.url} variante="fantasma" externo rotuloNovaAba={ui.abreEmNovaAba}>
                 {ui.capa.github}
               </Botao>
+              {c.cv && (
+                <Botao href={c.cv} variante="fantasma" externo rotuloNovaAba={ui.abreEmNovaAba}>
+                  {ui.capa.curriculo}
+                </Botao>
+              )}
             </div>
           </div>
 

@@ -36,6 +36,7 @@ const pt = {
   capa: {
     verProjetos: 'Ver projetos',
     github: 'GitHub',
+    curriculo: 'Currículo',
     /** O alt da foto: só o nome entra depois, vindo do dossiê. */
     fotoDe: 'Foto de',
   },
@@ -96,6 +97,7 @@ const en = {
   capa: {
     verProjetos: 'See projects',
     github: 'GitHub',
+    curriculo: 'Résumé',
     fotoDe: 'Photo of',
   },
   sobre: {

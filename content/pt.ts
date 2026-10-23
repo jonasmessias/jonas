@@ -6,14 +6,14 @@ import type { Conteudo } from './tipos'
  */
 export const pt: Conteudo = {
   nome: 'Jonas Messias',
-  cargo: 'Desenvolvedor de software',
-  frase: 'Construo aplicações e sigo aprendendo sobre diferentes fundamentos e áreas do desenvolvimento.',
+  cargo: 'Desenvolvedor Full Stack',
+  frase: 'Construo e mantenho produtos em produção com React, Node.js, Angular e Java, da API à interface, com testes, deploy contínuo e IA como apoio.',
   local: 'Caratinga, MG',
 
   sobre: [
-    'Sou desenvolvedor de software com experiência em projetos web. Gosto de entender como as partes de um sistema se conectam e contribuir em diferentes etapas, da arquitetura e do back-end à interface, cloud e infraestrutura.',
-    'Continuo estudando e explorando novas tecnologias por meio de projetos práticos. Busco colaborar com equipes e participar de desafios que me ajudem a evoluir como profissional.',
-    'Sei usar IA a favor da produtividade. Uso agentes de programação, como o Claude Code, para apoiar a análise, a implementação e a revisão de código, sempre revisando o resultado.',
+    'Sou desenvolvedor full stack, formado em Ciência da Computação, com experiência no desenvolvimento e na evolução de produtos digitais em produção. Hoje sou o único engenheiro de uma plataforma de educação: construí a API em Node.js e NestJS, as três aplicações em React e a cobrança para o Brasil e o exterior.',
+    'No dia a dia trabalho com TypeScript, Node.js, NestJS, React e PostgreSQL. Em projetos próprios, construí uma API REST em Java 17 com Spring Boot e o front-end em Angular que a consome, além de uma loja em microfrontends com React.',
+    'Trabalho com testes automatizados, revisão de código e deploy contínuo, e uso agentes de IA, como o Claude Code, como apoio na análise, na implementação e na revisão, sempre revisando o resultado. Busco um time onde eu possa crescer com revisão de código e contribuir desde o início.',
   ],
   formacao: {
     curso: 'Bacharelado em Ciência da Computação',
@@ -22,7 +22,8 @@ export const pt: Conteudo = {
   },
   idiomas: [
     { idioma: 'Português', nivel: 'nativo' },
-    { idioma: 'Inglês', nivel: 'intermediário a avançado' },
+    { idioma: 'Inglês', nivel: 'intermediário' },
+    { idioma: 'Espanhol', nivel: 'básico' },
   ],
 
   experiencias: [
