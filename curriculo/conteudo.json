@@ -25,11 +25,15 @@
         ],
         [
           "Back-end",
-          "Node.js, NestJS, APIs REST, Spring Boot, Spring Data JPA"
+          "Node.js, NestJS, APIs REST, Spring Boot, Spring Security"
         ],
         [
           "Banco de dados e cache",
-          "PostgreSQL, Prisma, Flyway, Redis"
+          "PostgreSQL, Redis"
+        ],
+        [
+          "ORM e migrações",
+          "Spring Data JPA, Hibernate, Prisma, Flyway"
         ],
         [
           "Cloud, DevOps e observabilidade",
@@ -37,11 +41,11 @@
         ],
         [
           "Testes e qualidade",
-          "testes unitários e de integração, Jest, Vitest, JUnit 5, Mockito, code review"
+          "testes unitários e de integração, Jest, Vitest, JUnit 5, code review"
         ],
         [
           "Processo e IA",
-          "Git, Scrum, Claude Code, GitHub Copilot"
+          "Git, Scrum, Claude Code"
         ]
       ]
     },
