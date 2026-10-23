@@ -1,5 +1,5 @@
 {
-  "_origem": "Derivado de polo/fatos.json v1 por engine/derive.js em 2026-10-21. Eixo: engineer. Tom: junior. Idioma: pt. Regras: polo/curriculo.md.",
+  "_origem": "Derivado de polo/fatos.json v1 por engine/derive.js em 2026-10-23. Eixo: engineer. Tom: junior. Idioma: pt. Regras: polo/curriculo.md.",
   "_decisoes": "CV coringa, gerado por engine/gera_curriculos.js a partir de curriculos/cenarios.json, no método de 16/10/2026 (polo/curriculo.md): 1 página, visão da empresa, IA em destaque, oSeuMáximo como emprego próprio, sem o freelance (20/10/2026). Eixo engineer; competências de react,angular,node,java,js e as neutras; resumo coringa_impacto; projetos: angular-task-manager, spring-task-manager.",
   "name": "JONAS MESSIAS DE ANDRADE ALVES",
   "title": "Desenvolvedor Full Stack | React, Angular, Node.js e Java",
@@ -9,7 +9,7 @@
     {
       "type": "summary",
       "title": "RESUMO",
-      "text": "Sou desenvolvedor full stack e gosto de acompanhar uma funcionalidade do requisito até o deploy. Trabalho com React, Angular, Node.js e Java, escrevo testes para o que entrego e uso IA no dia a dia como ferramenta, sempre revisando o resultado."
+      "text": "Desenvolvedor Full Stack com experiência no desenvolvimento e na evolução de produtos digitais em produção. Trabalho com Node.js e React no dia a dia e com Java/Spring Boot e Angular em projetos próprios, da implementação aos testes e à publicação, usando IA como apoio e revisando o resultado."
     },
     {
       "type": "skills",
@@ -17,7 +17,7 @@
       "items": [
         [
           "Linguagens",
-          "TypeScript, JavaScript, Java"
+          "TypeScript, JavaScript, Java, SQL"
         ],
         [
           "Front-end",
@@ -28,16 +28,20 @@
           "Node.js, NestJS, APIs REST, Spring Boot, Spring Data JPA"
         ],
         [
-          "Arquitetura",
-          "Clean Architecture, Microfrontends, Monorepo (Turborepo), Design Patterns"
+          "Dados",
+          "PostgreSQL, Prisma, Flyway, Redis"
         ],
         [
-          "Dados e infraestrutura",
-          "PostgreSQL, SQL, Prisma, Flyway, Maven, Redis, Docker, GitHub Actions (CI/CD), AWS (S3, SES)"
+          "Cloud e DevOps",
+          "AWS (EC2, RDS, S3, SES), Docker, GitHub Actions (CI/CD), Sentry, Monorepo (Turborepo)"
         ],
         [
-          "IA, qualidade e processo",
-          "Claude Code, GitHub Copilot, testes unitários e de integração, Jest, Git, code review"
+          "Testes e qualidade",
+          "testes unitários e de integração, Jest, Vitest, JUnit 5, Mockito, code review"
+        ],
+        [
+          "Processo e IA",
+          "Git, Scrum, Claude Code"
         ]
       ]
     },
@@ -51,12 +55,12 @@
           "location": "",
           "dates": "Abr 2026 - Atual",
           "bullets": [
-            "Construí sozinho a plataforma de educação da empresa, hoje em produção: a API que sustenta o produto inteiro e as 3 aplicações usadas por alunos, professores e equipe.",
-            "Mantenho o produto estável com mais de 670 arquivos de testes automatizados rodando a cada entrega, o que evita que uma mudança quebre o que o aluno já usa.",
-            "Implementei a cobrança do produto com 2 meios de pagamento: parcelamento em até 12x, PIX e boleto no Brasil e assinatura recorrente em moeda estrangeira, o que permite vender para clientes no exterior.",
-            "Entreguei a geração de flashcards por IA dentro do produto, um diferencial que cria material de estudo a partir do conteúdo que o aluno está estudando.",
-            "Garanti que cliente pagante não perdesse o acesso: reconciliação automática de pagamentos, correção do fluxo em que o aluno pagava e ficava bloqueado e adoção, pelo painel, de assinaturas feitas fora do app.",
-            "Usei agentes de IA para refatorar o caso de uso mais crítico do checkout (de 994 para 184 linhas) em 6 PRs pequenos e protegidos por testes automatizados, sem parar o produto."
+            "Desenvolvi sozinho a API central e as 3 aplicações para alunos, professores e equipe, levando a plataforma de educação à produção.",
+            "Mantenho uma suíte com mais de 670 arquivos de testes automatizados, executada a cada entrega para detectar regressões antes de chegarem ao aluno.",
+            "Implementei a cobrança no Brasil com parcelamento em até 12x, PIX e boleto, e a assinatura recorrente internacional em moeda estrangeira, integrando 2 gateways (Stripe e InfinitePay).",
+            "Integrei a geração de flashcards por IA ao fluxo de estudo, criando material a partir do conteúdo que o aluno está estudando.",
+            "Corrigi falhas de reconciliação de pagamentos e de liberação de acesso, incluindo o caso em que o pagamento era aprovado e o aluno continuava bloqueado.",
+            "Refatorei com agentes de IA o caso de uso mais crítico do checkout, de 994 para 184 linhas, em 6 PRs protegidos por testes automatizados, separando as regras em funções testadas isoladamente."
           ]
         },
         {
@@ -65,9 +69,9 @@
           "location": "Caratinga, MG",
           "dates": "Jan 2025 - Dez 2025",
           "bullets": [
-            "Conduzi 2 projetos do início à entrega, gerenciando 3 repositórios, e contribuí em outros 5 projetos do time.",
+            "Conduzi 2 projetos do início à entrega, uma aplicação web PWA em Next.js e um app mobile em React Native com Expo, gerenciando 3 repositórios, e contribuí em outros 5 projetos do time.",
             "Participei de revisões de código (code review), refinamentos e planning, em time com metodologias ágeis.",
-            "Usei IA para acelerar entregas e testes em prazos apertados do cliente."
+            "Traduzi os layouts do Figma em requisitos técnicos e componentes reaproveitáveis de front-end."
           ]
         },
         {
@@ -76,7 +80,7 @@
           "location": "Caratinga, MG",
           "dates": "Abr 2022 - Mar 2023",
           "bullets": [
-            "Entreguei mais de 10 sites institucionais para clientes, do requisito à publicação."
+            "Entreguei mais de 10 sites institucionais em WordPress e PHP, do requisito à publicação, com integrações a sistemas de terceiros que eliminaram etapas manuais dos clientes."
           ]
         }
       ]
@@ -87,7 +91,7 @@
       "projects": [
         {
           "name": "angular-task-manager",
-          "link": "github.com/jonasmessias/angular-task-manager",
+          "link": "github.com/jonasmessias/angular-task-manager  |  Demo: task-manager-app-angular.vercel.app",
           "bullet": "Gerenciador de tarefas em formato Kanban feito em Angular, com login e sessão que se renova sozinha; é o front-end da API em Java abaixo."
         },
         {
@@ -111,7 +115,7 @@
         },
         {
           "bold": "Idiomas: ",
-          "rest": "Português (nativo); Inglês (intermediário a avançado, leitura técnica e conversação); Espanhol (básico)."
+          "rest": "Português (nativo); Inglês (intermediário); Espanhol (básico)."
         }
       ]
     }
