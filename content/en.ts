@@ -5,14 +5,14 @@ import type { Conteudo } from './tipos'
  */
 export const en: Conteudo = {
   nome: 'Jonas Messias',
-  cargo: 'Full Stack Developer',
-  frase: 'I build and maintain products in production with React, Node.js, Angular and Java, from API to interface, with tests, continuous deployment and AI as support.',
+  cargo: 'Software developer',
+  frase: 'I build applications and keep learning about different fundamentals and areas of development.',
   local: 'Caratinga, Brazil',
 
   sobre: [
-    "I'm a full stack developer with a degree in Computer Science and experience building and evolving digital products in production. Today I'm the only engineer on an education platform: I built the Node.js and NestJS API, the three React apps and billing for Brazil and abroad.",
-    'Day to day I work with TypeScript, Node.js, NestJS, React and PostgreSQL. In my own projects, I built a REST API in Java 17 with Spring Boot and the Angular front end that consumes it, plus a store built with React microfrontends.',
-    "I work with automated tests, code review and continuous deployment, and I use AI coding agents, such as Claude Code, to support analysis, implementation and review, always reviewing the result. I'm looking for a team where I can grow through code review and contribute from day one.",
+    "I'm a software developer with experience in web projects. I like understanding how the parts of a system connect and contributing at different stages, from architecture and back-end to interface, cloud and infrastructure.",
+    "I keep studying and exploring new technologies through hands-on projects. I'm looking to work with teams and take on challenges that help me grow as a professional.",
+    'I know how to use AI for productivity. I use coding agents, such as Claude Code, to support code analysis, implementation and review, always reviewing the result.',
   ],
   formacao: {
     curso: 'B.Sc. in Computer Science',
@@ -21,30 +21,29 @@ export const en: Conteudo = {
   },
   idiomas: [
     { idioma: 'Portuguese', nivel: 'native' },
-    { idioma: 'English', nivel: 'intermediate' },
-    { idioma: 'Spanish', nivel: 'basic' },
+    { idioma: 'English', nivel: 'intermediate to advanced' },
   ],
 
   experiencias: [
     {
-      cargo: 'Software Engineer',
-      empresa: 'oSeuMáximo',
-      inicio: '2026-04',
+      cargo: 'Full Stack Developer',
+      empresa: 'Freelance',
+      inicio: '2023-03',
       fim: null,
       onde: 'Remote',
       resumo:
-        "I'm the only engineer on the product: I designed, built and keep in production the oSeuMáximo education platform, from the NestJS API to the three React apps. I built billing with PIX, installments and foreign-currency subscriptions, made sure paying customers never lost access, protected revenue against defaults and chargebacks, and created assisted sales through WhatsApp. I also refactored the checkout with AI agents, from 994 to 184 lines in 6 tested PRs.",
-      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend'],
+        'My biggest client is oSeuMáximo, an education platform in production that I built end to end: the NestJS API and the three React apps. I built billing with PIX, installments and foreign-currency subscriptions, made sure paying customers never lost access, protected revenue against defaults and chargebacks, and created assisted sales through WhatsApp. I also refactored the checkout with AI agents, from 994 to 184 lines in 6 tested PRs, and served other clients across more than 100 deliveries, from websites to custom systems.',
+      stack: ['TypeScript', 'Node.js', 'NestJS', 'Fastify', 'Prisma', 'PostgreSQL', 'Redis', 'BullMQ', 'React 19', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'Zod', 'Jest', 'Vitest', 'React Testing Library', 'Cypress', 'Docker', 'GitHub Actions', 'Sentry', 'Stripe', 'AWS S3', 'Resend', 'n8n'],
       links: [
         { texto: 'oseumaximo.com', url: 'https://oseumaximo.com' },
         { texto: 'oseuprof.com', url: 'https://oseuprof.com' },
       ],
     },
     {
-      cargo: 'Front-End Developer',
+      cargo: 'Software Developer',
       empresa: 'Agio',
       inicio: '2025-01',
-      fim: '2025-12',
+      fim: '2025-08',
       onde: 'Caratinga, Brazil · hybrid',
       resumo:
         'I worked in a team with code review, refinement and planning. I led 2 projects from start to delivery, including the front-end and integrations of a React Native app with Expo, and used AI to meet tight client deadlines.',
@@ -117,13 +116,28 @@ export const en: Conteudo = {
       stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'React Hook Form', 'Zod'],
       links: [{ texto: 'Website', url: 'https://aprocama.vercel.app' }],
     },
+    {
+      nome: 'jonas',
+      resumo:
+        'This website, in Portuguese and English, with its text in TypeScript files and published as a Docker image with nginx.',
+      stack: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS 4', 'three.js', 'Docker'],
+      repo: 'https://github.com/jonasmessias/jonas',
+    },
+    {
+      nome: 'agenda-clinica',
+      status: 'Study',
+      resumo:
+        'An app to schedule and attend patients at clinics, with fictional data. The schedule uses Vue and the rest is Laravel with Blade.',
+      stack: ['PHP 8.5', 'Laravel', 'Vue', 'MySQL', 'Redis', 'Docker'],
+      repo: 'https://github.com/jonasmessias/agenda-clinica',
+    },
   ],
 
   stack: [
     { grupo: 'Languages', itens: ['TypeScript', 'JavaScript', 'Java', 'SQL'] },
     {
       grupo: 'Front-end',
-      itens: ['React', 'Next.js', 'Angular', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'React Native'],
+      itens: ['React', 'Next.js', 'Vite', 'Tailwind CSS', 'shadcn/ui', 'Zustand', 'TanStack Query', 'React Native'],
     },
     { grupo: 'Back-end', itens: ['Node.js', 'NestJS', 'Fastify', 'Spring Boot', 'Prisma', 'Zod'] },
     { grupo: 'Data', itens: ['PostgreSQL', 'Redis', 'BullMQ'] },
@@ -131,14 +145,14 @@ export const en: Conteudo = {
     { grupo: 'Testing', itens: ['Vitest', 'Jest', 'Testing Library', 'Cypress'] },
     { grupo: 'AI agents', itens: ['Claude Code'] },
   ],
-  estudando: ['PHP', 'Laravel'],
+  estudando: ['PHP', 'Laravel', 'three.js', 'Vue'],
 
   caminho: {
     titulo: 'How this site reaches you',
     passos: [
       { nome: 'Commit', detalhe: 'I write the change and push it to GitHub.' },
       { nome: 'Checks', detalhe: 'GitHub checks types, lint, build and links.' },
-      { nome: 'Deploy', detalhe: 'GitHub builds the Docker image, and my server pulls the new version and publishes it.' },
+      { nome: 'Deploy', detalhe: 'Vercel builds the site and publishes it.' },
       { nome: 'You', detalhe: 'The site opens in your language.' },
     ],
   },
@@ -150,5 +164,4 @@ export const en: Conteudo = {
   },
   site: 'https://www.jonasmessias.dev.br',
   repositorio: 'https://github.com/jonasmessias/jonas',
-  cv: '/cv-en.pdf',
 }
